@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { supabase } from "../API/createClient";
-import PreRegistered from "./components/preRegistered";
-import WalkIn from "./components/walkIn";
+import PreRegistered from "./components/preRegistered/preRegistered";
+import WalkIn from "./components/walkIn/walkIn";
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
