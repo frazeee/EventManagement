@@ -54,30 +54,36 @@ const WalkIn = () => {
   return (
     <div>
       <div
-        className="card text-bg-dark"
-        style={{ width: "30rem", cursor: "pointer" }}
+        className="card text-bg-dark mx-auto mb-4"
+        style={{
+          width: "100%",
+          cursor: "pointer",
+        }}
         onClick={() => setShowModal(true)}
       >
         <img
           src="./../public/walk-in.png"
           className="card-img-top"
-          alt="..."
-          style={{ maxWidth: "20rem", marginRight: "auto", marginLeft: "auto" }}
+          alt="Walk-in icon"
+          style={{
+            width: "100%",
+            margin: "0 auto",
+          }}
         />
         <div className="card-body">
-          <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
+          <h5
+            className="card-title text-center"
+            style={{ fontWeight: 700, fontSize: "1.5rem" }}
+          >
             Walk-In
           </h5>
-          <hr
-            style={{
-              maxWidth: "16rem",
-              marginRight: "auto",
-              marginLeft: "auto",
-            }}
-          />
-          <p className="card-text text-center mb-4">
+          <hr className="mx-auto" style={{ maxWidth: "16rem" }} />
+          <p
+            className="card-text text-center mb-4"
+            style={{ fontSize: "1rem" }}
+          >
             Click here to add a new{" "}
-            <text style={{ fontWeight: 700 }}>Walk-In</text> <br></br>
+            <span style={{ fontWeight: 700 }}>Walk-In</span> <br />
             participant for the event!
           </p>
         </div>
@@ -86,20 +92,19 @@ const WalkIn = () => {
       {showModal && (
         <div
           className="modal fade show"
-          id="staticBackdrop2"
           style={{ display: "block" }}
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          aria-labelledby="staticBackdropLabel"
+          aria-labelledby="walkInModalLabel"
           aria-hidden="true"
         >
-          <div className="modal-dialog">
+          <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
                 <h1
                   className="modal-title fs-5"
-                  id="staticBackdropLabel"
-                  style={{ fontWeight: 700 }}
+                  id="walkInModalLabel"
+                  style={{ fontWeight: 700, fontSize: "1.25rem" }}
                 >
                   Register Walk-In Guest
                 </h1>
@@ -122,7 +127,6 @@ const WalkIn = () => {
                       id="name"
                       placeholder="Enter Full Name"
                       name="name"
-                      aria-describedby="name"
                       onChange={handleChange}
                       value={guest.name}
                       required
@@ -138,7 +142,6 @@ const WalkIn = () => {
                       id="guest"
                       placeholder="Enter Guest Name"
                       name="guest"
-                      aria-describedby="guest"
                       onChange={handleChange}
                       value={guest.guest}
                       required
@@ -154,14 +157,13 @@ const WalkIn = () => {
                       id="company_name"
                       placeholder="Enter Company Name"
                       name="company_name"
-                      aria-describedby="company_name"
                       onChange={handleChange}
                       value={guest.company_name}
                       required
                     />
                   </div>
                   <div className="modal-footer">
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary w-100">
                       Submit
                     </button>
                   </div>

@@ -15,7 +15,7 @@ function App() {
     setLoading(true);
     try {
       const { data: guests, error } = await supabase.from("guests").select("*");
-      setData(...guests);
+      setData(guests);
     } catch (error) {
       console.log(error);
     } finally {
@@ -26,14 +26,16 @@ function App() {
   return (
     <>
       <video src={background} autoPlay muted loop></video>
-      <div className="container d-flex flex-column justify-content-center  vh-100">
-        <h1 className="text-center text-white">Event Management</h1>
+      <div className="container d-flex flex-column justify-content-center vh-100">
+        <h1 className="text-center text-white titleText">Event Management</h1>
         <hr
           className="border border opacity-50 mx-auto"
           style={{ width: "50%" }}
         />
-        <div className="d-flex justify-content-evenly">
-          <PreRegistered />
+        <div className="d-flex flex-column flex-md-row justify-content-evenly">
+          {/* Stack on small screens, side-by-side on md and up */}
+          <PreRegistered className="mb-3 mb-md-0" />{" "}
+          {/* Adds bottom margin on small screens */}
           <WalkIn />
         </div>
       </div>
