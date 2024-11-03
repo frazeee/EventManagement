@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { supabase } from "../API/createClient";
 import "./initial.css";
-import Form from "./components/form";
+import Form from "./components/Form";
 import background from "./assets/background.mp4";
 import { IoMdPersonAdd, IoMdRemoveCircleOutline } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
