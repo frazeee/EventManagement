@@ -35,6 +35,15 @@ const Form = ({ guest: initialGuest }) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!guest.registration_type) {
+      Swal.fire({
+        title: "Error",
+        text: "Please select a registration type.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
     try {
       if (initialGuest) {
         await supabase
