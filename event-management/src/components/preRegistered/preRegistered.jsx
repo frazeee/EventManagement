@@ -38,28 +38,66 @@ const PreRegistered = () => {
   return (
     <>
       <div>
-        <button
+        <div
+          className="card text-bg-dark"
+          style={{ width: "30rem", cursor: "pointer" }}
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          <img
+            src="./../public/pre-register.png"
+            className="card-img-top"
+            alt="..."
+            style={{
+              maxWidth: "20rem",
+              marginRight: "auto",
+              marginLeft: "auto",
+            }}
+          />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
+              Pre-Registered
+            </h5>
+            <hr
+              style={{
+                maxWidth: "18rem",
+                marginRight: "auto",
+                marginLeft: "auto",
+              }}
+            />
+            <p className="card-text text-center mb-4">
+              Click here to see and edit the list of<br></br>
+              <text style={{ fontWeight: 700 }}>Pre-Registered</text>{" "}
+              participants!
+            </p>
+          </div>
+        </div>
+
+        {/* <button
           type="button"
           className="btn btn-primary mx-2"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
         >
           Pre-Registered
-        </button>
+        </button> */}
 
         <div
           className="modal fade"
           id="staticBackdrop"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
-          tabindex="-1"
           aria-labelledby="staticBackdropLabel"
           aria-hidden="true"
         >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                <h1
+                  className="modal-title fs-5"
+                  id="staticBackdropLabel"
+                  style={{ fontWeight: 700 }}
+                >
                   Search Pre-Registered Guest
                 </h1>
                 <button
@@ -70,10 +108,10 @@ const PreRegistered = () => {
                 ></button>
               </div>
               <div className="modal-body">
-                <div class="mb-3">
+                <div className="mb-3">
                   <label
-                    for="exampleInputEmail1"
-                    class="form-label fw-semibold"
+                    htmlFor="exampleInputEmail1"
+                    className="form-label fw-semibold"
                   >
                     Guest's Name
                   </label>
@@ -86,13 +124,13 @@ const PreRegistered = () => {
                   ></input>
                 </div>
 
-                <div class="list-group w-100">
+                <div className="list-group w-100">
                   {guestList.length > 0 ? (
                     filteredList.map((guest) => (
-                      <div key={guest.id} class="list-group-item">
+                      <div key={guest.id} className="list-group-item">
                         <button
                           type="button"
-                          class="list-group-item list-group-item-action"
+                          className="list-group-item list-group-item-action"
                           data-bs-toggle="modal"
                           data-bs-target="#edit-modal"
                           data-bs-dismiss="modal"
@@ -102,7 +140,7 @@ const PreRegistered = () => {
                       </div>
                     ))
                   ) : (
-                    <h5 class="mb-1">No Guest Found</h5>
+                    <h5 className="mb-1">No Guest Found</h5>
                   )}
                 </div>
               </div>
@@ -117,31 +155,31 @@ const PreRegistered = () => {
               </div>
             </div>
           </div>
-          
-          <div class="modal" id="edit-modal" tabindex="-1">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Modal title</h5>
+
+          <div className="modal" id="edit-modal" tabIndex="-1">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Modal title</h5>
                   <button
                     type="button"
-                    class="btn-close"
+                    className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                   ></button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                   <p>Modal body text goes here.</p>
                 </div>
-                <div class="modal-footer">
+                <div className="modal-footer">
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    className="btn btn-secondary"
                     data-bs-dismiss="modal"
                   >
                     Close
                   </button>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Save changes
                   </button>
                 </div>
