@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../API/createClient";
 import Swal from "sweetalert2";
+import { FaAngleDown } from "react-icons/fa6";
+
 const Form = ({ guest: initialGuest }) => {
   const [guest, setGuest] = useState({
     name: "",
@@ -74,48 +76,48 @@ const Form = ({ guest: initialGuest }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='mb-3'>
-        <label htmlFor='name' className='form-label'>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">
           Full Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type='text'
-          className='form-control'
-          id='name'
-          name='name'
-          placeholder='Enter Full Name'
-          aria-describedby='name'
+          type="text"
+          className="form-control"
+          id="name"
+          name="name"
+          placeholder="Enter Full Name"
+          aria-describedby="name"
           onChange={handleChange}
           value={guest.name}
           required
         />
       </div>
-      <div className='mb-3'>
-        <label htmlFor='guest' className='form-label'>
+      <div className="mb-3">
+        <label htmlFor="guest" className="form-label">
           Guest
         </label>
         <input
-          type='text'
-          className='form-control'
-          id='guest'
-          name='guest'
-          placeholder='Enter Guest Name'
-          aria-describedby='guest'
+          type="text"
+          className="form-control"
+          id="guest"
+          name="guest"
+          placeholder="Enter Guest Name"
+          aria-describedby="guest"
           onChange={handleChange}
           value={guest.guest}
         />
       </div>
-      <div className='mb-3'>
-        <label htmlFor='company_name' className='form-label'>
+      <div className="mb-3">
+        <label htmlFor="company_name" className="form-label">
           Company Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type='text'
-          className='form-control'
-          id='company_name'
-          name='company_name'
-          placeholder='Enter Company Name'
-          aria-describedby='company_name'
+          type="text"
+          className="form-control"
+          id="company_name"
+          name="company_name"
+          placeholder="Enter Company Name"
+          aria-describedby="company_name"
           onChange={handleChange}
           value={guest.company_name}
           required
@@ -124,26 +126,32 @@ const Form = ({ guest: initialGuest }) => {
 
       <div className="mb-3">
         <label htmlFor="registration_type" className="form-label">
-          Type
+          Type <span style={{ color: "red" }}> * </span>
         </label>
         <div className="dropdown">
           <button
-            className="btn btn-secondary dropdown-toggle"
+            className="btn btn-outline-dark w-100 text-start d-flex justify-content-between"
             type="button"
             id="dropdownMenuButton"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {guest.registration_type || "Select Type"}
+            <span>{guest.registration_type || "Select Type"}</span>
+            <span className="arrow-placeholder ms-auto">
+              <FaAngleDown />
+            </span>
           </button>
-          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <ul
+            className="dropdown-menu w-100"
+            aria-labelledby="dropdownMenuButton"
+          >
             <li>
               <button
                 className="dropdown-item"
                 type="button"
                 onClick={() => handleTypeChange("PRE-REGISTERED")}
               >
-                Pre Register
+                Pre-Register
               </button>
             </li>
             <li>
@@ -152,14 +160,14 @@ const Form = ({ guest: initialGuest }) => {
                 type="button"
                 onClick={() => handleTypeChange("WALK-IN")}
               >
-                Walk In
+                Walk-In
               </button>
             </li>
           </ul>
         </div>
       </div>
 
-      <button type='submit' className='btn btn-primary'>
+      <button type="submit" className="btn btn-primary">
         Submit
       </button>
     </form>
