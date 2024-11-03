@@ -27,6 +27,7 @@ const WalkIn = () => {
           guest: guest.guest,
           company_name: guest.company_name,
           registration_type: "WALK-IN",
+          has_reigstered: true,
         })
         .select();
       if (error) throw error;
