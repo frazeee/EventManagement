@@ -3,7 +3,7 @@ import { supabase } from "../API/createClient";
 
 import Form from "./components/form";
 
-const App = () => {
+const Initial = () => {
   const [guests, setGuests] = useState([]);
   const [editingGuest, setEditingGuest] = useState(null);
 
@@ -159,4 +159,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Initial;
