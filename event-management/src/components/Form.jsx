@@ -1,73 +1,97 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "../../API/createClient";
 
-const Form = () => {
+const Form = ({ guest: initialGuest }) => {
 
-    const handleChange = (e) => {
-        setGuest(prevFormData =>{
-            return {
-                ...prevFormData,
-                [e.target.id]: e.target.value
-            }
+  const [guest, setGuest] = useState({
+    name: "",
+    guest: "",
+    company_name: ""
+  });
+
+  useEffect(() => {
+    if (initialGuest) {
+      setGuest(initialGuest);
+    }
+  }, [initialGuest]);
+
+  const handleChange = (e) => {
+    setGuest((prevFormData) => {
+      return {
+        ...prevFormData,
+        [e.target.id]: e.target.value
+      };
+    });
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (initialGuest) {
+      await supabase
+        .from("guests")
+        .update({
+          name: guest.name,
+          guest: guest.guest,
+          company_name: guest.company_name
         })
+        .eq("id", guest.id);
+    } else {
+      await supabase.from("guests").insert({
+        name: guest.name,
+        guest: guest.guest,
+        company_name: guest.company_name
+      });
     }
-
-    const [guest,setGuest] = useState({
-        name: "",
-        guest: "",
-        company_name: ""
-    })
-
-    async function createGuest() {
-        await supabase.from("guests").insert({name: guest.name, guest: guest.guest, company_name: guest.company_name})
-    }
+    e.target.submit();
+  }
 
   return (
-    <form onSubmit={createGuest}>
-      <div class='mb-3'>
-        <label for='name' class='form-label'>
-          Full Name
+    <form onSubmit={handleSubmit}>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">
+          Full Name <span style={{color:"red"}}>  * </span>
         </label>
         <input
-          type='text'
-          class='form-control'
-          id='name'
-          name='name'
-          aria-describedby='name'
+          type="text"
+          className="form-control"
+          id="name"
+          name="name"
+          aria-describedby="name"
           onChange={handleChange}
           value={guest.name}
+          required
         />
       </div>
-      <div class='mb-3'>
-        <label for='guest' class='form-label'>
+      <div className="mb-3">
+        <label htmlFor="guest" className="form-label">
           Guest
         </label>
         <input
-          type='text'
-          class='form-control'
-          id='guest'
-          name='guest'
-          aria-describedby='guest'
+          type="text"
+          className="form-control"
+          id="guest"
+          name="guest"
+          aria-describedby="guest"
           onChange={handleChange}
           value={guest.guest}
         />
       </div>
-      <div class='mb-3'>
-        <label for='company_name' class='form-label'>
-          Company Name
+      <div className="mb-3">
+        <label htmlFor="company_name" className="form-label">
+          Company Name <span style={{color:"red"}}>  * </span>
         </label>
         <input
-          type='text'
-          class='form-control'
-          id='company_name'
-          name='company_name'
-          aria-describedby='company_name'
+          type="text"
+          className="form-control"
+          id="company_name"
+          name="company_name"
+          aria-describedby="company_name"
           onChange={handleChange}
           value={guest.company_name}
+          required
         />
       </div>
-      
-      <button type='submit' class='btn btn-primary'>
+      <button type="submit" className="btn btn-primary">
         Submit
       </button>
     </form>
