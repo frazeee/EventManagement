@@ -39,3 +39,43 @@ video {
   position: relative;
   z-index: 1; /* Ensure the content is on top of the video */
 }
+
+@media (min-width: 576px) {
+  .card {
+    min-width: 30rem;
+    max-width: 30rem;
+  }
+  .card-title {
+    font-size: 1.25rem;
+  }
+  .card-text {
+    font-size: 0.9rem;
+  }
+  .card-img-top {
+    max-width: 20rem;
+  }
+  .modal-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .titleText {
+    font-size: 2rem;
+  }
+  .card {
+    max-width: 20rem;
+  }
+  .card-title {
+    font-size: 1.25rem;
+  }
+  .card-text {
+    font-size: 0.9rem;
+  }
+  .card-img-top {
+    max-width: 10rem;
+  }
+  .modal-title {
+    font-size: 1.1rem;
+  }
+}
