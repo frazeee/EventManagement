@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../API/createClient";
-
+import Swal from "sweetalert2";
 const Form = ({ guest: initialGuest }) => {
-
   const [guest, setGuest] = useState({
     name: "",
     guest: "",
-    company_name: ""
+    company_name: "",
   });
 
   useEffect(() => {
@@ -19,43 +18,62 @@ const Form = ({ guest: initialGuest }) => {
     setGuest((prevFormData) => {
       return {
         ...prevFormData,
-        [e.target.id]: e.target.value
+        [e.target.id]: e.target.value,
       };
     });
   };
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (initialGuest) {
-      await supabase
-        .from("guests")
-        .update({
+    try {
+      if (initialGuest) {
+        await supabase
+          .from("guests")
+          .update({
+            name: guest.name,
+            guest: guest.guest,
+            company_name: guest.company_name,
+          })
+          .eq("id", guest.id);
+      } else {
+        await supabase.from("guests").insert({
           name: guest.name,
           guest: guest.guest,
-          company_name: guest.company_name
-        })
-        .eq("id", guest.id);
-    } else {
-      await supabase.from("guests").insert({
-        name: guest.name,
-        guest: guest.guest,
-        company_name: guest.company_name
+          company_name: guest.company_name,
+        });
+      }
+
+      Swal.fire({
+        title: "Success!",
+        text: "Guest information has been saved successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        // Reload the page to refresh the data and close the modal
+        window.location.reload();
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: "There was an issue saving the guest information.",
+        icon: "error",
+        confirmButtonText: "OK",
       });
     }
-    e.target.submit();
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
-          Full Name <span style={{color:"red"}}>  * </span>
+          Full Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
           type="text"
           className="form-control"
           id="name"
           name="name"
+          placeholder="Enter Full Name"
           aria-describedby="name"
           onChange={handleChange}
           value={guest.name}
@@ -71,6 +89,7 @@ const Form = ({ guest: initialGuest }) => {
           className="form-control"
           id="guest"
           name="guest"
+          placeholder="Enter Guest Name"
           aria-describedby="guest"
           onChange={handleChange}
           value={guest.guest}
@@ -78,13 +97,14 @@ const Form = ({ guest: initialGuest }) => {
       </div>
       <div className="mb-3">
         <label htmlFor="company_name" className="form-label">
-          Company Name <span style={{color:"red"}}>  * </span>
+          Company Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
           type="text"
           className="form-control"
           id="company_name"
           name="company_name"
+          placeholder="Enter Company Name"
           aria-describedby="company_name"
           onChange={handleChange}
           value={guest.company_name}
