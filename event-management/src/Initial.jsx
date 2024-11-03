@@ -17,13 +17,13 @@ const Initial = () => {
   }, []);
 
   async function fetchGuests() {
-    setLoading(true); // Start loading
+    setLoading(true);
     const { data } = await supabase
       .from("guests")
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
-    setLoading(false); // Stop loading
+    setLoading(false);
   }
 
   async function deleteGuest(id) {
@@ -78,7 +78,6 @@ const Initial = () => {
           </button>
         </div>
 
-        {/* Display spinner while loading */}
         {loading ? (
           <div className="d-flex justify-content-center">
             <div className="spinner-border text-light" role="status">
