@@ -71,17 +71,11 @@ const WalkIn = () => {
           }}
         />
         <div className="card-body">
-          <h5
-            className="card-title text-center"
-            style={{ fontWeight: 700, fontSize: "1.5rem" }}
-          >
+          <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
             Walk-In
           </h5>
           <hr className="mx-auto" style={{ maxWidth: "16rem" }} />
-          <p
-            className="card-text text-center mb-4"
-            style={{ fontSize: "1rem" }}
-          >
+          <p className="card-text text-center mb-4">
             Click here to add a new{" "}
             <span style={{ fontWeight: 700 }}>Walk-In</span> <br />
             participant for the event!
@@ -115,10 +109,14 @@ const WalkIn = () => {
                   aria-label="Close"
                 ></button>
               </div>
-              <div className="modal-body">
-                <form onSubmit={createGuest}>
+              <form onSubmit={createGuest}>
+                <div className="modal-body">
                   <div className="mb-3">
-                    <label htmlFor="name" className="form-label">
+                    <label
+                      htmlFor="name"
+                      className="form-label"
+                      style={{ fontWeight: "600" }}
+                    >
                       Full Name:
                     </label>
                     <input
@@ -133,7 +131,11 @@ const WalkIn = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="guest" className="form-label">
+                    <label
+                      htmlFor="guest"
+                      className="form-label"
+                      style={{ fontWeight: "600" }}
+                    >
                       Guest:
                     </label>
                     <input
@@ -147,7 +149,7 @@ const WalkIn = () => {
                       required
                     />
                   </div>
-                  <div className="mb-3">
+                  <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="company_name" className="form-label">
                       Company Name:
                     </label>
@@ -162,13 +164,21 @@ const WalkIn = () => {
                       required
                     />
                   </div>
-                  <div className="modal-footer">
-                    <button type="submit" className="btn btn-primary w-100">
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-primary">
+                    Submit
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    data-bs-dismiss="modal"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

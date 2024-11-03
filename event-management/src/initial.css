@@ -40,21 +40,26 @@ video {
   z-index: 1; /* Ensure the content is on top of the video */
 }
 
-.fade-in {
-  opacity: 1;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 1s;
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 10px;
 }
 
-@keyframes fadeInOpacity {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.sticky-col {
+  position: sticky;
+  right: 0;
+  background-color: #343a40; /* Matches the table-dark background */
+  z-index: 1;
+}
+
+.table td {
+  text-wrap: nowrap;
+}
+
+.table th.sticky-col,
+.table td.sticky-col {
+  background-color: #343a40;
+  border-left: 1px solid #454d55; /* Optional: subtle border to distinguish */
 }
 
 .titleText {
@@ -84,6 +89,17 @@ video {
 
 /* Small Screens Portrait*/
 @media screen and (max-width: 576px) and (orientation: portrait) {
+  .btn {
+    font-size: 0.8rem;
+    text-wrap: nowrap;
+  }
+  .guestText {
+    font-size: 0.8rem;
+  }
+  .table td,
+  th {
+    font-size: 0.8rem;
+  }
   .titleText {
     font-size: 2rem;
   }
@@ -106,6 +122,17 @@ video {
 
 /* Small Screens Landscape*/
 @media screen and (max-width: 932px) and (orientation: landscape) {
+  .btn {
+    font-size: 0.8rem;
+    text-wrap: nowrap;
+  }
+  .guestText {
+    font-size: 0.8rem;
+  }
+  .table td,
+  th {
+    font-size: 0.8rem;
+  }
   .titleText {
     font-size: 2rem;
   }
