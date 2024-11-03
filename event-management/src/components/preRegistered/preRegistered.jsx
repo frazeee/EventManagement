@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../../../API/createClient";
 import { IoMdSearch } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const PreRegistered = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -61,6 +62,39 @@ const PreRegistered = () => {
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await supabase
+        .from("guests")
+        .update({
+          name: activeGuest.name,
+          guest: activeGuest.guest,
+          company_name: activeGuest.company_name,
+          has_registered: true,
+        })
+        .eq("id", activeGuest.id);
+      getRequestList();
+    } catch (error) {
+      console.error("An unexpected error occurred:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to register guest. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setShowModal(false);
+      setActiveGuest({ name: "", guest: "", company_name: "" });
+      Swal.fire({
+        title: "Success!",
+        text: "Guest registered successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -238,7 +272,7 @@ const PreRegistered = () => {
                 ></button>
               </div>
               <div className="modal-body">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label fw-semibold">
                       Name
@@ -289,6 +323,19 @@ const PreRegistered = () => {
                         })
                       }
                     />
+                  </div>
+                  <div className="modal-footer">
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      data-bs-dismiss="modal"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Close
+                    </button>
                   </div>
                 </form>
               </div>
