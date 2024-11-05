@@ -67,6 +67,19 @@ const PreRegistered = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
+
+    if (!phoneRegex.test(activeGuest.number)) {
+      Swal.fire({
+        title: "Error",
+        text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
     try {
       await supabase
         .from("guests")
@@ -75,6 +88,8 @@ const PreRegistered = () => {
           guest: activeGuest.guest,
           company_name: activeGuest.company_name,
           has_registered: true,
+          email: activeGuest.email,
+          number: activeGuest.number,
         })
         .eq("id", activeGuest.id);
       getRequestList();
@@ -320,6 +335,46 @@ const PreRegistered = () => {
                         setActiveGuest({
                           ...activeGuest,
                           company_name: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="email"
+                      className="form-label fw-semibold"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      value={activeGuest?.email || ""}
+                      onChange={(e) =>
+                        setActiveGuest({
+                          ...activeGuest,
+                          email: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="number"
+                      className="form-label fw-semibold"
+                    >
+                      Number
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="number"
+                      value={activeGuest?.number || ""}
+                      onChange={(e) =>
+                        setActiveGuest({
+                          ...activeGuest,
+                          number: e.target.value,
                         })
                       }
                     />

@@ -24,10 +24,8 @@ const WalkIn = () => {
   const createGuest = async (e) => {
     e.preventDefault();
 
-    console.log("number",guest.number);
     const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
 
-    
     if (!phoneRegex.test(guest.number)) {
       Swal.fire({
         title: "Error",
