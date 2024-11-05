@@ -94,6 +94,8 @@ const Initial = () => {
                   <th scope="col">Guest</th>
                   <th scope="col">Company Name</th>
                   <th scope="col">Type</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Number</th>
                   <th scope="col" colSpan={2} className="sticky-col">
                     Actions
                   </th>
@@ -107,6 +109,8 @@ const Initial = () => {
                     <td>{guest.guest}</td>
                     <td>{guest.company_name}</td>
                     <td>{guest.registration_type}</td>
+                    <td>{guest.email}</td>
+                    <td>{guest.number}</td>
                     <td className="sticky-col">
                       <div className="d-flex justify-content-evenly">
                         <button
