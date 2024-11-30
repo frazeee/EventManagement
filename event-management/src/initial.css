@@ -53,7 +53,7 @@ video {
 }
 
 .table td {
-  text-wrap: nowrap;
+  font-size: 0.9rem;
 }
 
 .table th.sticky-col,
