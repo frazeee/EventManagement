@@ -90,12 +90,13 @@ const Initial = () => {
               <thead>
                 <tr className="text-center">
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Guest</th>
+                  <th scope="col">Guest Name</th>
                   <th scope="col">Company Name</th>
-                  <th scope="col">Type</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Designation</th>
                   <th scope="col">Number</th>
+                  <th scope="col">ePLDT Representative</th>              
+                  <th scope="col">Status</th>               
                   <th scope="col" colSpan={2} className="sticky-col">
                     Actions
                   </th>
@@ -106,11 +107,12 @@ const Initial = () => {
                   <tr className="text-center" key={guest.id}>
                     <td>{index + 1}</td>
                     <td>{guest.name}</td>
-                    <td>{guest.guest}</td>
                     <td>{guest.company_name}</td>
-                    <td>{guest.registration_type}</td>
                     <td>{guest.email}</td>
+                    <td>{guest.designation}</td>
                     <td>{guest.number}</td>
+                    <td>{guest.guest}</td>                   
+                    <td>{guest.registration_type}</td>                 
                     <td className="sticky-col">
                       <div className="d-flex justify-content-evenly">
                         <button

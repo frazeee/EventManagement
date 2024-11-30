@@ -11,6 +11,7 @@ const Form = ({ guest: initialGuest }) => {
     registration_type: "",
     email: "",
     number: "",
+    designation: "",
   });
 
   useEffect(() => {
@@ -72,6 +73,7 @@ const Form = ({ guest: initialGuest }) => {
             registration_type: guest.registration_type,
             email: guest.email,
             number: guest.number,
+            designation: guest.designation,
           })
           .eq("id", guest.id);
       } else {
@@ -82,6 +84,7 @@ const Form = ({ guest: initialGuest }) => {
           registration_type: guest.registration_type,
           email: guest.email,
           number: guest.number,
+          designation: guest.designation,
         });
       }
 
@@ -225,6 +228,22 @@ const Form = ({ guest: initialGuest }) => {
           name='number'
           onChange={handleChange}
           value={guest.number}
+          required
+        />
+      </div>
+
+      <div className='mb-3' style={{ fontWeight: "600" }}>
+        <label htmlFor='designation' className='form-label'>
+          Designation: <span style={{ color: "red" }}> * </span>
+        </label>
+        <input
+          type='text'
+          className='form-control'
+          id='designation'
+          placeholder='Enter designation'
+          name='designation'
+          onChange={handleChange}
+          value={guest.designation}
           required
         />
       </div>

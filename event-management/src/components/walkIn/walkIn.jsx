@@ -9,6 +9,7 @@ const WalkIn = () => {
     company_name: "",
     email:"",
     number:"",
+    designation:"",
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -44,9 +45,10 @@ const WalkIn = () => {
           guest: guest.guest,
           company_name: guest.company_name,
           registration_type: "WALK-IN",
-          // has_reigstered: true,
+          // has_registered: true,
           email: guest.email,
           number: guest.number,
+          designation: guest.designation,
         })
         .select();
       if (error) throw error;
@@ -211,6 +213,21 @@ const WalkIn = () => {
                       name="number"
                       onChange={handleChange}
                       value={guest.number}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3" style={{ fontWeight: "600" }}>
+                    <label htmlFor="number" className="form-label">
+                      Designation: <span style={{ color: "red" }}> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="designation"
+                      placeholder="Enter Designation"
+                      name="designation"
+                      onChange={handleChange}
+                      value={guest.designation}
                       required
                     />
                   </div>
