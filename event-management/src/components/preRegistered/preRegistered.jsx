@@ -90,6 +90,7 @@ const PreRegistered = () => {
           has_registered: true,
           email: activeGuest.email,
           number: activeGuest.number,
+          designation: activeGuest.designation,
         })
         .eq("id", activeGuest.id);
       getRequestList();
@@ -375,6 +376,26 @@ const PreRegistered = () => {
                         setActiveGuest({
                           ...activeGuest,
                           number: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="designation"
+                      className="form-label fw-semibold"
+                    >
+                      Designation
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="designation"
+                      value={activeGuest?.designation || ""}
+                      onChange={(e) =>
+                        setActiveGuest({
+                          ...activeGuest,
+                          designation: e.target.value,
                         })
                       }
                     />

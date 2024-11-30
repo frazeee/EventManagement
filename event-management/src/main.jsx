@@ -6,7 +6,7 @@ import Initial from "./Initial.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {/* <Initial /> */}
-    <App />
+    <Initial />
+    {/* <App /> */}
   </StrictMode>
 );
