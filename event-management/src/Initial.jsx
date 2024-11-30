@@ -6,6 +6,7 @@ import Form from "./components/Form";
 import background from "./assets/background.mp4";
 import { IoMdPersonAdd, IoMdRemoveCircleOutline } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
+import * as XLSX from "xlsx";
 
 const Initial = () => {
   const [guests, setGuests] = useState([]);
@@ -49,6 +50,13 @@ const Initial = () => {
       }
     }
   }
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(guests);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Guests");
+    XLSX.writeFile(workbook, "GuestList.xlsx");
+  };
 
   return (
     <>
@@ -226,6 +234,14 @@ const Initial = () => {
             </div>
           </div>
         </div>
+
+        <div className="d-flex justify-content-end mt-3">
+          <button className="btn btn-success" onClick={exportToExcel}>
+            Export to Excel
+          </button>
+        </div>
+
+
       </div>
     </>
   );
