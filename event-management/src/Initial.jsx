@@ -7,6 +7,7 @@ import background from "./assets/background.mp4";
 import { IoMdPersonAdd, IoMdRemoveCircleOutline } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import * as XLSX from "xlsx";
+import { useNavigate } from "react-router-dom";
 
 const Initial = () => {
   const [guests, setGuests] = useState([]);
