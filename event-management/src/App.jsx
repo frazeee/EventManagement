@@ -4,9 +4,11 @@ import { supabase } from "../API/createClient";
 import PreRegistered from "./components/preRegistered/preRegistered";
 import WalkIn from "./components/walkIn/walkIn";
 import background from "./assets/background.mp4";
+import { useNavigate } from "react-router-dom";
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -27,8 +29,20 @@ function App() {
     <>
       <div className="fade-in">
         <video src={background} autoPlay muted loop></video>
+        <div class="position-relative">
+          <div class="position-absolute top-0 end-0">
+            <button
+              className="btn btn-outline-success mt-3 me-3"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
+          </div>
+        </div>
         <div className="container d-flex flex-column justify-content-center vh-100">
-          <h1 className="text-center titleText py-2">Event Management</h1>
+          <h1 className="text-center titleText py-2">
+            ePLDT and Microsoft ASCEND Workshop
+          </h1>
           <hr
             className="border border opacity-50 mx-auto mb-4"
             style={{ width: "50%" }}

@@ -12,6 +12,7 @@ const Initial = () => {
   const [guests, setGuests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingGuest, setEditingGuest] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchGuests();
@@ -61,6 +62,16 @@ const Initial = () => {
   return (
     <>
       <video src={background} autoPlay muted loop></video>
+      <div class="position-relative">
+        <div class="position-absolute top-0 end-0">
+          <button
+            className="btn btn-outline-primary mt-3 me-3"
+            onClick={() => navigate("/")}
+          >
+            Login to Admin Account
+          </button>
+        </div>
+      </div>
       <div className="container container-md">
         <h1 className="text-center py-4 titleText">Guest List</h1>
         <hr
@@ -103,8 +114,8 @@ const Initial = () => {
                   <th scope="col">Email</th>
                   <th scope="col">Designation</th>
                   <th scope="col">Number</th>
-                  <th scope="col">ePLDT Representative</th>              
-                  <th scope="col">Status</th>               
+                  <th scope="col">ePLDT Representative</th>
+                  <th scope="col">Status</th>
                   <th scope="col" colSpan={2} className="sticky-col">
                     Actions
                   </th>
@@ -112,19 +123,19 @@ const Initial = () => {
               </thead>
               <tbody>
                 {guests.map((guest, index) => (
-                  <tr className="text-center" key={guest.id}>
+                  <tr className="text-center align-middle" key={guest.id}>
                     <td>{index + 1}</td>
                     <td>{guest.name}</td>
                     <td>{guest.company_name}</td>
                     <td>{guest.email}</td>
                     <td>{guest.designation}</td>
                     <td>{guest.number}</td>
-                    <td>{guest.guest}</td>                   
-                    <td>{guest.registration_type}</td>                 
+                    <td>{guest.guest}</td>
+                    <td>{guest.registration_type}</td>
                     <td className="sticky-col">
-                      <div className="d-flex justify-content-evenly">
+                      <div className="btn-group">
                         <button
-                          className="btn btn-success"
+                          className="btn btn-success text-nowrap btn-sm"
                           data-bs-toggle="modal"
                           data-bs-target="#editModal"
                           onClick={() => setEditingGuest(guest)}
@@ -135,7 +146,7 @@ const Initial = () => {
                           </span>
                         </button>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-danger text-nowrap btn-sm"
                           onClick={() => deleteGuest(guest.id)}
                         >
                           Delete{" "}
@@ -240,8 +251,6 @@ const Initial = () => {
             Export to Excel
           </button>
         </div>
-
-
       </div>
     </>
   );
