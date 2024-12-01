@@ -10,32 +10,14 @@ import Initial from "./Initial";
 import { useState } from "react";
 
 function AppRoutes() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const login = (credentials) => {
-    if (
-      credentials.username === "admin" &&
-      credentials.password === "password"
-    ) {
-      setIsAuthenticated(true);
-      return true;
-    }
-    return false;
-  };
-
   return (
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
 
-        <Route path="/login" element={<Login onLogin={login} />} />
+        <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/admin"
-          element={
-            isAuthenticated ? <Initial /> : <Navigate to="/login" replace />
-          }
-        />
+        <Route path="/bsa-admin" element={<Initial />} />
       </Routes>
     </Router>
   );

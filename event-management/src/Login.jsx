@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import background from "./assets/background.mp4";
+import { supabase } from "../API/createClient";
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -8,12 +9,24 @@ function Login({ onLogin }) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (onLogin({ username, password })) {
-      navigate("/admin");
-    } else {
-      setError("Invalid credentials");
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username,
+        password: password,
+      });
+
+      if (error) {
+        setError("Invalid credentials")
+        return false;
+      }
+      navigate("/bsa-admin");
+    } catch (err) {
+      setError("Invalid credentials")
+      return false; 
     }
+
   };
 
   return (

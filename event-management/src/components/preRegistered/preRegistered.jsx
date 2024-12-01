@@ -43,7 +43,6 @@ const PreRegistered = () => {
       guest.name.toLowerCase().includes(searchInput.toLowerCase())
     );
 
-    console.log(filteredList);
     setFilteredList(filteredList);
   }, [searchInput, guestList]);
 
@@ -341,10 +340,7 @@ const PreRegistered = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label
-                      htmlFor="email"
-                      className="form-label fw-semibold"
-                    >
+                    <label htmlFor="email" className="form-label fw-semibold">
                       Email
                     </label>
                     <input
@@ -361,10 +357,7 @@ const PreRegistered = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label
-                      htmlFor="number"
-                      className="form-label fw-semibold"
-                    >
+                    <label htmlFor="number" className="form-label fw-semibold">
                       Number
                     </label>
                     <input

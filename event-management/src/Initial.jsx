@@ -16,6 +16,7 @@ const Initial = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getSession();
     fetchGuests();
   }, []);
 
@@ -27,6 +28,35 @@ const Initial = () => {
       .order("id", { ascending: true });
     setGuests(data);
     setLoading(false);
+  }
+
+  async function getSession() {
+    setLoading(true);
+    try {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        navigate("/bsa-admin");
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error fetching session:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleLogout() {
+    setLoading(true);
+    try {
+      await supabase.auth.signOut();
+      localStorage.clear();
+    } catch (error) {
+      console.error("Error during logout:", error);
+    } finally {
+      setLoading(false);
+      navigate("/");
+    }
   }
 
   async function deleteGuest(id) {
@@ -63,17 +93,15 @@ const Initial = () => {
   return (
     <>
       <video src={background} autoPlay muted loop></video>
-      <div class="position-relative">
+      <div className="container container-md">
         <div class="position-absolute top-0 end-0">
           <button
-            className="btn btn-outline-primary mt-3 me-3"
-            onClick={() => navigate("/")}
+            className="btn btn-outline-danger mt-3 me-3"
+            onClick={() => handleLogout()}
           >
-            Login to Admin Account
+            Logout
           </button>
         </div>
-      </div>
-      <div className="container container-md">
         <h1 className="text-center py-4 titleText">Guest List</h1>
         <hr
           className="border border opacity-50 mx-auto "
