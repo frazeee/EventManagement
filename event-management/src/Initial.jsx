@@ -8,11 +8,14 @@ import { IoMdPersonAdd, IoMdRemoveCircleOutline } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";
+import { LuFileSpreadsheet } from "react-icons/lu";
 
 const Initial = () => {
   const [guests, setGuests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingGuest, setEditingGuest] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [guestsPerPage] = useState(10); // Number of guests per page
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,11 +93,20 @@ const Initial = () => {
     XLSX.writeFile(workbook, "GuestList.xlsx");
   };
 
+  // Pagination logic
+  const indexOfLastGuest = currentPage * guestsPerPage;
+  const indexOfFirstGuest = indexOfLastGuest - guestsPerPage;
+  const currentGuests = guests.slice(indexOfFirstGuest, indexOfLastGuest);
+
+  const totalPages = Math.ceil(guests.length / guestsPerPage);
+
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <>
       <video src={background} autoPlay muted loop></video>
       <div className="container container-md">
-        <div class="position-absolute top-0 end-0">
+        <div className="position-absolute top-0 end-0">
           <button
             className="btn btn-outline-danger mt-3 me-3"
             onClick={() => handleLogout()}
@@ -104,7 +116,7 @@ const Initial = () => {
         </div>
         <h1 className="text-center py-4 titleText">Guest List</h1>
         <hr
-          className="border border opacity-50 mx-auto "
+          className="border border opacity-50 mx-auto"
           style={{ width: "100%" }}
         />
         <div className="d-flex justify-content-between mb-3">
@@ -113,19 +125,26 @@ const Initial = () => {
             <span style={{ fontWeight: 700 }}>Pre-Registered</span> or are{" "}
             <span style={{ fontWeight: 700 }}>Walk-Ins!</span>
           </text>
-          <button
-            type="button"
-            className="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            Register a Guest{" "}
-            <span>
-              <IoMdPersonAdd />
-            </span>
-          </button>
+          <div className="d-flex justify-content-between">
+            <button className="btn btn-success me-2" onClick={exportToExcel}>
+              Export to Excel{" "}
+              <span>
+                <LuFileSpreadsheet />
+              </span>
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Register a Guest{" "}
+              <span>
+                <IoMdPersonAdd />
+              </span>
+            </button>
+          </div>
         </div>
-
         {loading ? (
           <div className="d-flex justify-content-center">
             <div className="spinner-border text-light" role="status">
@@ -151,9 +170,9 @@ const Initial = () => {
                 </tr>
               </thead>
               <tbody>
-                {guests.map((guest, index) => (
+                {currentGuests.map((guest, index) => (
                   <tr className="text-center align-middle" key={guest.id}>
-                    <td>{index + 1}</td>
+                    <td>{indexOfFirstGuest + index + 1}</td>
                     <td>{guest.name}</td>
                     <td>{guest.company_name}</td>
                     <td>{guest.email}</td>
@@ -189,97 +208,62 @@ const Initial = () => {
                 ))}
               </tbody>
             </table>
+            <nav aria-label="Guest pagination">
+              <ul className="pagination justify-content-center mt-1">
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <a
+                    href="#"
+                    className="page-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage > 1) handlePageChange(currentPage - 1);
+                    }}
+                  >
+                    Previous
+                  </a>
+                </li>
+                {[...Array(totalPages).keys()].map((page) => (
+                  <li
+                    key={page + 1}
+                    className={`page-item ${
+                      currentPage === page + 1 ? "active" : ""
+                    }`}
+                  >
+                    <a
+                      href="#"
+                      className="page-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(page + 1);
+                      }}
+                    >
+                      {page + 1}
+                    </a>
+                  </li>
+                ))}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
+                >
+                  <a
+                    href="#"
+                    className="page-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage < totalPages)
+                        handlePageChange(currentPage + 1);
+                    }}
+                  >
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         )}
-
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1
-                  className="modal-title fs-5"
-                  id="exampleModalLabel"
-                  style={{ fontWeight: 700 }}
-                >
-                  Register Guest
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  style={{ color: "white" }}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <Form />
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="modal fade"
-          id="editModal"
-          tabIndex="-1"
-          aria-labelledby="editModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1
-                  className="modal-title fs-5"
-                  id="editModalLabel"
-                  style={{ fontWeight: 700 }}
-                >
-                  Edit Guest
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => setEditingGuest(null)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <Form guest={editingGuest} />
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  onClick={() => setEditingGuest(null)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="d-flex justify-content-end mt-3">
-          <button className="btn btn-success" onClick={exportToExcel}>
-            Export to Excel
-          </button>
-        </div>
       </div>
     </>
   );

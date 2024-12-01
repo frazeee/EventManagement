@@ -7,7 +7,7 @@ import {
 import App from "./App";
 import Login from "./Login";
 import Initial from "./Initial";
-import { useState } from "react";
+import NotFound from "./NotFound";
 
 function AppRoutes() {
   return (
@@ -18,6 +18,8 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/bsa-admin" element={<Initial />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

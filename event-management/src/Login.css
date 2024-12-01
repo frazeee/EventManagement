@@ -13,3 +13,18 @@ video {
   position: relative;
   z-index: 1; /* Ensure the content is on top of the video */
 }
+
+.fade-in {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+form.flex-grow-1 {
+  flex-grow: 1;
+}
+
+footer {
+  background-color: var(--bs-body-bg);
+  text-align: center;
+}
