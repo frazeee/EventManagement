@@ -29,17 +29,16 @@ function App() {
     <>
       <div className="fade-in">
         <video src={background} autoPlay muted loop></video>
-        <div class="position-relative">
+        <div className="container d-flex flex-column justify-content-center vh-100">
           <div class="position-absolute top-0 end-0">
             <button
-              className="btn btn-outline-success mt-3 me-3"
+              className="btn btn-outline-success mt-2 me-2"
               onClick={() => navigate("/login")}
+              style={{ zIndex: 2 }}
             >
               Login
             </button>
           </div>
-        </div>
-        <div className="container d-flex flex-column justify-content-center vh-100">
           <h1 className="text-center titleText py-2">
             ePLDT and Microsoft ASCEND Workshop
           </h1>
@@ -54,6 +53,14 @@ function App() {
             <WalkIn />
           </div>
         </div>
+        <footer class="bg-body-tertiary text-center text-lg-start">
+          <div
+            class="text-center p-3"
+            style={{ backgroundColor: "#222222", color: "#ffffff" }}
+          >
+            © 2024 BrandSpeakAsia. All rights reserved
+          </div>
+        </footer>
       </div>
     </>
   );

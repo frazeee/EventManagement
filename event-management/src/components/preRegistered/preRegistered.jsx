@@ -3,6 +3,7 @@ import { supabase } from "../../../API/createClient";
 import { IoMdSearch } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa";
 import Swal from "sweetalert2";
+import preRegisterImage from "../../assets/pre-register.png";
 
 const PreRegistered = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -126,7 +127,7 @@ const PreRegistered = () => {
         data-bs-backdrop="static"
       >
         <img
-          src="./../public/pre-register.png"
+          src={preRegisterImage}
           className="card-img-top img-fluid"
           alt="Pre-Registered icon"
           style={{
@@ -399,7 +400,7 @@ const PreRegistered = () => {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-danger"
+                      className="btn btn-outline-danger"
                       data-bs-dismiss="modal"
                       onClick={() => setShowModal(false)}
                     >

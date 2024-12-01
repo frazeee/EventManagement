@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { supabase } from "../../../API/createClient";
 import Swal from "sweetalert2";
+import walkInImage from "../../assets/walk-in.png";
 
 const WalkIn = () => {
   const [guest, setGuest] = useState({
     name: "",
     guest: "",
     company_name: "",
-    email:"",
-    number:"",
-    designation:"",
+    email: "",
+    number: "",
+    designation: "",
   });
   const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-  
+
     setGuest((prevFormData) => ({
       ...prevFormData,
       [id]: value,
@@ -36,7 +37,7 @@ const WalkIn = () => {
       });
       return;
     }
-  
+
     try {
       const { data, error } = await supabase
         .from("guests")
@@ -84,7 +85,7 @@ const WalkIn = () => {
         onClick={() => setShowModal(true)}
       >
         <img
-          src="./../public/walk-in.png"
+          src={walkInImage}
           className="card-img-top"
           alt="Walk-in icon"
           style={{
@@ -238,7 +239,7 @@ const WalkIn = () => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-outline-danger"
                     data-bs-dismiss="modal"
                     onClick={() => setShowModal(false)}
                   >

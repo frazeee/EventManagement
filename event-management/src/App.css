@@ -46,6 +46,17 @@ video {
   animation-iteration-count: 1;
   animation-timing-function: ease-in;
   animation-duration: 1s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.fade-in > .container {
+  flex: 1; /* Ensures the container takes up available space */
+}
+
+footer {
+  background-color: var(--bs-body-bg); /* Optional: match the footer's style */
 }
 
 @keyframes fadeInOpacity {
