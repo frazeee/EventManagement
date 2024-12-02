@@ -40,7 +40,7 @@ function App() {
             </button>
           </div>
           <h1 className="text-center titleText py-2">
-            ePLDT and Microsoft ASCEND Workshop
+            ePLDT ASCEND MICROSOFT WORKSHOP
           </h1>
           <hr
             className="border border opacity-50 mx-auto mb-4"

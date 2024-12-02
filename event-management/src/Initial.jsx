@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { supabase } from "../API/createClient";
 import "./initial.css";
-import Form from "./components/Form";
 import background from "./assets/background.mp4";
 import { IoMdPersonAdd, IoMdRemoveCircleOutline } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
@@ -158,12 +157,12 @@ const Initial = () => {
                 <tr className="text-center">
                   <th scope="col">#</th>
                   <th scope="col">Guest Name</th>
+                  <th scope="col">Designation</th>
                   <th scope="col">Company Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Designation</th>
                   <th scope="col">Number</th>
                   <th scope="col">ePLDT Representative</th>
-                  <th scope="col">Status</th>
+                  <th scope="col">With ICT Provider</th>
                   <th scope="col" colSpan={2} className="sticky-col">
                     Actions
                   </th>
@@ -174,12 +173,12 @@ const Initial = () => {
                   <tr className="text-center align-middle" key={guest.id}>
                     <td>{indexOfFirstGuest + index + 1}</td>
                     <td>{guest.name}</td>
+                    <td>{guest.designation}</td>
                     <td>{guest.company_name}</td>
                     <td>{guest.email}</td>
-                    <td>{guest.designation}</td>
                     <td>{guest.number}</td>
-                    <td>{guest.guest}</td>
-                    <td>{guest.registration_type}</td>
+                    <td>{guest.ePLDT_contact}</td>
+                    <td>{guest.isWithICTProvider}</td>
                     <td className="sticky-col">
                       <div className="btn-group">
                         <button

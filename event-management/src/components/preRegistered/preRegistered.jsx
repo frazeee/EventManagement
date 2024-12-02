@@ -27,10 +27,7 @@ const PreRegistered = () => {
   const getRequestList = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("guests")
-        .select(`*`)
-        .eq("registration_type", "PRE-REGISTERED");
+      const { data, error } = await supabase.from("guests").select(`*`);
       setGuestList(data || []);
     } catch (error) {
       console.error("An unexpected error occurred:", error);
@@ -85,13 +82,14 @@ const PreRegistered = () => {
         .from("guests")
         .update({
           name: activeGuest.name,
-          guest: activeGuest.guest,
+          designation: activeGuest.designation,
           company_name: activeGuest.company_name,
-          has_registered: true,
           email: activeGuest.email,
           number: activeGuest.number,
-          designation: activeGuest.designation,
+          ePLDT_contact: activeGuest.ePLDT_contact,
+          isWithICTProvider: activeGuest.isWithICTProvider,
         })
+
         .eq("id", activeGuest.id);
       getRequestList();
     } catch (error) {
@@ -304,18 +302,21 @@ const PreRegistered = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="guest" className="form-label fw-semibold">
-                      Guest
+                    <label
+                      htmlFor="designation"
+                      className="form-label fw-semibold"
+                    >
+                      Designation
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="guest"
-                      value={activeGuest?.guest || ""}
+                      id="designation"
+                      value={activeGuest?.designation || ""}
                       onChange={(e) =>
                         setActiveGuest({
                           ...activeGuest,
-                          guest: e.target.value,
+                          designation: e.target.value,
                         })
                       }
                     />
@@ -359,7 +360,7 @@ const PreRegistered = () => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="number" className="form-label fw-semibold">
-                      Number
+                      Mobile Number
                     </label>
                     <input
                       type="text"
@@ -375,25 +376,44 @@ const PreRegistered = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label
-                      htmlFor="designation"
-                      className="form-label fw-semibold"
-                    >
-                      Designation
+                    <label htmlFor="guest" className="form-label fw-semibold">
+                      e/PLDT Contact
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="designation"
-                      value={activeGuest?.designation || ""}
+                      value={activeGuest?.ePLDT_contact || ""}
                       onChange={(e) =>
                         setActiveGuest({
                           ...activeGuest,
-                          designation: e.target.value,
+                          ePLDT_contact: e.target.value,
                         })
                       }
                     />
                   </div>
+                  <div className="mb-3">
+                    <label htmlFor="guest" className="form-label fw-semibold">
+                      Working with an ICT Provider
+                    </label>
+                    <select
+                      className="form-control"
+                      value={activeGuest.isWithICTProvider || ""}
+                      onChange={(e) =>
+                        setActiveGuest({
+                          ...activeGuest,
+                          isWithICTProvider: e.target.value,
+                        })
+                      }
+                    >
+                      <option value={"Yes, With ePLDT"}>Yes, With ePLDT</option>
+                      <option value={"Yes, but with other provider/s"}>
+                        Yes, but with other provider/s
+                      </option>
+                      <option value={"No"}>No</option>
+                    </select>
+                     
+                  </div>
+
                   <div className="modal-footer">
                     <button type="submit" className="btn btn-primary">
                       Submit

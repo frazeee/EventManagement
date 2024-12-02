@@ -6,11 +6,12 @@ import walkInImage from "../../assets/walk-in.png";
 const WalkIn = () => {
   const [guest, setGuest] = useState({
     name: "",
-    guest: "",
+    designation: "",
     company_name: "",
     email: "",
     number: "",
-    designation: "",
+    pldtContact: "",
+    isWithICTProvider: "Yes, With ePLDT",
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -22,6 +23,8 @@ const WalkIn = () => {
       [id]: value,
     }));
   };
+
+  console.log(guest);
 
   const createGuest = async (e) => {
     e.preventDefault();
@@ -43,13 +46,12 @@ const WalkIn = () => {
         .from("guests")
         .insert({
           name: guest.name,
-          guest: guest.guest,
+          designation: guest.designation,
           company_name: guest.company_name,
-          registration_type: "WALK-IN",
-          // has_registered: true,
           email: guest.email,
           number: guest.number,
-          designation: guest.designation,
+          ePLDT_contact: guest.pldtContact,
+          isWithICTProvider: guest.isWithICTProvider,
         })
         .select();
       if (error) throw error;
@@ -159,13 +161,13 @@ const WalkIn = () => {
                       className="form-label"
                       style={{ fontWeight: "600" }}
                     >
-                      Guest:
+                      Designation
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="guest"
-                      placeholder="Enter Guest Name"
+                      id="designation"
+                      placeholder="Enter Designation"
                       name="guest"
                       onChange={handleChange}
                       value={guest.guest}
@@ -219,20 +221,38 @@ const WalkIn = () => {
                   </div>
                   <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="number" className="form-label">
-                      Designation: <span style={{ color: "red" }}> * </span>
+                      e/PLDT Contact<span style={{ color: "red" }}> * </span>
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="designation"
-                      placeholder="Enter Designation"
+                      id="pldtContact"
+                      placeholder="Enter e/PLDT Contact "
                       name="designation"
                       onChange={handleChange}
-                      value={guest.designation}
+                      value={guest.ePLDT_contact}
                       required
                     />
                   </div>
+                  <div className="mb-3">
+                    <label htmlFor="guest" className="form-label fw-semibold">
+                      Working with an ICT Provider
+                    </label>
+                    <select
+                      id="isWithICTProvider"
+                      className="form-control"
+                      placeholder="Enter Designation"
+                      onChange={handleChange}
+                    >
+                      <option value={"Yes, With ePLDT"}>Yes, With ePLDT</option>
+                      <option value={"Yes, but with other provider/s"}>
+                        Yes, but with other provider/s
+                      </option>
+                      <option value={"No"}>No</option>
+                    </select>
+                  </div>
                 </div>
+
                 <div className="modal-footer">
                   <button type="submit" className="btn btn-primary">
                     Submit
