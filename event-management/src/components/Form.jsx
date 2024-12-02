@@ -6,12 +6,13 @@ import { FaAngleDown } from "react-icons/fa6";
 const Form = ({ guest: initialGuest }) => {
   const [guest, setGuest] = useState({
     name: "",
-    guest: "",
     company_name: "",
-    registration_type: "",
     email: "",
     number: "",
     designation: "",
+    ePLDT_contact: "",
+    isWithICTProvider:"Yes, with ePLDT",
+    reg_type: "",
   });
 
   useEffect(() => {
@@ -32,14 +33,14 @@ const Form = ({ guest: initialGuest }) => {
   const handleTypeChange = (type) => {
     setGuest((prevFormData) => ({
       ...prevFormData,
-      registration_type: type,
+      reg_type: type,
     }));
   };
 
   async function handleSubmit(e) {
-    e.preventDefault();
+    let response;
+     e.preventDefault();
 
-    console.log("number", guest.number);
     const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
 
     if (!phoneRegex.test(guest.number)) {
@@ -52,7 +53,7 @@ const Form = ({ guest: initialGuest }) => {
       return;
     }
 
-    if (!guest.registration_type) {
+    if (!guest.reg_type) {
       Swal.fire({
         title: "Error",
         text: "Please select a registration type.",
@@ -63,27 +64,29 @@ const Form = ({ guest: initialGuest }) => {
     }
     try {
       if (initialGuest) {
-        await supabase
+        response = await supabase
           .from("guests")
           .update({
             name: guest.name,
-            guest: guest.guest,
             company_name: guest.company_name,
-            registration_type: guest.registration_type,
             email: guest.email,
             number: guest.number,
             designation: guest.designation,
+            ePLDT_contact: guest.ePLDT_contact,
+            isWithICTProvider: guest.isWithICTProvider,      
+            reg_type: guest.reg_type,
           })
           .eq("id", guest.id);
       } else {
-        await supabase.from("guests").insert({
-          name: guest.name,
-          guest: guest.guest,
-          company_name: guest.company_name,
-          registration_type: guest.registration_type,
-          email: guest.email,
-          number: guest.number,
-          designation: guest.designation,
+        response = await supabase.from("guests").insert({
+            name: guest.name,
+            company_name: guest.company_name,
+            email: guest.email,
+            number: guest.number,
+            designation: guest.designation,
+            ePLDT_contact: guest.ePLDT_contact,
+            isWithICTProvider: guest.isWithICTProvider ,      
+            reg_type: guest.reg_type,
         });
       }
 
@@ -110,7 +113,7 @@ const Form = ({ guest: initialGuest }) => {
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
-          Full Name <span style={{ color: "red" }}> * </span>
+          Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
           type="text"
@@ -122,21 +125,6 @@ const Form = ({ guest: initialGuest }) => {
           onChange={handleChange}
           value={guest.name}
           required
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="guest" className="form-label">
-          Guest
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="guest"
-          name="guest"
-          placeholder="Enter Guest Name"
-          aria-describedby="guest"
-          onChange={handleChange}
-          value={guest.guest}
         />
       </div>
       <div className="mb-3">
@@ -155,50 +143,6 @@ const Form = ({ guest: initialGuest }) => {
           required
         />
       </div>
-
-      <div className="mb-3">
-        <label htmlFor="registration_type" className="form-label">
-          Type <span style={{ color: "red" }}> * </span>
-        </label>
-        <div className="dropdown">
-          <button
-            className="btn btn-outline-dark w-100 text-start d-flex justify-content-between"
-            type="button"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <span>{guest.registration_type || "Select Type"}</span>
-            <span className="arrow-placeholder ms-auto">
-              <FaAngleDown />
-            </span>
-          </button>
-          <ul
-            className="dropdown-menu w-100"
-            aria-labelledby="dropdownMenuButton"
-          >
-            <li>
-              <button
-                className="dropdown-item"
-                type="button"
-                onClick={() => handleTypeChange("PRE-REGISTERED")}
-              >
-                Pre-Register
-              </button>
-            </li>
-            <li>
-              <button
-                className="dropdown-item"
-                type="button"
-                onClick={() => handleTypeChange("WALK-IN")}
-              >
-                Walk-In
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-
       <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="email" className="form-label">
           Email<span style={{ color: "red" }}> * </span>
@@ -214,7 +158,6 @@ const Form = ({ guest: initialGuest }) => {
           required
         />
       </div>
-
       <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="number" className="form-label">
           Number<span style={{ color: "red" }}> * </span>
@@ -230,7 +173,6 @@ const Form = ({ guest: initialGuest }) => {
           required
         />
       </div>
-
       <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="designation" className="form-label">
           Designation<span style={{ color: "red" }}> * </span>
@@ -246,8 +188,83 @@ const Form = ({ guest: initialGuest }) => {
           required
         />
       </div>
-
-      <button type="submit" className="btn btn-primary">
+      <div className="mb-3">
+        <label htmlFor="ePLDT_contact" className="form-label">
+          ePLDT Contact
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="ePLDT_contact"
+          name="ePLDT_contact"
+          placeholder="Enter PLDT Contact"
+          aria-describedby="guest"
+          onChange={handleChange}
+          value={guest.ePLDT_contact}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="guest" className="form-label fw-semibold">
+          Working with an ICT Provider
+        </label>
+        <select
+          className="form-control"
+          value={guest.isWithICTProvider || ""}
+          onChange={handleChange}
+          id="isWithICTProvider"
+          name="isWithICTProvider"
+        >
+          <option value={"Yes, With ePLDT"}>Yes, With ePLDT</option>
+          <option value={"Yes, but with other provider/s"}>
+            Yes, but with other provider/s
+          </option>
+          <option value={"No"}>No</option>
+        </select>
+      </div>
+      <div className="mb-3">
+        <label htmlFor="reg_type" className="form-label">
+          Type <span style={{ color: "red" }}> * </span>
+        </label>
+        <div className="dropdown">
+          <button
+            className="btn btn-outline-dark w-100 text-start d-flex justify-content-between"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span>{guest.reg_type || "Select Type"}</span>
+            <span className="arrow-placeholder ms-auto">
+              <FaAngleDown />
+            </span>
+          </button>
+          <ul
+            className="dropdown-menu w-100"
+            aria-labelledby="dropdownMenuButton"
+          >
+            <li>
+              <button
+                className="dropdown-item"
+                type="button"
+                onClick={() => handleTypeChange("PRE-REGISTERED")}
+              >
+                Pre Register
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                type="button"
+                onClick={() => handleTypeChange("WALK-IN")}
+              >
+                Walk-In
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    
+ <button type="submit" className="btn btn-primary">
         Submit
       </button>
     </form>
