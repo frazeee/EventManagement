@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { supabase } from "../API/createClient";
 import "./initial.css";
+import Form from "./components/Form";
 import background from "./assets/background.mp4";
 import { IoMdPersonAdd, IoMdRemoveCircleOutline } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
@@ -263,6 +264,90 @@ const Initial = () => {
             </nav>
           </div>
         )}
+
+<div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1
+                  className="modal-title fs-5"
+                  id="exampleModalLabel"
+                  style={{ fontWeight: 700 }}
+                >
+                  Register Guest
+                </h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  style={{ color: "white" }}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <Form />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="modal fade"
+          id="editModal"
+          tabIndex="-1"
+          aria-labelledby="editModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1
+                  className="modal-title fs-5"
+                  id="editModalLabel"
+                  style={{ fontWeight: 700 }}
+                >
+                  Edit Guest
+                </h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setEditingGuest(null)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <Form guest={editingGuest} />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  onClick={() => setEditingGuest(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </>
   );

@@ -27,7 +27,10 @@ const PreRegistered = () => {
   const getRequestList = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.from("guests").select(`*`);
+      const { data, error } = await supabase
+        .from("guests")
+        .select(`*`)
+        .eq("reg_type", "Pre Registered");
       setGuestList(data || []);
     } catch (error) {
       console.error("An unexpected error occurred:", error);

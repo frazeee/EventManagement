@@ -24,8 +24,6 @@ const WalkIn = () => {
     }));
   };
 
-  console.log(guest);
-
   const createGuest = async (e) => {
     e.preventDefault();
 
@@ -52,6 +50,7 @@ const WalkIn = () => {
           number: guest.number,
           ePLDT_contact: guest.pldtContact,
           isWithICTProvider: guest.isWithICTProvider,
+          reg_type: "Walk-in",
         })
         .select();
       if (error) throw error;
