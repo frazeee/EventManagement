@@ -208,7 +208,7 @@ const Initial = () => {
                 ))}
               </tbody>
             </table>
-            <nav aria-label="Guest pagination">
+            <nav aria-label="Guest pagination" style={{position:"relative",zIndex:1}}> 
               <ul className="pagination justify-content-center mt-1">
                 <li
                   className={`page-item ${currentPage === 1 ? "disabled" : ""}`}

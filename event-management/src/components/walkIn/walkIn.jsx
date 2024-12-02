@@ -6,11 +6,11 @@ import walkInImage from "../../assets/walk-in.png";
 const WalkIn = () => {
   const [guest, setGuest] = useState({
     name: "",
-    designation: "",
     company_name: "",
     email: "",
     number: "",
-    pldtContact: "",
+    designation: "",
+    ePLDT_contact: "",
     isWithICTProvider: "Yes, With ePLDT",
   });
   const [showModal, setShowModal] = useState(false);
@@ -48,7 +48,7 @@ const WalkIn = () => {
           company_name: guest.company_name,
           email: guest.email,
           number: guest.number,
-          ePLDT_contact: guest.pldtContact,
+          ePLDT_contact: guest.ePLDT_contact,
           isWithICTProvider: guest.isWithICTProvider,
           reg_type: "Walk-in",
         })
@@ -225,7 +225,7 @@ const WalkIn = () => {
                     <input
                       type="text"
                       className="form-control"
-                      id="pldtContact"
+                      id="ePLDT_contact"
                       placeholder="Enter e/PLDT Contact "
                       name="designation"
                       onChange={handleChange}
