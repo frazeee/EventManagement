@@ -208,7 +208,10 @@ const Initial = () => {
                 ))}
               </tbody>
             </table>
-            <nav aria-label="Guest pagination" style={{position:"relative",zIndex:1}}> 
+            <nav
+              aria-label="Guest pagination"
+              style={{ position: "relative", zIndex: 1 }}
+            >
               <ul className="pagination justify-content-center mt-1">
                 <li
                   className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
@@ -265,7 +268,7 @@ const Initial = () => {
           </div>
         )}
 
-<div
+        <div
           className="modal fade"
           id="exampleModal"
           tabIndex="-1"
@@ -292,15 +295,6 @@ const Initial = () => {
               </div>
               <div className="modal-body">
                 <Form />
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
               </div>
             </div>
           </div>
@@ -334,20 +328,9 @@ const Initial = () => {
               <div className="modal-body">
                 <Form guest={editingGuest} />
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  onClick={() => setEditingGuest(null)}
-                >
-                  Cancel
-                </button>
-              </div>
             </div>
           </div>
         </div>
-
       </div>
     </>
   );
