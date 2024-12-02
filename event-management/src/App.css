@@ -52,11 +52,11 @@ video {
 }
 
 .fade-in > .container {
-  flex: 1; /* Ensures the container takes up available space */
+  flex: 1;
 }
 
 footer {
-  background-color: var(--bs-body-bg); /* Optional: match the footer's style */
+  z-index: 2;
 }
 
 @keyframes fadeInOpacity {
