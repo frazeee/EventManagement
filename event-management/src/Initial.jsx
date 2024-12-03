@@ -164,6 +164,8 @@ const Initial = () => {
                   <th scope="col">Number</th>
                   <th scope="col">ePLDT Representative</th>
                   <th scope="col">With ICT Provider</th>
+                  <th>Status</th>
+                  <th>Attended</th>
                   <th scope="col" colSpan={2} className="sticky-col">
                     Actions
                   </th>
@@ -180,6 +182,8 @@ const Initial = () => {
                     <td>{guest.number}</td>
                     <td>{guest.ePLDT_contact}</td>
                     <td>{guest.isWithICTProvider}</td>
+                    <td>{guest.reg_type}</td>
+                    <td>{guest.attended ? "Has attended" : "Not yet"}</td>
                     <td className="sticky-col">
                       <div className="btn-group">
                         <button

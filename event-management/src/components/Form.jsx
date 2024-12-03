@@ -12,6 +12,7 @@ const Form = ({ guest: initialGuest }) => {
     email: "",
     number: "",
     designation: "",
+    attended: false,
   });
 
   useEffect(() => {
@@ -73,6 +74,7 @@ const Form = ({ guest: initialGuest }) => {
             email: guest.email,
             number: guest.number,
             designation: guest.designation,
+            attended: TRUE,
           })
           .eq("id", guest.id);
       } else {
@@ -245,6 +247,19 @@ const Form = ({ guest: initialGuest }) => {
           value={guest.designation}
           required
         />
+      </div>
+      <div className="mb-3 form-check form-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          id="attended"
+          name="attended"
+          checked={guest.attended}
+          onChange={handleChange}
+        />
+        <label className="form-check-label" htmlFor="attended">
+          Attended
+        </label>
       </div>
 
       <button type="submit" className="btn btn-primary">
