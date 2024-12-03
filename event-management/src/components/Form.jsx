@@ -11,7 +11,7 @@ const Form = ({ guest: initialGuest }) => {
     number: "",
     designation: "",
     ePLDT_contact: "",
-    isWithICTProvider:"Yes, with ePLDT",
+    isWithICTProvider: "Yes, with ePLDT",
     reg_type: "",
     attended:"",
   });
@@ -40,7 +40,7 @@ const Form = ({ guest: initialGuest }) => {
 
   async function handleSubmit(e) {
     let response;
-     e.preventDefault();
+    e.preventDefault();
 
     const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
 
@@ -74,21 +74,21 @@ const Form = ({ guest: initialGuest }) => {
             number: guest.number,
             designation: guest.designation,
             ePLDT_contact: guest.ePLDT_contact,
-            isWithICTProvider: guest.isWithICTProvider,      
+            isWithICTProvider: guest.isWithICTProvider,
             reg_type: guest.reg_type,
             attended: true,
           })
           .eq("id", guest.id);
       } else {
         response = await supabase.from("guests").insert({
-            name: guest.name,
-            company_name: guest.company_name,
-            email: guest.email,
-            number: guest.number,
-            designation: guest.designation,
-            ePLDT_contact: guest.ePLDT_contact,
-            isWithICTProvider: guest.isWithICTProvider ,      
-            reg_type: guest.reg_type,
+          name: guest.name,
+          company_name: guest.company_name,
+          email: guest.email,
+          number: guest.number,
+          designation: guest.designation,
+          ePLDT_contact: guest.ePLDT_contact,
+          isWithICTProvider: guest.isWithICTProvider,
+          reg_type: guest.reg_type,
         });
       }
 
@@ -114,7 +114,7 @@ const Form = ({ guest: initialGuest }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
-        <label htmlFor="name" className="form-label">
+        <label htmlFor="name" className="form-label fw-semibold">
           Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
@@ -130,7 +130,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="company_name" className="form-label">
+        <label htmlFor="company_name" className="form-label fw-semibold">
           Company Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
@@ -146,7 +146,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
       <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="email" className="form-label">
+        <label htmlFor="email" className="form-label fw-semibold">
           Email<span style={{ color: "red" }}> * </span>
         </label>
         <input
@@ -161,7 +161,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
       <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="number" className="form-label">
+        <label htmlFor="number" className="form-label fw-semibold">
           Number<span style={{ color: "red" }}> * </span>
         </label>
         <input
@@ -176,7 +176,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
       <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="designation" className="form-label">
+        <label htmlFor="designation" className="form-label fw-semibold">
           Designation<span style={{ color: "red" }}> * </span>
         </label>
         <input
@@ -191,7 +191,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="ePLDT_contact" className="form-label">
+        <label htmlFor="ePLDT_contact" className="form-label fw-semibold">
           ePLDT Contact
         </label>
         <input
@@ -210,7 +210,7 @@ const Form = ({ guest: initialGuest }) => {
           Working with an ICT Provider
         </label>
         <select
-          className="form-control"
+          className="form-select"
           value={guest.isWithICTProvider || ""}
           onChange={handleChange}
           id="isWithICTProvider"
@@ -224,46 +224,36 @@ const Form = ({ guest: initialGuest }) => {
         </select>
       </div>
       <div className="mb-3">
-        <label htmlFor="reg_type" className="form-label">
+        <label htmlFor="reg_type" className="form-label fw-semibold">
           Type <span style={{ color: "red" }}> * </span>
         </label>
-        <div className="dropdown">
-          <button
-            className="btn btn-outline-dark w-100 text-start d-flex justify-content-between"
-            type="button"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <span>{guest.reg_type || "Select Type"}</span>
-            <span className="arrow-placeholder ms-auto">
-              <FaAngleDown />
-            </span>
-          </button>
-          <ul
-            className="dropdown-menu w-100"
-            aria-labelledby="dropdownMenuButton"
-          >
-            <li>
-              <button
-                className="dropdown-item"
-                type="button"
-                onClick={() => handleTypeChange("PRE-REGISTERED")}
-              >
-                Pre Register
-              </button>
-            </li>
-            <li>
-              <button
-                className="dropdown-item"
-                type="button"
-                onClick={() => handleTypeChange("WALK-IN")}
-              >
-                Walk-In
-              </button>
-            </li>
-          </ul>
-        </div>
+        <select
+          className="form-select"
+          value={guest.reg_type || ""}
+          onChange={handleChange}
+          id="reg_type"
+          name="reg_type"
+          required
+        >
+          <option value="" disabled>
+            Select Type
+          </option>
+          <option value="PRE-REGISTERED">Pre Register</option>
+          <option value="WALK-IN">Walk-In</option>
+        </select>
+      </div>
+      <div className="d-flex justify-content-end gap-2 mt-3">
+        <button
+          type="button"
+          className="btn btn-danger"
+          data-bs-dismiss="modal"
+          onClick={() => setEditingGuest(null)}
+        >
+          Cancel
+        </button>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
       </div>
       <div className="mb-3 form-check form-switch">
         <input
