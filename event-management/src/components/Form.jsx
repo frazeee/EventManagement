@@ -13,6 +13,7 @@ const Form = ({ guest: initialGuest }) => {
     ePLDT_contact: "",
     isWithICTProvider: "Yes, with ePLDT",
     reg_type: "",
+    attended:"",
   });
 
   useEffect(() => {
@@ -75,6 +76,7 @@ const Form = ({ guest: initialGuest }) => {
             ePLDT_contact: guest.ePLDT_contact,
             isWithICTProvider: guest.isWithICTProvider,
             reg_type: guest.reg_type,
+            attended: true,
           })
           .eq("id", guest.id);
       } else {
@@ -253,6 +255,23 @@ const Form = ({ guest: initialGuest }) => {
           Submit
         </button>
       </div>
+      <div className="mb-3 form-check form-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          id="attended"
+          name="attended"
+          checked={guest.attended}
+          onChange={handleChange}
+        />
+        <label className="form-check-label" htmlFor="attended">
+          Attended
+        </label>
+      </div>
+    
+ <button type="submit" className="btn btn-primary">
+        Submit
+      </button>
     </form>
   );
 };
