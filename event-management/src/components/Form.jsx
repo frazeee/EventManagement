@@ -13,7 +13,7 @@ const Form = ({ guest: initialGuest }) => {
     ePLDT_contact: "",
     isWithICTProvider: "Yes, with ePLDT",
     reg_type: "",
-    attended:"",
+    attended: false,
   });
 
   useEffect(() => {
@@ -29,6 +29,13 @@ const Form = ({ guest: initialGuest }) => {
         [e.target.id]: e.target.value,
       };
     });
+  };
+
+  const handleCheckboxChange = (e) => {
+    setGuest((prevFormData) => ({
+      ...prevFormData,
+      [e.target.id]: e.target.checked,
+    }));
   };
 
   const handleTypeChange = (type) => {
@@ -76,7 +83,7 @@ const Form = ({ guest: initialGuest }) => {
             ePLDT_contact: guest.ePLDT_contact,
             isWithICTProvider: guest.isWithICTProvider,
             reg_type: guest.reg_type,
-            attended: true,
+            attended: guest.attended,
           })
           .eq("id", guest.id);
       } else {
@@ -242,6 +249,19 @@ const Form = ({ guest: initialGuest }) => {
           <option value="WALK-IN">Walk-In</option>
         </select>
       </div>
+      <div className="mb-3 form-check form-switch">
+        <label className="form-check-label" htmlFor="attended">
+          Has Attended?
+        </label>
+        <input
+          className="form-check-input"
+          type="checkbox"
+          id="attended"
+          name="attended"
+          checked={guest.attended}
+          onChange={handleCheckboxChange}
+        />
+      </div>
       <div className="d-flex justify-content-end gap-2 mt-3">
         <button
           type="button"
@@ -255,23 +275,6 @@ const Form = ({ guest: initialGuest }) => {
           Submit
         </button>
       </div>
-      <div className="mb-3 form-check form-switch">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          id="attended"
-          name="attended"
-          checked={guest.attended}
-          onChange={handleChange}
-        />
-        <label className="form-check-label" htmlFor="attended">
-          Attended
-        </label>
-      </div>
-    
- <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
     </form>
   );
 };
