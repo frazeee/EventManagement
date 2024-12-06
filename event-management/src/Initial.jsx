@@ -15,7 +15,8 @@ const Initial = () => {
   const [loading, setLoading] = useState(true);
   const [editingGuest, setEditingGuest] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [guestsPerPage] = useState(10); // Number of guests per page
+  const [guestsPerPage] = useState(10);
+  const [activeTab, setActiveTab] = useState("all");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,12 +94,23 @@ const Initial = () => {
     XLSX.writeFile(workbook, "GuestList.xlsx");
   };
 
+  const filteredGuests =
+    activeTab === "all"
+      ? guests
+      : guests.filter((guest) =>
+          activeTab === "Pre Registered"
+            ? guest.reg_type === "Pre Registered"
+            : guest.reg_type === "Walk-in"
+        );
+
   // Pagination logic
   const indexOfLastGuest = currentPage * guestsPerPage;
   const indexOfFirstGuest = indexOfLastGuest - guestsPerPage;
-  const currentGuests = guests.slice(indexOfFirstGuest, indexOfLastGuest);
-
-  const totalPages = Math.ceil(guests.length / guestsPerPage);
+  const currentGuests = filteredGuests.slice(
+    indexOfFirstGuest,
+    indexOfLastGuest
+  );
+  const totalPages = Math.ceil(filteredGuests.length / guestsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -152,94 +164,120 @@ const Initial = () => {
             </div>
           </div>
         ) : (
-          <div className="table-responsive">
-            <table className="table table-hover table-striped table-dark">
-              <thead>
-                <tr className="text-center">
-                  <th scope="col">#</th>
-                  <th scope="col">Guest Name</th>
-                  <th scope="col">Designation</th>
-                  <th scope="col">Company Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Number</th>
-                  <th scope="col">ePLDT Representative</th>
-                  <th scope="col">With ICT Provider</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Has Attended?</th>
-                  <th scope="col" colSpan={2} className="sticky-col">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentGuests.map((guest, index) => (
-                  <tr className="text-center align-middle" key={guest.id}>
-                    <td>{indexOfFirstGuest + index + 1}</td>
-                    <td>{guest.name}</td>
-                    <td>{guest.designation}</td>
-                    <td>{guest.company_name}</td>
-                    <td>{guest.email}</td>
-                    <td>{guest.number}</td>
-                    <td>{guest.ePLDT_contact}</td>
-                    <td>{guest.isWithICTProvider}</td>
-                    <td>{guest.reg_type}</td>
-                    <td
-                      style={{ color: guest.attended ? "#1d8655" : "#db3648" }}
-                    >
-                      {guest.attended ? "Yes" : "No"}
-                    </td>
-                    <td className="sticky-col">
-                      <div className="btn-group">
-                        <button
-                          className="btn btn-success text-nowrap btn-sm"
-                          data-bs-toggle="modal"
-                          data-bs-target="#editModal"
-                          onClick={() => setEditingGuest(guest)}
-                        >
-                          Edit{" "}
-                          <span>
-                            <FiEdit />
-                          </span>
-                        </button>
-                        <button
-                          className="btn btn-danger text-nowrap btn-sm"
-                          onClick={() => deleteGuest(guest.id)}
-                        >
-                          Delete{" "}
-                          <span>
-                            <IoMdRemoveCircleOutline />
-                          </span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <nav
-              aria-label="Guest pagination"
-              style={{ position: "relative", zIndex: 1 }}
-            >
-              <ul className="pagination justify-content-center mt-1">
-                <li
-                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+          <>
+            <ul className="nav nav-tabs">
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${
+                    activeTab === "all"
+                      ? "active bg-primary text-white fw-bold"
+                      : "text-white"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setActiveTab("all")}
                 >
-                  <a
-                    href="#"
-                    className="page-link"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage > 1) handlePageChange(currentPage - 1);
-                    }}
-                  >
-                    Previous
-                  </a>
-                </li>
-                {[...Array(totalPages).keys()].map((page) => (
+                  All Guests
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${
+                    activeTab === "Pre Registered"
+                      ? "active bg-success text-white fw-bold"
+                      : "text-white"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setActiveTab("Pre Registered")}
+                >
+                  Pre-Registered
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${
+                    activeTab === "Walk-in"
+                      ? "active bg-success text-white fw-bold"
+                      : "text-white"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setActiveTab("Walk-in")}
+                >
+                  Walk-In
+                </a>
+              </li>
+            </ul>
+            <div className="table-responsive">
+              <table className="table table-hover table-striped table-dark">
+                <thead>
+                  <tr className="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Guest Name</th>
+                    <th scope="col">Designation</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">ePLDT Representative</th>
+                    <th scope="col">With ICT Provider</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" colSpan={2} className="sticky-col">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentGuests.map((guest, index) => (
+                    <tr className="text-center align-middle" key={guest.id}>
+                      <td>{indexOfFirstGuest + index + 1}</td>
+                      <td>{guest.name}</td>
+                      <td>{guest.designation}</td>
+                      <td>{guest.company_name}</td>
+                      <td>{guest.email}</td>
+                      <td>{guest.number}</td>
+                      <td>{guest.ePLDT_contact}</td>
+                      <td>{guest.isWithICTProvider}</td>
+                      <td
+                        style={{
+                          color: guest.attended ? "#1d8655" : "#db3648",
+                        }}
+                      >
+                        {guest.attended ? "Yes" : "No"}
+                      </td>
+                      <td className="sticky-col">
+                        <div className="btn-group">
+                          <button
+                            className="btn btn-success text-nowrap btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editModal"
+                            onClick={() => setEditingGuest(guest)}
+                          >
+                            Edit{" "}
+                            <span>
+                              <FiEdit />
+                            </span>
+                          </button>
+                          <button
+                            className="btn btn-danger text-nowrap btn-sm"
+                            onClick={() => deleteGuest(guest.id)}
+                          >
+                            Delete{" "}
+                            <span>
+                              <IoMdRemoveCircleOutline />
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <nav
+                aria-label="Guest pagination"
+                style={{ position: "relative", zIndex: 1 }}
+              >
+                <ul className="pagination justify-content-center mt-1">
                   <li
-                    key={page + 1}
                     className={`page-item ${
-                      currentPage === page + 1 ? "active" : ""
+                      currentPage === 1 ? "disabled" : ""
                     }`}
                   >
                     <a
@@ -247,33 +285,52 @@ const Initial = () => {
                       className="page-link"
                       onClick={(e) => {
                         e.preventDefault();
-                        handlePageChange(page + 1);
+                        if (currentPage > 1) handlePageChange(currentPage - 1);
                       }}
                     >
-                      {page + 1}
+                      Previous
                     </a>
                   </li>
-                ))}
-                <li
-                  className={`page-item ${
-                    currentPage === totalPages ? "disabled" : ""
-                  }`}
-                >
-                  <a
-                    href="#"
-                    className="page-link"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage < totalPages)
-                        handlePageChange(currentPage + 1);
-                    }}
+                  {[...Array(totalPages).keys()].map((page) => (
+                    <li
+                      key={page + 1}
+                      className={`page-item ${
+                        currentPage === page + 1 ? "active" : ""
+                      }`}
+                    >
+                      <a
+                        href="#"
+                        className="page-link"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(page + 1);
+                        }}
+                      >
+                        {page + 1}
+                      </a>
+                    </li>
+                  ))}
+                  <li
+                    className={`page-item ${
+                      currentPage === totalPages ? "disabled" : ""
+                    }`}
                   >
-                    Next
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+                    <a
+                      href="#"
+                      className="page-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages)
+                          handlePageChange(currentPage + 1);
+                      }}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </>
         )}
 
         <div
