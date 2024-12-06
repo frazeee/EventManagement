@@ -183,7 +183,11 @@ const Initial = () => {
                     <td>{guest.ePLDT_contact}</td>
                     <td>{guest.isWithICTProvider}</td>
                     <td>{guest.reg_type}</td>
-                    <td>{guest.attended ? "Yes" : "No"}</td>
+                    <td
+                      style={{ color: guest.attended ? "#1d8655" : "#db3648" }}
+                    >
+                      {guest.attended ? "Yes" : "No"}
+                    </td>
                     <td className="sticky-col">
                       <div className="btn-group">
                         <button
