@@ -91,6 +91,7 @@ const PreRegistered = () => {
           number: activeGuest.number,
           ePLDT_contact: activeGuest.ePLDT_contact,
           isWithICTProvider: activeGuest.isWithICTProvider,
+          attended: true,
         })
 
         .eq("id", activeGuest.id);
