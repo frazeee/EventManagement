@@ -51,6 +51,7 @@ const WalkIn = () => {
           ePLDT_contact: guest.ePLDT_contact,
           isWithICTProvider: guest.isWithICTProvider,
           reg_type: "Walk-in",
+          attended: true,
         })
         .select();
       if (error) throw error;
