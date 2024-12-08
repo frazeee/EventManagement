@@ -245,8 +245,8 @@ const Form = ({ guest: initialGuest }) => {
           <option value="" disabled>
             Select Type
           </option>
-          <option value="PRE-REGISTERED">Pre Register</option>
-          <option value="WALK-IN">Walk-In</option>
+          <option value="Pre Registered">Pre Register</option>
+          <option value="Walk-in">Walk-In</option>
         </select>
       </div>
       <div className="mb-3 form-check form-switch">
