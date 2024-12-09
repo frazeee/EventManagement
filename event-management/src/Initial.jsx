@@ -17,6 +17,7 @@ const Initial = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [guestsPerPage] = useState(10);
   const [activeTab, setActiveTab] = useState("all");
+  const [attendanceState, setAttendanceState] = useState("all");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const Initial = () => {
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
+    console.log(data);
     setLoading(false);
   }
 
@@ -88,20 +90,34 @@ const Initial = () => {
   }
 
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(guests);
+    const worksheet = XLSX.utils.json_to_sheet(filteredGuests);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Guests");
-    XLSX.writeFile(workbook, "GuestList.xlsx");
+    const conditionSuffix = attendanceState === "all" ? "" : attendanceState ? "_Attended" : "_NotAttended";
+    const conditionPrefix = activeTab !== "all" ? `${activeTab}_` : "";
+    const filename = `${conditionPrefix}GuestList${conditionSuffix}.xlsx`;
+    XLSX.writeFile(workbook, filename);
   };
 
   const filteredGuests =
     activeTab === "all"
-      ? guests
-      : guests.filter((guest) =>
-          activeTab === "Pre Registered"
-            ? guest.reg_type === "Pre Registered"
-            : guest.reg_type === "Walk-in"
-        );
+      ? guests.filter(
+          (guest) =>
+            attendanceState === "all" || guest.attended === attendanceState
+        )
+      : guests.filter((guest) => {
+          if (activeTab === "Pre Registered") {
+            return (
+              guest.reg_type === "Pre Registered" &&
+              (attendanceState === "all" || guest.attended === attendanceState)
+            );
+          } else if (activeTab === "Walk-in") {
+            return (
+              guest.reg_type === "Walk-in" &&
+              (attendanceState === "all" || guest.attended === attendanceState)
+            );
+          }
+        });
 
   // Pagination logic
   const indexOfLastGuest = currentPage * guestsPerPage;
@@ -218,7 +234,49 @@ const Initial = () => {
                     <th scope="col">Number</th>
                     <th scope="col">ePLDT Representative</th>
                     <th scope="col">With ICT Provider</th>
-                    <th scope="col">Has Attended</th>
+                    <div class="dropdown">
+                      <button
+                        class="dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        style={{
+                          backgroundColor: "transparent",
+                          height: "55px",
+                          border: "none",
+                        }}
+                      >
+                        <th className="mx-1" scope="col">
+                          Has Attended
+                        </th>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-dark">
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => setAttendanceState(true)}
+                          >
+                            Yes
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => setAttendanceState(false)}
+                          >
+                            No
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => setAttendanceState("all")}
+                          >
+                            All
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
                     <th scope="col" colSpan={2} className="sticky-col">
                       Actions
                     </th>
