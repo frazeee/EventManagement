@@ -1,21 +1,3 @@
 {
-    "version": 2,
-    "routes": [
-      {
-        "src": "^/$",
-        "dest": "/"
-      },
-      {
-        "src": "^/login",
-        "dest": "/login"
-      },
-      {
-        "src": "^/bsa-admin",
-        "dest": "/bsa-admin"
-      },
-      {
-        "src": "^/(.*)$",
-        "dest": "/*"
-      }
-    ]
-  }
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
