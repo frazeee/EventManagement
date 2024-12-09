@@ -32,7 +32,6 @@ const Initial = () => {
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
-    console.log(data);
     setLoading(false);
   }
 
@@ -93,7 +92,12 @@ const Initial = () => {
     const worksheet = XLSX.utils.json_to_sheet(filteredGuests);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Guests");
-    const conditionSuffix = attendanceState === "all" ? "" : attendanceState ? "_Attended" : "_NotAttended";
+    const conditionSuffix =
+      attendanceState === "all"
+        ? ""
+        : attendanceState
+        ? "_Attended"
+        : "_NotAttended";
     const conditionPrefix = activeTab !== "all" ? `${activeTab}_` : "";
     const filename = `${conditionPrefix}GuestList${conditionSuffix}.xlsx`;
     XLSX.writeFile(workbook, filename);
