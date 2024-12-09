@@ -3,19 +3,19 @@
     "routes": [
       {
         "src": "^/$",
-        "dest": "/index.html"
+        "dest": "/"
       },
       {
-        "src": "^/login$",
-        "dest": "/index.html"
+        "src": "^/login",
+        "dest": "/login"
       },
       {
-        "src": "^/bsa-admin$",
-        "dest": "/index.html"
+        "src": "^/bsa-admin",
+        "dest": "/bsa-admin"
       },
       {
         "src": "^/(.*)$",
-        "dest": "/index.html"
+        "dest": "/*"
       }
     ]
   }
