@@ -49,18 +49,6 @@ const Form = ({ guest: initialGuest }) => {
     let response;
     e.preventDefault();
 
-    const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
-
-    if (!phoneRegex.test(guest.number)) {
-      Swal.fire({
-        title: "Error",
-        text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return;
-    }
-
     if (!guest.reg_type) {
       Swal.fire({
         title: "Error",
@@ -154,7 +142,7 @@ const Form = ({ guest: initialGuest }) => {
       </div>
       <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="email" className="form-label fw-semibold">
-          Email<span style={{ color: "red" }}> * </span>
+          Email
         </label>
         <input
           type="email"
@@ -164,12 +152,11 @@ const Form = ({ guest: initialGuest }) => {
           name="email"
           onChange={handleChange}
           value={guest.email}
-          required
         />
       </div>
       <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="number" className="form-label fw-semibold">
-          Number<span style={{ color: "red" }}> * </span>
+          Number
         </label>
         <input
           type="text"
@@ -179,7 +166,6 @@ const Form = ({ guest: initialGuest }) => {
           name="number"
           onChange={handleChange}
           value={guest.number}
-          required
         />
       </div>
       <div className="mb-3" style={{ fontWeight: "600" }}>
