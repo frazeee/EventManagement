@@ -118,10 +118,11 @@ const PreRegistered = () => {
   return (
     <div>
       <div
-        className="card text-bg-dark mx-auto mb-4"
+        className="card text-light mx-auto mb-4"
         style={{
           width: "100%",
           cursor: "pointer",
+          backgroundColor: "#23384e",
         }}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
@@ -137,11 +138,14 @@ const PreRegistered = () => {
           }}
         />
         <div className="card-body">
-          <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
+          <h5
+            className="card-title text-center"
+            style={{ fontWeight: 700, color: "#f2d27e" }}
+          >
             Pre-Registered
           </h5>
           <hr className="mx-auto" style={{ maxWidth: "18rem" }} />
-          <p className="card-text text-center mb-4">
+          <p className="card-text text-center mb-4" style={{ color: "" }}>
             Click here to see and edit the list of <br />
             <span style={{ fontWeight: 700 }}>Pre-Registered</span>{" "}
             participants!
