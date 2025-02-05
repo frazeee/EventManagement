@@ -3,7 +3,8 @@ import "./App.css";
 import { supabase } from "../API/createClient";
 import PreRegistered from "./components/preRegistered/preRegistered";
 import WalkIn from "./components/walkIn/walkIn";
-import background from "./assets/background.mp4";
+import background from "./assets/2ndbg.mp4";
+// import poster from "./assets/poster.jpg";
 import { useNavigate } from "react-router-dom";
 function App() {
   const [data, setData] = useState([]);
@@ -39,26 +40,35 @@ function App() {
               Login
             </button>
           </div>
-          <h1 className="text-center titleText py-2">
-            ePLDT Google ASCEND Workshop
+          <h1
+            className="text-center titleText py-2"
+            style={{ color: "#f2d27e" }}
+          >
+            2025 GOLD CLUB BROKERS AWARDS NIGHT
           </h1>
           <hr
             className="border border opacity-50 mx-auto mb-4"
             style={{ width: "50%" }}
           />
-          <div className="d-flex flex-column flex-md-row justify-content-evenly">
-            {/* Stack on small screens, side-by-side on md and up */}
-            <PreRegistered className="mb-3 mb-md-0" />{" "}
-            {/* Adds bottom margin on small screens */}
-            <WalkIn />
+          {/* <img
+            src={poster}
+            className="mb-3"
+            style={{
+              width: "20vw",
+              margin: "0 auto",
+              opacity: 1,
+            }}
+          /> */}
+          <div className="d-flex flex-column flex-md-row justify-content-evenly  mb-3 mb-md-0">
+            <PreRegistered /> <WalkIn />
           </div>
         </div>
         <footer class="bg-body-tertiary text-center text-lg-start">
           <div
             class="text-center p-3"
-            style={{ backgroundColor: "#222222", color: "#ffffff" }}
+            style={{ backgroundColor: "#23374a", color: "#ffffff" }}
           >
-            © 2024 BrandSpeakAsia. All rights reserved
+            © 2025 BrandSpeakAsia. All rights reserved
           </div>
         </footer>
       </div>

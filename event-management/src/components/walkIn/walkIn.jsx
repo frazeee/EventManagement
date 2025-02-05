@@ -79,10 +79,11 @@ const WalkIn = () => {
   return (
     <div>
       <div
-        className="card text-bg-dark mx-auto mb-4"
+        className="card text-light mx-auto mb-4"
         style={{
           width: "100%",
           cursor: "pointer",
+          backgroundColor: "#23384e",
         }}
         onClick={() => setShowModal(true)}
       >
@@ -96,7 +97,10 @@ const WalkIn = () => {
           }}
         />
         <div className="card-body">
-          <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
+          <h5
+            className="card-title text-center"
+            style={{ fontWeight: 700, color: "#f2d27e" }}
+          >
             Walk-In
           </h5>
           <hr className="mx-auto" style={{ maxWidth: "16rem" }} />
