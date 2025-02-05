@@ -27,17 +27,17 @@ const WalkIn = () => {
   const createGuest = async (e) => {
     e.preventDefault();
 
-    const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
+    // const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
 
-    if (!phoneRegex.test(guest.number)) {
-      Swal.fire({
-        title: "Error",
-        text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return;
-    }
+    // if (!phoneRegex.test(guest.number)) {
+    //   Swal.fire({
+    //     title: "Error",
+    //     text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
+    //     icon: "error",
+    //     confirmButtonText: "OK",
+    //   });
+    //   return;
+    // }
 
     try {
       const { data, error } = await supabase
@@ -51,6 +51,7 @@ const WalkIn = () => {
           ePLDT_contact: guest.ePLDT_contact,
           isWithICTProvider: guest.isWithICTProvider,
           reg_type: "Walk-in",
+          attended: true,
         })
         .select();
       if (error) throw error;
@@ -194,7 +195,7 @@ const WalkIn = () => {
                   </div>
                   <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="email" className="form-label">
-                      Email: <span style={{ color: "red" }}> * </span>
+                      Email:
                     </label>
                     <input
                       type="email"
@@ -204,12 +205,11 @@ const WalkIn = () => {
                       name="email"
                       onChange={handleChange}
                       value={guest.email}
-                      required
                     />
                   </div>
                   <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="number" className="form-label">
-                      Number: <span style={{ color: "red" }}> * </span>
+                      Number:
                     </label>
                     <input
                       type="text"
@@ -219,7 +219,6 @@ const WalkIn = () => {
                       name="number"
                       onChange={handleChange}
                       value={guest.number}
-                      required
                     />
                   </div>
                   <div className="mb-3" style={{ fontWeight: "600" }}>
