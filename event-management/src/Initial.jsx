@@ -28,7 +28,7 @@ const Initial = () => {
   async function fetchGuests() {
     setLoading(true);
     const { data } = await supabase
-      .from("guests")
+      .from("guests_GC")
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
@@ -76,7 +76,7 @@ const Initial = () => {
     });
 
     if (result.isConfirmed) {
-      const { error } = await supabase.from("guests").delete().eq("id", id);
+      const { error } = await supabase.from("guests_GC").delete().eq("id", id);
 
       if (error) {
         console.log("error", error);
@@ -232,12 +232,9 @@ const Initial = () => {
                   <tr className="text-center">
                     <th scope="col">#</th>
                     <th scope="col">Guest Name</th>
-                    <th scope="col">Designation</th>
                     <th scope="col">Company Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">ePLDT Representative</th>
-                    <th scope="col">With ICT Provider</th>
+                    <th scope="col">Guest Type</th>
+                    <th scope="col">Table Assignment</th>
                     <div class="dropdown">
                       <button
                         class="dropdown-toggle"
@@ -291,12 +288,9 @@ const Initial = () => {
                     <tr className="text-center align-middle" key={guest.id}>
                       <td>{indexOfFirstGuest + index + 1}</td>
                       <td>{guest.name}</td>
-                      <td>{guest.designation}</td>
                       <td>{guest.company_name}</td>
-                      <td>{guest.email}</td>
-                      <td>{guest.number}</td>
-                      <td>{guest.ePLDT_contact}</td>
-                      <td>{guest.isWithICTProvider}</td>
+                      <td>{guest.guest_type}</td>
+                      <td>{guest.table_assignment}</td>
                       <td
                         style={{
                           color: guest.attended ? "#1d8655" : "#db3648",
