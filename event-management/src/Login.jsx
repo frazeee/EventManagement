@@ -104,7 +104,7 @@ function Login({ onLogin }) {
         <footer className="bg-body-tertiary text-center text-lg-start">
           <div
             className="text-center p-3"
-            style={{ backgroundColor: "#222222", color: "#ffffff" }}
+            style={{ backgroundColor: "#23374a", color: "#ffffff" }}
           >
             © 2025 BrandSpeakAsia. All rights reserved
           </div>
