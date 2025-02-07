@@ -28,7 +28,7 @@ const PreRegistered = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("guests")
+        .from("guests_GC")
         .select(`*`)
         .eq("reg_type", "Pre Registered");
       setGuestList(data || []);
@@ -70,15 +70,12 @@ const PreRegistered = () => {
 
     try {
       await supabase
-        .from("guests")
+        .from("guests_GC")
         .update({
           name: activeGuest.name,
-          designation: activeGuest.designation,
           company_name: activeGuest.company_name,
-          email: activeGuest.email,
-          number: activeGuest.number,
-          ePLDT_contact: activeGuest.ePLDT_contact,
-          isWithICTProvider: activeGuest.isWithICTProvider,
+          table_assignment: activeGuest.table_assignment,
+          guest_type: activeGuest.guest_type,
           attended: true,
         })
 
@@ -302,17 +299,17 @@ const PreRegistered = () => {
                       htmlFor="designation"
                       className="form-label fw-semibold"
                     >
-                      Designation
+                      Table Assignment
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
                       id="designation"
-                      value={activeGuest?.designation || ""}
+                      value={activeGuest?.table_assignment || ""}
                       onChange={(e) =>
                         setActiveGuest({
                           ...activeGuest,
-                          designation: e.target.value,
+                          table_assignment: e.target.value,
                         })
                       }
                     />
@@ -339,22 +336,22 @@ const PreRegistered = () => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="email" className="form-label fw-semibold">
-                      Email
+                      Guest Type
                     </label>
                     <input
-                      type="email"
+                      type="text"
                       className="form-control"
                       id="email"
-                      value={activeGuest?.email || ""}
+                      value={activeGuest?.guest_type || ""}
                       onChange={(e) =>
                         setActiveGuest({
                           ...activeGuest,
-                          email: e.target.value,
+                          guest_type: e.target.value,
                         })
                       }
                     />
                   </div>
-                  <div className="mb-3">
+                  {/* <div className="mb-3">
                     <label htmlFor="number" className="form-label fw-semibold">
                       Mobile Number
                     </label>
@@ -408,7 +405,7 @@ const PreRegistered = () => {
                       <option value={"No"}>No</option>
                     </select>
                      
-                  </div>
+                  </div> */}
 
                   <div className="modal-footer">
                     <button type="submit" className="btn btn-primary">

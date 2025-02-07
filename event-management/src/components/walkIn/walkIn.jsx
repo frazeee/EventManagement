@@ -7,11 +7,9 @@ const WalkIn = () => {
   const [guest, setGuest] = useState({
     name: "",
     company_name: "",
-    email: "",
-    number: "",
-    designation: "",
-    ePLDT_contact: "",
-    isWithICTProvider: "Yes, With ePLDT",
+    guest_type: "",
+    table_assignment: "",
+    reg_type: "Walk-in",
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -41,15 +39,12 @@ const WalkIn = () => {
 
     try {
       const { data, error } = await supabase
-        .from("guests")
+        .from("guests_GC")
         .insert({
           name: guest.name,
-          designation: guest.designation,
           company_name: guest.company_name,
-          email: guest.email,
-          number: guest.number,
-          ePLDT_contact: guest.ePLDT_contact,
-          isWithICTProvider: guest.isWithICTProvider,
+          table_assignment: guest.table_assignment,
+          guest_type: guest.guest_type,
           reg_type: "Walk-in",
           attended: true,
         })
@@ -159,25 +154,6 @@ const WalkIn = () => {
                       required
                     />
                   </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="guest"
-                      className="form-label"
-                      style={{ fontWeight: "600" }}
-                    >
-                      Designation
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="designation"
-                      placeholder="Enter Designation"
-                      name="guest"
-                      onChange={handleChange}
-                      value={guest.guest}
-                      required
-                    />
-                  </div>
                   <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="company_name" className="form-label">
                       Company Name: <span style={{ color: "red" }}> * </span>
@@ -195,66 +171,34 @@ const WalkIn = () => {
                   </div>
                   <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="email" className="form-label">
-                      Email:
+                      Table Assignment
                     </label>
                     <input
-                      type="email"
+                      type="number"
                       className="form-control"
-                      id="email"
-                      placeholder="Enter Email"
+                      id="table_assignment"
+                      placeholder="Enter Table Number"
                       name="email"
                       onChange={handleChange}
-                      value={guest.email}
+                      value={guest.table_assignment}
                     />
                   </div>
                   <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="number" className="form-label">
-                      Number:
+                      Guest Type
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       id="number"
-                      placeholder="Enter Number"
+                      placeholder="Enter Guest Type (VIP/Regular)"
                       name="number"
                       onChange={handleChange}
-                      value={guest.number}
+                      value={guest.guest_type}
                     />
-                  </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="number" className="form-label">
-                      e/PLDT Contact<span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="ePLDT_contact"
-                      placeholder="Enter e/PLDT Contact "
-                      name="designation"
-                      onChange={handleChange}
-                      value={guest.ePLDT_contact}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="guest" className="form-label fw-semibold">
-                      Working with an ICT Provider
-                    </label>
-                    <select
-                      id="isWithICTProvider"
-                      className="form-control"
-                      placeholder="Enter Designation"
-                      onChange={handleChange}
-                    >
-                      <option value={"Yes, With ePLDT"}>Yes, With ePLDT</option>
-                      <option value={"Yes, but with other provider/s"}>
-                        Yes, but with other provider/s
-                      </option>
-                      <option value={"No"}>No</option>
-                    </select>
                   </div>
                 </div>
-
+                
                 <div className="modal-footer">
                   <button type="submit" className="btn btn-primary">
                     Submit
