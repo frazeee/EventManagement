@@ -190,9 +190,9 @@ const WalkIn = () => {
                     <input
                       type="text"
                       className="form-control"
-                      id="number"
+                      id="guest_type"
                       placeholder="Enter Guest Type (VIP/Regular)"
-                      name="number"
+                      name="guest_type"
                       onChange={handleChange}
                       value={guest.guest_type}
                     />
