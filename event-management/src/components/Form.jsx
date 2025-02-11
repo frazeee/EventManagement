@@ -135,7 +135,8 @@ const Form = ({ guest: initialGuest }) => {
       </div>
       <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="designation" className="form-label fw-semibold">
-          Guest Type<span style={{ color: "red" }}> * </span>
+          Guest Type
+          {/* <span style={{ color: "red" }}> * </span> */}
         </label>
         <input
           type="text"
@@ -145,7 +146,7 @@ const Form = ({ guest: initialGuest }) => {
           name="guest_type"
           onChange={handleChange}
           value={guest.guest_type}
-          required
+          
         />
       </div>
       <div className="mb-3">
