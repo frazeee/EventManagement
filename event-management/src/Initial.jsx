@@ -18,6 +18,7 @@ const Initial = () => {
   const [guestsPerPage] = useState(10);
   const [activeTab, setActiveTab] = useState("all");
   const [attendanceState, setAttendanceState] = useState("all");
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -103,36 +104,38 @@ const Initial = () => {
     XLSX.writeFile(workbook, filename);
   };
 
-  const filteredGuests =
-    activeTab === "all"
-      ? guests.filter(
-          (guest) =>
-            attendanceState === "all" || guest.attended === attendanceState
-        )
-      : guests.filter((guest) => {
-          if (activeTab === "Pre Registered") {
-            return (
-              guest.reg_type === "Pre Registered" &&
-              (attendanceState === "all" || guest.attended === attendanceState)
-            );
-          } else if (activeTab === "Walk-in") {
-            return (
-              guest.reg_type === "Walk-in" &&
-              (attendanceState === "all" || guest.attended === attendanceState)
-            );
-          }
-        });
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when search changes
+  };
+  
+  const filteredGuests = guests.filter((guest) => {
+    if (activeTab === "Pre Registered" && guest.reg_type !== "Pre Registered") {
+      return false;
+    }
+    if (activeTab === "Walk-in" && guest.reg_type !== "Walk-in") {
+      return false;
+    }
+    if (attendanceState !== "all" && guest.attended !== attendanceState) {
+      return false;
+    }
+  
 
+    if (searchTerm !== "" && !guest.name.toLowerCase().includes(searchTerm.toLowerCase()) && !guest.company_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
+  
+    return true;
+  });
+  
   // Pagination logic
   const indexOfLastGuest = currentPage * guestsPerPage;
   const indexOfFirstGuest = indexOfLastGuest - guestsPerPage;
-  const currentGuests = filteredGuests.slice(
-    indexOfFirstGuest,
-    indexOfLastGuest
-  );
+  const currentGuests = filteredGuests.slice(indexOfFirstGuest, indexOfLastGuest);
   const totalPages = Math.ceil(filteredGuests.length / guestsPerPage);
-
+  
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+ 
 
   return (
     <>
@@ -226,6 +229,16 @@ const Initial = () => {
                 </a>
               </li>
             </ul>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="guestSearch"
+                placeholder="Search Guest details here..."
+                data-bs-theme="dark"
+                onChange={handleInputChange}
+              />
+            </div>
             <div className="table-responsive">
               <table className="table table-hover table-striped table-dark">
                 <thead>
