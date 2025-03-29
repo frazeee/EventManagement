@@ -42,23 +42,14 @@ function App() {
           </div>
           <h1
             className="text-center titleText py-2"
-            style={{ color: "#f2d27e" }}
+            style={{ color: "#61c3d1" }}
           >
-            2025 GOLD CLUB BROKERS AWARDS NIGHT
+            ePLDT and Huawei Cloud Ascend Workshop
           </h1>
           <hr
             className="border border opacity-50 mx-auto mb-4"
-            style={{ width: "50%" }}
+            style={{ width: "75%" }}
           />
-          {/* <img
-            src={poster}
-            className="mb-3"
-            style={{
-              width: "20vw",
-              margin: "0 auto",
-              opacity: 1,
-            }}
-          /> */}
           <div className="d-flex flex-column flex-md-row justify-content-evenly  mb-3 mb-md-0">
             <PreRegistered /> <WalkIn />
           </div>
