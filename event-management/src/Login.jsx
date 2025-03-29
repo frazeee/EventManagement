@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import background from "./assets/2ndbg.mp4";
-import poster from "./assets/poster.jpg";
+import poster from "./assets/april3poster.png";
 import { supabase } from "../API/createClient";
 
 function Login({ onLogin }) {
@@ -34,7 +34,7 @@ function Login({ onLogin }) {
       <div className="fade-in">
         <video src={background} autoPlay muted loop></video>
         <form onSubmit={handleLogin} className="flex-grow-1">
-          <div className="container d-flex justify-content-center align-items-center min-vh-100 my-5">
+          <div className="container d-flex justify-content-center align-items-center min-vh-100 ">
             <div className="card">
               <div className="card-header">
                 <div className="my-4">
