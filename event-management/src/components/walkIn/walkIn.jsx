@@ -94,7 +94,7 @@ const WalkIn = () => {
         <div className="card-body">
           <h5
             className="card-title text-center"
-            style={{ fontWeight: 700, color: "#f2d27e" }}
+            style={{ fontWeight: 700, color: "#61c3d1" }}
           >
             Walk-In
           </h5>
@@ -198,7 +198,7 @@ const WalkIn = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className="modal-footer">
                   <button type="submit" className="btn btn-primary">
                     Submit
