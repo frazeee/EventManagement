@@ -284,21 +284,6 @@ const WalkIn = () => {
                       Registration Type{" "}
                       <span style={{ color: "red" }}> * </span>
                     </label>
-
-                    <select
-                      className="form-select"
-                      value={guest.reg_type || ""}
-                      onChange={handleChange}
-                      id="reg_type"
-                      name="reg_type"
-                      required
-                    >
-                      <option value="" disabled>
-                        Select Type
-                      </option>
-                      <option value="Pre Registered">Pre Register</option>
-                      <option value="Walk-in">Walk-In</option>
-                    </select>
                   </div>
 
                   <div className="modal-footer">
