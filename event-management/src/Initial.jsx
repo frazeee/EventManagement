@@ -18,7 +18,7 @@ const Initial = () => {
   const [guestsPerPage] = useState(10);
   const [activeTab, setActiveTab] = useState("all");
   const [attendanceState, setAttendanceState] = useState("all");
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const Initial = () => {
     setSearchTerm(e.target.value);
     setCurrentPage(1); // Reset to first page when search changes
   };
-  
+
   const filteredGuests = guests.filter((guest) => {
     if (activeTab === "Pre Registered" && guest.reg_type !== "Pre Registered") {
       return false;
@@ -119,23 +119,28 @@ const Initial = () => {
     if (attendanceState !== "all" && guest.attended !== attendanceState) {
       return false;
     }
-  
 
-    if (searchTerm !== "" && !guest.name.toLowerCase().includes(searchTerm.toLowerCase()) && !guest.company_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+    if (
+      searchTerm !== "" &&
+      !guest.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      !guest.company_name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
       return false;
     }
-  
+
     return true;
   });
-  
+
   // Pagination logic
   const indexOfLastGuest = currentPage * guestsPerPage;
   const indexOfFirstGuest = indexOfLastGuest - guestsPerPage;
-  const currentGuests = filteredGuests.slice(indexOfFirstGuest, indexOfLastGuest);
+  const currentGuests = filteredGuests.slice(
+    indexOfFirstGuest,
+    indexOfLastGuest
+  );
   const totalPages = Math.ceil(filteredGuests.length / guestsPerPage);
-  
+
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
- 
 
   return (
     <>
@@ -246,8 +251,11 @@ const Initial = () => {
                     <th scope="col">#</th>
                     <th scope="col">Guest Name</th>
                     <th scope="col">Company Name</th>
-                    <th scope="col">Guest Type</th>
-                    <th scope="col">Table Assignment</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">Registration Type</th>
+                    <th scope="col">ePLDT Contact</th>
+                    <th scope="col">With ICT Provider</th>
                     <div class="dropdown">
                       <button
                         class="dropdown-toggle"
@@ -302,8 +310,11 @@ const Initial = () => {
                       <td>{indexOfFirstGuest + index + 1}</td>
                       <td>{guest.name}</td>
                       <td>{guest.company_name}</td>
-                      <td>{guest.guest_type}</td>
-                      <td>{guest.table_assignment}</td>
+                      <td>{guest.email}</td>
+                      <td>{guest.number}</td>
+                      <td>{guest.reg_type}</td>
+                      <td>{guest.ePLDT_contact}</td>
+                      <td>{guest.with_ICT}</td>
                       <td
                         style={{
                           color: guest.attended ? "#1d8655" : "#db3648",

@@ -7,8 +7,11 @@ const Form = ({ guest: initialGuest }) => {
   const [guest, setGuest] = useState({
     name: "",
     company_name: "",
+    email: "",
+    number: "",
     guest_type: "",
-    table_assignment: "",
+    ePLDT_contact: "",
+    with_ICT: "",
     reg_type: "",
     attended: false,
   });
@@ -30,6 +33,7 @@ const Form = ({ guest: initialGuest }) => {
   };
 
   const handleCheckboxChange = (e) => {
+    console.log(guest);
     setGuest((prevFormData) => ({
       ...prevFormData,
       [e.target.id]: e.target.checked,
@@ -63,8 +67,11 @@ const Form = ({ guest: initialGuest }) => {
           .update({
             name: guest.name,
             company_name: guest.company_name,
-            guest_type: guest.guest_type,
-            table_assignment: guest.table_assignment,
+            designation: guest.designation,
+            email: guest.email,
+            number: guest.number,
+            ePLDT_contact: guest.ePLDT_contact,
+            with_ICT: guest.with_ICT,
             reg_type: guest.reg_type,
             attended: guest.attended,
           })
@@ -73,8 +80,11 @@ const Form = ({ guest: initialGuest }) => {
         response = await supabase.from("guests_GC").insert({
           name: guest.name,
           company_name: guest.company_name,
-          guest_type: guest.guest_type,
-          table_assignment: guest.table_assignment,
+          designation: guest.designation,
+          email: guest.email,
+          number: guest.number,
+          ePLDT_contact: guest.ePLDT_contact,
+          with_ICT: guest.with_ICT,
           reg_type: guest.reg_type,
           attended: guest.attended,
         });
@@ -133,41 +143,93 @@ const Form = ({ guest: initialGuest }) => {
           required
         />
       </div>
-      <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="designation" className="form-label fw-semibold">
-          Guest Type
-          {/* <span style={{ color: "red" }}> * </span> */}
+      <div className="mb-3">
+        <label htmlFor="Designation" className="form-label fw-semibold">
+          Designation<span style={{ color: "red" }}> * </span>
         </label>
         <input
           type="text"
           className="form-control"
-          id="guest_type"
-          placeholder="Enter Guest Type (VIP/Regular)"
-          name="guest_type"
+          id="designation"
+          name="designation"
+          placeholder="Enter Company Name"
+          aria-describedby="company_name"
           onChange={handleChange}
-          value={guest.guest_type}
-          
+          value={guest.designation}
+          required
+        />
+      </div>
+      <div className="mb-3" style={{ fontWeight: "600" }}>
+        <label htmlFor="designation" className="form-label fw-semibold">
+          Email
+        </label>
+        <input
+          type="email"
+          className="form-control"
+          id="email"
+          placeholder="Enter Guest Email"
+          name="email"
+          onChange={handleChange}
+          value={guest.email}
+        />
+      </div>
+      <div className="mb-3" style={{ fontWeight: "600" }}>
+        <label htmlFor="designation" className="form-label fw-semibold">
+          Number
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="number"
+          placeholder="Enter Guest Number"
+          name="number"
+          onChange={handleChange}
+          value={guest.number}
         />
       </div>
       <div className="mb-3">
         <label htmlFor="ePLDT_contact" className="form-label fw-semibold">
-          Table Assignment
+          ePLDT Contact
         </label>
         <input
-          type="number"
+          type="text"
           className="form-control"
-          id="table_assignment"
-          name="table_assignment"
-          placeholder="Enter Table Number"
+          id="ePLDT_contact"
+          name="ePLDT_contact"
+          placeholder="Enter ePLDT Contact"
           aria-describedby="guest"
           onChange={handleChange}
-          value={guest.table_assignment}
+          value={guest.ePLDT_contact}
         />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="reg_type" className="form-label fw-semibold">
+          With ICT Provider? <span style={{ color: "red" }}> * </span>
+        </label>
+
+        <select
+          className="form-select"
+          value={guest.with_ICT || ""}
+          onChange={handleChange}
+          id="with_ICT"
+          name="with_ICT"
+          required
+        >
+          <option value="" disabled>
+            Select Type
+          </option>
+          <option value="Yes, with ePLDT">Yes, with ePLDT</option>
+          <option value="Yes, but with other provider/s">
+            Yes, but with other provider/s
+          </option>
+          <option value="No">No</option>
+        </select>
       </div>
       <div className="mb-3">
         <label htmlFor="reg_type" className="form-label fw-semibold">
           Registration Type <span style={{ color: "red" }}> * </span>
         </label>
+
         <select
           className="form-select"
           value={guest.reg_type || ""}

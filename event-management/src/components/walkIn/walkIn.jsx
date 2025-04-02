@@ -7,8 +7,12 @@ const WalkIn = () => {
   const [guest, setGuest] = useState({
     name: "",
     company_name: "",
+    email: "",
+    number: "",
     guest_type: "",
-    table_assignment: "",
+    ePLDT_contact: "",
+    with_ICT: "",
+    attended: false,
     reg_type: "Walk-in",
   });
   const [showModal, setShowModal] = useState(false);
@@ -43,8 +47,11 @@ const WalkIn = () => {
         .insert({
           name: guest.name,
           company_name: guest.company_name,
-          table_assignment: guest.table_assignment,
-          guest_type: guest.guest_type,
+          designation: guest.designation,
+          email: guest.email,
+          number: guest.number,
+          ePLDT_contact: guest.ePLDT_contact,
+          with_ICT: guest.with_ICT,
           reg_type: "Walk-in",
           attended: true,
         })
@@ -133,86 +140,182 @@ const WalkIn = () => {
                   aria-label="Close"
                 ></button>
               </div>
-              <form onSubmit={createGuest}>
-                <div className="modal-body">
+              <div className="modal-body">
+                {" "}
+                <form onSubmit={createGuest}>
                   <div className="mb-3">
-                    <label
-                      htmlFor="name"
-                      className="form-label"
-                      style={{ fontWeight: "600" }}
-                    >
-                      Full Name: <span style={{ color: "red" }}> * </span>
+                    <label htmlFor="name" className="form-label fw-semibold">
+                      Name <span style={{ color: "red" }}> * </span>
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       id="name"
-                      placeholder="Enter Full Name"
                       name="name"
+                      placeholder="Enter Full Name"
+                      aria-describedby="name"
                       onChange={handleChange}
                       value={guest.name}
                       required
                     />
                   </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="company_name" className="form-label">
-                      Company Name: <span style={{ color: "red" }}> * </span>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="company_name"
+                      className="form-label fw-semibold"
+                    >
+                      Company Name <span style={{ color: "red" }}> * </span>
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       id="company_name"
-                      placeholder="Enter Company Name"
                       name="company_name"
+                      placeholder="Enter Company Name"
+                      aria-describedby="company_name"
                       onChange={handleChange}
                       value={guest.company_name}
                       required
                     />
                   </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="email" className="form-label">
-                      Table Assignment
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="table_assignment"
-                      placeholder="Enter Table Number"
-                      name="email"
-                      onChange={handleChange}
-                      value={guest.table_assignment}
-                    />
-                  </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="number" className="form-label">
-                      Guest Type
+                  <div className="mb-3">
+                    <label
+                      htmlFor="Designation"
+                      className="form-label fw-semibold"
+                    >
+                      Designation<span style={{ color: "red" }}> * </span>
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="guest_type"
-                      placeholder="Enter Guest Type (VIP/Regular)"
-                      name="guest_type"
+                      id="designation"
+                      name="designation"
+                      placeholder="Enter Company Name"
+                      aria-describedby="company_name"
                       onChange={handleChange}
-                      value={guest.guest_type}
+                      value={guest.designation}
+                      required
                     />
                   </div>
-                </div>
+                  <div className="mb-3" style={{ fontWeight: "600" }}>
+                    <label
+                      htmlFor="designation"
+                      className="form-label fw-semibold"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="Enter Guest Email"
+                      name="email"
+                      onChange={handleChange}
+                      value={guest.email}
+                    />
+                  </div>
+                  <div className="mb-3" style={{ fontWeight: "600" }}>
+                    <label
+                      htmlFor="designation"
+                      className="form-label fw-semibold"
+                    >
+                      Number
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="number"
+                      placeholder="Enter Guest Number"
+                      name="number"
+                      onChange={handleChange}
+                      value={guest.number}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="ePLDT_contact"
+                      className="form-label fw-semibold"
+                    >
+                      ePLDT Contact
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="ePLDT_contact"
+                      name="ePLDT_contact"
+                      placeholder="Enter ePLDT Contact"
+                      aria-describedby="guest"
+                      onChange={handleChange}
+                      value={guest.ePLDT_contact}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="reg_type"
+                      className="form-label fw-semibold"
+                    >
+                      With ICT Provider?{" "}
+                      <span style={{ color: "red" }}> * </span>
+                    </label>
 
-                <div className="modal-footer">
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    data-bs-dismiss="modal"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </form>
+                    <select
+                      className="form-select"
+                      value={guest.with_ICT || ""}
+                      onChange={handleChange}
+                      id="with_ICT"
+                      name="with_ICT"
+                      required
+                    >
+                      <option value="" disabled>
+                        Select Type
+                      </option>
+                      <option value="Yes, with ePLDT">Yes, with ePLDT</option>
+                      <option value="Yes, but with other provider/s">
+                        Yes, but with other provider/s
+                      </option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="reg_type"
+                      className="form-label fw-semibold"
+                    >
+                      Registration Type{" "}
+                      <span style={{ color: "red" }}> * </span>
+                    </label>
+
+                    <select
+                      className="form-select"
+                      value={guest.reg_type || ""}
+                      onChange={handleChange}
+                      id="reg_type"
+                      name="reg_type"
+                      required
+                    >
+                      <option value="" disabled>
+                        Select Type
+                      </option>
+                      <option value="Pre Registered">Pre Register</option>
+                      <option value="Walk-in">Walk-In</option>
+                    </select>
+                  </div>
+
+                  <div className="modal-footer">
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      data-bs-dismiss="modal"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
