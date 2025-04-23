@@ -40,20 +40,7 @@ const Form = ({ guest: initialGuest }) => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log("number", guest.number);
-    const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
-
-    if (!phoneRegex.test(guest.number)) {
-      Swal.fire({
-        title: "Error",
-        text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return;
-    }
-
-    if (!guest.registration_type) {
+    if (!guest.reg_type) {
       Swal.fire({
         title: "Error",
         text: "Please select a registration type.",
@@ -68,26 +55,18 @@ const Form = ({ guest: initialGuest }) => {
           .from("guests_ct")
           .update({
             name: guest.name,
-            // guest: guest.guest,
-            // company_name: guest.company_name,
-            // registration_type: guest.registration_type,
             email: guest.email,
             school: guest.school,
-            // number: guest.number,
-            // designation: guest.designation,
+            reg_type: guest.reg_type,
             attended: TRUE,
           })
           .eq("id", guest.id);
       } else {
         await supabase.from("guests_ct").insert({
           name: guest.name,
-          // guest: guest.guest,
-          // company_name: guest.company_name,
-          // registration_type: guest.registration_type,
           email: guest.email,
           school: guest.school,
-          // number: guest.number,
-          // designation: guest.designation,
+          reg_type: guest.reg_type,
         });
       }
 
@@ -112,127 +91,75 @@ const Form = ({ guest: initialGuest }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='mb-3'>
-        <label htmlFor='name' className='form-label'>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">
           Full Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type='text'
-          className='form-control'
-          id='name'
-          name='name'
-          placeholder='Enter Full Name'
-          aria-describedby='name'
+          type="text"
+          className="form-control"
+          id="name"
+          name="name"
+          placeholder="Enter Full Name"
+          aria-describedby="name"
           onChange={handleChange}
           value={guest.name}
           required
         />
       </div>
-      {/* <div className="mb-3">
-        <label htmlFor="guest" className="form-label">
-          Guest
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="guest"
-          name="guest"
-          placeholder="Enter Guest Name"
-          aria-describedby="guest"
-          onChange={handleChange}
-          value={guest.guest}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="company_name" className="form-label">
-          Company Name <span style={{ color: "red" }}> * </span>
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="company_name"
-          name="company_name"
-          placeholder="Enter Company Name"
-          aria-describedby="company_name"
-          onChange={handleChange}
-          value={guest.company_name}
-          required
-        />
-      </div> */}
 
-      {/* <div className='mb-3'>
-        <label htmlFor='registration_type' className='form-label'>
-          Type <span style={{ color: "red" }}> * </span>
-        </label>
-        <div className='dropdown'>
-          <button
-            className='btn btn-outline-dark w-100 text-start d-flex justify-content-between'
-            type='button'
-            id='dropdownMenuButton'
-            data-bs-toggle='dropdown'
-            aria-expanded='false'
-          >
-            <span>{guest.registration_type || "Select Type"}</span>
-            <span className='arrow-placeholder ms-auto'>
-              <FaAngleDown />
-            </span>
-          </button>
-          <ul
-            className='dropdown-menu w-100'
-            aria-labelledby='dropdownMenuButton'
-          >
-            <li>
-              <button
-                className='dropdown-item'
-                type='button'
-                onClick={() => handleTypeChange("PRE-REGISTERED")}
-              >
-                Pre-Register
-              </button>
-            </li>
-            <li>
-              <button
-                className='dropdown-item'
-                type='button'
-                onClick={() => handleTypeChange("WALK-IN")}
-              >
-                Walk-In
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div> */}
 
-      <div className='mb-3' style={{ fontWeight: "600" }}>
-        <label htmlFor='email' className='form-label'>
+      <div className="mb-3" style={{ fontWeight: "600" }}>
+        <label htmlFor="email" className="form-label">
           Email<span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type='email'
-          className='form-control'
-          id='email'
-          placeholder='Enter Email'
-          name='email'
+          type="email"
+          className="form-control"
+          id="email"
+          placeholder="Enter Email"
+          name="email"
           onChange={handleChange}
           value={guest.email}
           required
         />
       </div>
 
-      <div className='mb-3' style={{ fontWeight: "600" }}>
-        <label htmlFor='school' className='form-label'>
+      <div className="mb-3" style={{ fontWeight: "600" }}>
+        <label htmlFor="school" className="form-label">
           School<span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type='school'
-          className='form-control'
-          id='school'
-          placeholder='Enter school'
-          name='school'
+          type="school"
+          className="form-control"
+          id="school"
+          placeholder="Enter school"
+          name="school"
           onChange={handleChange}
           value={guest.school}
           required
         />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="reg_type" className="form-label fw-semibold">
+          Registration Type <span style={{ color: "red" }}> * </span>
+        </label>
+
+        <select
+          className="form-select"
+          value={guest.reg_type || ""}
+          onChange={handleChange}
+          id="reg_type"
+          name="reg_type"
+          required
+        >
+          <option value="" disabled>
+            Select Type
+          </option>
+          <option value="Pre Registered">Pre Register</option>
+          <option value="Walk-in">Walk-In</option>
+        </select>
       </div>
 
       {/* <div className='mb-3' style={{ fontWeight: "600" }}>
@@ -266,21 +193,21 @@ const Form = ({ guest: initialGuest }) => {
           required
         />
       </div> */}
-      <div className='mb-3 form-check form-switch'>
+      <div className="mb-3 form-check form-switch">
         <input
-          className='form-check-input'
-          type='checkbox'
-          id='attended'
-          name='attended'
+          className="form-check-input"
+          type="checkbox"
+          id="attended"
+          name="attended"
           checked={guest.attended}
           onChange={handleChange}
         />
-        <label className='form-check-label' htmlFor='attended'>
+        <label className="form-check-label" htmlFor="attended">
           Attended
         </label>
       </div>
 
-      <button type='submit' className='btn btn-primary'>
+      <button type="submit" className="btn btn-primary">
         Submit
       </button>
     </form>
