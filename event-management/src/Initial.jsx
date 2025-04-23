@@ -185,7 +185,7 @@ const Initial = () => {
                     <td>{guest.ePLDT_contact}</td>
                     <td>{guest.isWithICTProvider}</td>
                     <td>{guest.reg_type}</td> */}
-                    <td>{guest.attended ? "Has attended" : "Not yet"}</td>
+                    <td>{guest.attended ? "Yes" : "No"}</td>
                     <td className='sticky-col'>
                       <div className='btn-group'>
                         <button
