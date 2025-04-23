@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import background from "./assets/background.mp4";
+import poster from "./assets/poster_coffeetalk.jpg";
 import { supabase } from "../API/createClient";
 
 function Login({ onLogin }) {
@@ -33,7 +34,7 @@ function Login({ onLogin }) {
       <div className="fade-in">
         <video src={background} autoPlay muted loop></video>
         <form onSubmit={handleLogin} className="flex-grow-1">
-          <div className="container d-flex justify-content-center align-items-center min-vh-100">
+          <div className="container d-flex justify-content-center align-items-center min-vh-100 my-5">
             <div className="card">
               <div className="card-header">
                 <div className="my-4">
@@ -50,6 +51,12 @@ function Login({ onLogin }) {
               </div>
               <div className="card-body">
                 <div className="form-group mb-3">
+                  {/* Image Section */}
+                  <div className="image-container">
+                    <p className="fw-bolder">Current Event:</p>
+                    <img src={poster} className="img-fluid" alt="Poster" />
+                  </div>
+                  <br />
                   <label htmlFor="username" className="form-label">
                     Username<span style={{ color: "red" }}> *</span>
                   </label>
@@ -99,7 +106,7 @@ function Login({ onLogin }) {
             className="text-center p-3"
             style={{ backgroundColor: "#222222", color: "#ffffff" }}
           >
-            © 2024 BrandSpeakAsia. All rights reserved
+            © 2025 BrandSpeakAsia. All rights reserved
           </div>
         </footer>
       </div>
