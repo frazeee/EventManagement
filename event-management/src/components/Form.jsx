@@ -37,6 +37,14 @@ const Form = ({ guest: initialGuest }) => {
     }));
   };
 
+  const handleCheckboxChange = (e) => {
+    console.log(guest);
+    setGuest((prevFormData) => ({
+      ...prevFormData,
+      [e.target.id]: e.target.checked,
+    }));
+  };
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -58,7 +66,7 @@ const Form = ({ guest: initialGuest }) => {
             email: guest.email,
             school: guest.school,
             reg_type: guest.reg_type,
-            attended: TRUE,
+            attended: guest.attended,
           })
           .eq("id", guest.id);
       } else {
@@ -67,6 +75,7 @@ const Form = ({ guest: initialGuest }) => {
           email: guest.email,
           school: guest.school,
           reg_type: guest.reg_type,
+          attended: guest.attended,
         });
       }
 
@@ -107,7 +116,6 @@ const Form = ({ guest: initialGuest }) => {
           required
         />
       </div>
-
 
       <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="email" className="form-label">
@@ -194,17 +202,17 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div> */}
       <div className="mb-3 form-check form-switch">
+        <label className="form-check-label" htmlFor="attended">
+          Has Attended?
+        </label>
         <input
           className="form-check-input"
           type="checkbox"
           id="attended"
           name="attended"
           checked={guest.attended}
-          onChange={handleChange}
+          onChange={handleCheckboxChange}
         />
-        <label className="form-check-label" htmlFor="attended">
-          Attended
-        </label>
       </div>
 
       <button type="submit" className="btn btn-primary">
