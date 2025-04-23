@@ -165,8 +165,8 @@ const Initial = () => {
                   {/* <th scope="col">Number</th>
                   <th scope="col">ePLDT Representative</th>
                   <th scope="col">With ICT Provider</th>
-                  <th>Status</th>
-                  <th>Attended</th> */}
+                  <th>Status</th> */}
+                  <th>Attended</th>
                   <th scope='col' colSpan={2} className='sticky-col'>
                     Actions
                   </th>
