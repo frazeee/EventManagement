@@ -15,7 +15,10 @@ const Initial = () => {
   const [loading, setLoading] = useState(true);
   const [editingGuest, setEditingGuest] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [guestsPerPage] = useState(10); // Number of guests per page
+  const [guestsPerPage] = useState(10);
+  const [activeTab, setActiveTab] = useState("all");
+  const [attendanceState, setAttendanceState] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -87,56 +90,93 @@ const Initial = () => {
   }
 
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(guests);
+    const worksheet = XLSX.utils.json_to_sheet(filteredGuests);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Guests");
-    XLSX.writeFile(workbook, "GuestList.xlsx");
+    const conditionSuffix =
+      attendanceState === "all"
+        ? ""
+        : attendanceState
+        ? "_Attended"
+        : "_NotAttended";
+    const conditionPrefix = activeTab !== "all" ? `${activeTab}_` : "";
+    const filename = `${conditionPrefix}GuestList${conditionSuffix}.xlsx`;
+    XLSX.writeFile(workbook, filename);
   };
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when search changes
+  };
+
+  const filteredGuests = guests.filter((guest) => {
+    if (activeTab === "Pre Registered" && guest.reg_type !== "Pre Registered") {
+      return false;
+    }
+    if (activeTab === "Walk-in" && guest.reg_type !== "Walk-in") {
+      return false;
+    }
+    if (attendanceState !== "all" && guest.attended !== attendanceState) {
+      return false;
+    }
+
+    if (
+      searchTerm !== "" &&
+      !guest.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      !guest.company_name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return false;
+    }
+
+    return true;
+  });
 
   // Pagination logic
   const indexOfLastGuest = currentPage * guestsPerPage;
   const indexOfFirstGuest = indexOfLastGuest - guestsPerPage;
-  const currentGuests = guests.slice(indexOfFirstGuest, indexOfLastGuest);
-
-  const totalPages = Math.ceil(guests.length / guestsPerPage);
+  const currentGuests = filteredGuests.slice(
+    indexOfFirstGuest,
+    indexOfLastGuest
+  );
+  const totalPages = Math.ceil(filteredGuests.length / guestsPerPage);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
       <video src={background} autoPlay muted loop></video>
-      <div className='container container-md'>
-        <div className='position-absolute top-0 end-0'>
+      <div className="container container-md">
+        <div className="position-absolute top-0 end-0">
           <button
-            className='btn btn-outline-danger mt-3 me-3'
+            className="btn btn-outline-danger mt-3 me-3"
             onClick={() => handleLogout()}
           >
             Logout
           </button>
         </div>
-        <h1 className='text-center py-4 titleText'>Guest List</h1>
+        <h1 className="text-center py-4 titleText">Guest List</h1>
         <hr
-          className='border border opacity-50 mx-auto'
+          className="border border opacity-50 mx-auto"
           style={{ width: "100%" }}
         />
-        <div className='d-flex justify-content-between mb-3'>
-          <text className='text-white opacity-75 guestText'>
+        <div className="d-flex justify-content-between mb-3">
+          <text className="text-white opacity-75 guestText">
             Listed below are the current guests that have{" "}
             <span style={{ fontWeight: 700 }}>Pre-Registered</span> or are{" "}
             <span style={{ fontWeight: 700 }}>Walk-Ins!</span>
           </text>
-          <div className='d-flex justify-content-between'>
-            <button className='btn btn-success me-2' onClick={exportToExcel}>
+          <div className="d-flex justify-content-between">
+            <button className="btn btn-success me-2" onClick={exportToExcel}>
               Export to Excel{" "}
               <span>
                 <LuFileSpreadsheet />
               </span>
             </button>
             <button
-              type='button'
-              className='btn btn-primary'
-              data-bs-toggle='modal'
-              data-bs-target='#exampleModal'
+              type="button"
+              className="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
             >
               Register a Guest{" "}
               <span>
@@ -146,209 +186,285 @@ const Initial = () => {
           </div>
         </div>
         {loading ? (
-          <div className='d-flex justify-content-center'>
-            <div className='spinner-border text-light' role='status'>
-              <span className='visually-hidden'>Loading...</span>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border text-light" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         ) : (
-          <div className='table-responsive'>
-            <table className='table table-hover table-striped table-dark'>
-              <thead>
-                <tr className='text-center'>
-                  <th scope='col'>#</th>
-                  <th scope='col'>name</th>
-                  {/* <th scope="col">Designation</th>
-                  <th scope="col">Company Name</th> */}
-                  <th scope='col'>Email</th>
-                  <th scope='col'>School</th>
-                  {/* <th scope="col">Number</th>
-                  <th scope="col">ePLDT Representative</th>
-                  <th scope="col">With ICT Provider</th>
-                  <th>Status</th> */}
-                  <th>Attended</th>
-                  <th scope='col' colSpan={2} className='sticky-col'>
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentGuests.map((guest, index) => (
-                  <tr className='text-center align-middle' key={guest.id}>
-                    <td>{indexOfFirstGuest + index + 1}</td>
-                    <td>{guest.name}</td>
-                    {/* <td>{guest.designation}</td>
-                    <td>{guest.company_name}</td> */}
-                    <td>{guest.email}</td>
-                    <td>{guest.school}</td>
-                    {/* <td>{guest.number}</td>
-                    <td>{guest.ePLDT_contact}</td>
-                    <td>{guest.isWithICTProvider}</td>
-                    <td>{guest.reg_type}</td> */}
-                    <td>{guest.attended ? "Yes" : "No"}</td>
-                    <td className='sticky-col'>
-                      <div className='btn-group'>
-                        <button
-                          className='btn btn-success text-nowrap btn-sm'
-                          data-bs-toggle='modal'
-                          data-bs-target='#editModal'
-                          onClick={() => setEditingGuest(guest)}
-                        >
-                          Edit{" "}
-                          <span>
-                            <FiEdit />
-                          </span>
-                        </button>
-                        <button
-                          className='btn btn-danger text-nowrap btn-sm'
-                          onClick={() => deleteGuest(guest.id)}
-                        >
-                          Delete{" "}
-                          <span>
-                            <IoMdRemoveCircleOutline />
-                          </span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <nav aria-label='Guest pagination'>
-              <ul className='pagination justify-content-center mt-1'>
-                <li
-                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+          <>
+            <ul className="nav nav-tabs">
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${
+                    activeTab === "all"
+                      ? "active bg-primary text-white fw-bold"
+                      : "text-white"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setActiveTab("all")}
                 >
-                  <a
-                    href='#'
-                    className='page-link'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage > 1) handlePageChange(currentPage - 1);
-                    }}
-                  >
-                    Previous
-                  </a>
-                </li>
-                {[...Array(totalPages).keys()].map((page) => (
+                  All Guests
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${
+                    activeTab === "Pre Registered"
+                      ? "active bg-success text-white fw-bold"
+                      : "text-white"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setActiveTab("Pre Registered")}
+                >
+                  Pre-Registered
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${
+                    activeTab === "Walk-in"
+                      ? "active bg-success text-white fw-bold"
+                      : "text-white"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setActiveTab("Walk-in")}
+                >
+                  Walk-In
+                </a>
+              </li>
+            </ul>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="guestSearch"
+                placeholder="Search Guest details here..."
+                data-bs-theme="dark"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="table-responsive">
+              <table className="table table-hover table-striped table-dark">
+                <thead>
+                  <tr className="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Guest Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">School</th>
+                    {/* <th scope="col">Table Assignment</th> */}
+                    <div class="dropdown">
+                      <button
+                        class="dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        style={{
+                          backgroundColor: "transparent",
+                          height: "55px",
+                          border: "none",
+                        }}
+                      >
+                        <th className="mx-1" scope="col">
+                          Has Attended
+                        </th>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-dark">
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => setAttendanceState(true)}
+                          >
+                            Yes
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => setAttendanceState(false)}
+                          >
+                            No
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            onClick={() => setAttendanceState("all")}
+                          >
+                            All
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <th scope="col" colSpan={2} className="sticky-col">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentGuests.map((guest, index) => (
+                    <tr className="text-center align-middle" key={guest.id}>
+                      <td>{indexOfFirstGuest + index + 1}</td>
+                      <td>{guest.name}</td>
+                      <td>{guest.email}</td>
+                      <td>{guest.school}</td>
+                      <td
+                        style={{
+                          color: guest.attended ? "#1d8655" : "#db3648",
+                        }}
+                      >
+                        {guest.attended ? "Yes" : "No"}
+                      </td>
+                      <td className="sticky-col">
+                        <div className="btn-group">
+                          <button
+                            className="btn btn-success text-nowrap btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editModal"
+                            onClick={() => setEditingGuest(guest)}
+                          >
+                            Edit{" "}
+                            <span>
+                              <FiEdit />
+                            </span>
+                          </button>
+                          <button
+                            className="btn btn-danger text-nowrap btn-sm"
+                            onClick={() => deleteGuest(guest.id)}
+                          >
+                            Delete{" "}
+                            <span>
+                              <IoMdRemoveCircleOutline />
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <nav
+                aria-label="Guest pagination"
+                style={{ position: "relative", zIndex: 1 }}
+              >
+                <ul className="pagination justify-content-center mt-1">
                   <li
-                    key={page + 1}
                     className={`page-item ${
-                      currentPage === page + 1 ? "active" : ""
+                      currentPage === 1 ? "disabled" : ""
                     }`}
                   >
                     <a
-                      href='#'
-                      className='page-link'
+                      href="#"
+                      className="page-link"
                       onClick={(e) => {
                         e.preventDefault();
-                        handlePageChange(page + 1);
+                        if (currentPage > 1) handlePageChange(currentPage - 1);
                       }}
                     >
-                      {page + 1}
+                      Previous
                     </a>
                   </li>
-                ))}
-                <li
-                  className={`page-item ${
-                    currentPage === totalPages ? "disabled" : ""
-                  }`}
-                >
-                  <a
-                    href='#'
-                    className='page-link'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage < totalPages)
-                        handlePageChange(currentPage + 1);
-                    }}
+                  {[...Array(totalPages).keys()].map((page) => (
+                    <li
+                      key={page + 1}
+                      className={`page-item ${
+                        currentPage === page + 1 ? "active" : ""
+                      }`}
+                    >
+                      <a
+                        href="#"
+                        className="page-link"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(page + 1);
+                        }}
+                      >
+                        {page + 1}
+                      </a>
+                    </li>
+                  ))}
+                  <li
+                    className={`page-item ${
+                      currentPage === totalPages ? "disabled" : ""
+                    }`}
                   >
-                    Next
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+                    <a
+                      href="#"
+                      className="page-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages)
+                          handlePageChange(currentPage + 1);
+                      }}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </>
         )}
 
         <div
-          className='modal fade'
-          id='exampleModal'
-          tabIndex='-1'
-          aria-labelledby='exampleModalLabel'
-          aria-hidden='true'
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
         >
-          <div className='modal-dialog modal-dialog-centered'>
-            <div className='modal-content'>
-              <div className='modal-header'>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
                 <h1
-                  className='modal-title fs-5'
-                  id='exampleModalLabel'
+                  className="modal-title fs-5"
+                  id="exampleModalLabel"
                   style={{ fontWeight: 700 }}
                 >
                   Register Guest
                 </h1>
                 <button
-                  type='button'
-                  className='btn-close'
-                  data-bs-dismiss='modal'
-                  aria-label='Close'
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
                   style={{ color: "white" }}
                 ></button>
               </div>
-              <div className='modal-body'>
+              <div className="modal-body">
                 <Form />
-              </div>
-              <div className='modal-footer'>
-                <button
-                  type='button'
-                  className='btn btn-danger'
-                  data-bs-dismiss='modal'
-                >
-                  Close
-                </button>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          className='modal fade'
-          id='editModal'
-          tabIndex='-1'
-          aria-labelledby='editModalLabel'
-          aria-hidden='true'
+          className="modal fade"
+          id="editModal"
+          tabIndex="-1"
+          aria-labelledby="editModalLabel"
+          aria-hidden="true"
         >
-          <div className='modal-dialog modal-dialog-centered'>
-            <div className='modal-content'>
-              <div className='modal-header'>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
                 <h1
-                  className='modal-title fs-5'
-                  id='editModalLabel'
+                  className="modal-title fs-5"
+                  id="editModalLabel"
                   style={{ fontWeight: 700 }}
                 >
                   Edit Guest
                 </h1>
                 <button
-                  type='button'
-                  className='btn-close'
-                  data-bs-dismiss='modal'
-                  aria-label='Close'
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
                   onClick={() => setEditingGuest(null)}
                 ></button>
               </div>
-              <div className='modal-body'>
+              <div className="modal-body">
                 <Form guest={editingGuest} />
-              </div>
-              <div className='modal-footer'>
-                <button
-                  type='button'
-                  className='btn btn-danger'
-                  data-bs-dismiss='modal'
-                  onClick={() => setEditingGuest(null)}
-                >
-                  Cancel
-                </button>
               </div>
             </div>
           </div>
