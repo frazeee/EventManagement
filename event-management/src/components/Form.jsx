@@ -65,27 +65,29 @@ const Form = ({ guest: initialGuest }) => {
     try {
       if (initialGuest) {
         await supabase
-          .from("guests")
+          .from("guests_ct")
           .update({
             name: guest.name,
-            guest: guest.guest,
-            company_name: guest.company_name,
-            registration_type: guest.registration_type,
+            // guest: guest.guest,
+            // company_name: guest.company_name,
+            // registration_type: guest.registration_type,
             email: guest.email,
-            number: guest.number,
-            designation: guest.designation,
+            school: guest.school,
+            // number: guest.number,
+            // designation: guest.designation,
             attended: TRUE,
           })
           .eq("id", guest.id);
       } else {
-        await supabase.from("guests").insert({
+        await supabase.from("guests_ct").insert({
           name: guest.name,
-          guest: guest.guest,
-          company_name: guest.company_name,
-          registration_type: guest.registration_type,
+          // guest: guest.guest,
+          // company_name: guest.company_name,
+          // registration_type: guest.registration_type,
           email: guest.email,
-          number: guest.number,
-          designation: guest.designation,
+          school: guest.school,
+          // number: guest.number,
+          // designation: guest.designation,
         });
       }
 
@@ -110,23 +112,23 @@ const Form = ({ guest: initialGuest }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">
+      <div className='mb-3'>
+        <label htmlFor='name' className='form-label'>
           Full Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type="text"
-          className="form-control"
-          id="name"
-          name="name"
-          placeholder="Enter Full Name"
-          aria-describedby="name"
+          type='text'
+          className='form-control'
+          id='name'
+          name='name'
+          placeholder='Enter Full Name'
+          aria-describedby='name'
           onChange={handleChange}
           value={guest.name}
           required
         />
       </div>
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <label htmlFor="guest" className="form-label">
           Guest
         </label>
@@ -156,33 +158,33 @@ const Form = ({ guest: initialGuest }) => {
           value={guest.company_name}
           required
         />
-      </div>
+      </div> */}
 
-      <div className="mb-3">
-        <label htmlFor="registration_type" className="form-label">
+      {/* <div className='mb-3'>
+        <label htmlFor='registration_type' className='form-label'>
           Type <span style={{ color: "red" }}> * </span>
         </label>
-        <div className="dropdown">
+        <div className='dropdown'>
           <button
-            className="btn btn-outline-dark w-100 text-start d-flex justify-content-between"
-            type="button"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            className='btn btn-outline-dark w-100 text-start d-flex justify-content-between'
+            type='button'
+            id='dropdownMenuButton'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'
           >
             <span>{guest.registration_type || "Select Type"}</span>
-            <span className="arrow-placeholder ms-auto">
+            <span className='arrow-placeholder ms-auto'>
               <FaAngleDown />
             </span>
           </button>
           <ul
-            className="dropdown-menu w-100"
-            aria-labelledby="dropdownMenuButton"
+            className='dropdown-menu w-100'
+            aria-labelledby='dropdownMenuButton'
           >
             <li>
               <button
-                className="dropdown-item"
-                type="button"
+                className='dropdown-item'
+                type='button'
                 onClick={() => handleTypeChange("PRE-REGISTERED")}
               >
                 Pre-Register
@@ -190,8 +192,8 @@ const Form = ({ guest: initialGuest }) => {
             </li>
             <li>
               <button
-                className="dropdown-item"
-                type="button"
+                className='dropdown-item'
+                type='button'
                 onClick={() => handleTypeChange("WALK-IN")}
               >
                 Walk-In
@@ -199,70 +201,86 @@ const Form = ({ guest: initialGuest }) => {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
 
-      <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="email" className="form-label">
+      <div className='mb-3' style={{ fontWeight: "600" }}>
+        <label htmlFor='email' className='form-label'>
           Email<span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type="email"
-          className="form-control"
-          id="email"
-          placeholder="Enter Email"
-          name="email"
+          type='email'
+          className='form-control'
+          id='email'
+          placeholder='Enter Email'
+          name='email'
           onChange={handleChange}
           value={guest.email}
           required
         />
       </div>
 
-      <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="number" className="form-label">
+      <div className='mb-3' style={{ fontWeight: "600" }}>
+        <label htmlFor='school' className='form-label'>
+          School<span style={{ color: "red" }}> * </span>
+        </label>
+        <input
+          type='school'
+          className='form-control'
+          id='school'
+          placeholder='Enter school'
+          name='school'
+          onChange={handleChange}
+          value={guest.school}
+          required
+        />
+      </div>
+
+      {/* <div className='mb-3' style={{ fontWeight: "600" }}>
+        <label htmlFor='number' className='form-label'>
           Number<span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type="text"
-          className="form-control"
-          id="number"
-          placeholder="Enter Number"
-          name="number"
+          type='text'
+          className='form-control'
+          id='number'
+          placeholder='Enter Number'
+          name='number'
           onChange={handleChange}
           value={guest.number}
           required
         />
       </div>
 
-      <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="designation" className="form-label">
+      <div className='mb-3' style={{ fontWeight: "600" }}>
+        <label htmlFor='designation' className='form-label'>
           Designation<span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type="text"
-          className="form-control"
-          id="designation"
-          placeholder="Enter Designation"
-          name="designation"
+          type='text'
+          className='form-control'
+          id='designation'
+          placeholder='Enter Designation'
+          name='designation'
           onChange={handleChange}
           value={guest.designation}
           required
         />
-      </div>
-      <div className="mb-3 form-check form-switch">
+      </div> */}
+      <div className='mb-3 form-check form-switch'>
         <input
-          className="form-check-input"
-          type="checkbox"
-          id="attended"
-          name="attended"
+          className='form-check-input'
+          type='checkbox'
+          id='attended'
+          name='attended'
           checked={guest.attended}
           onChange={handleChange}
         />
-        <label className="form-check-label" htmlFor="attended">
+        <label className='form-check-label' htmlFor='attended'>
           Attended
         </label>
       </div>
 
-      <button type="submit" className="btn btn-primary">
+      <button type='submit' className='btn btn-primary'>
         Submit
       </button>
     </form>

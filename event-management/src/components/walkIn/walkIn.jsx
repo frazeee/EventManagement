@@ -6,12 +6,13 @@ import walkInImage from "../../assets/walk-in.png";
 const WalkIn = () => {
   const [guest, setGuest] = useState({
     name: "",
-    designation: "",
-    company_name: "",
+    // designation: "",
+    // company_name: "",
     email: "",
-    number: "",
-    pldtContact: "",
-    isWithICTProvider: "Yes, With ePLDT",
+    school: "",
+    // number: "",
+    // pldtContact: "",
+    // isWithICTProvider: "Yes, With ePLDT",
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -27,30 +28,32 @@ const WalkIn = () => {
   const createGuest = async (e) => {
     e.preventDefault();
 
-    const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
+    // const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
 
-    if (!phoneRegex.test(guest.number)) {
-      Swal.fire({
-        title: "Error",
-        text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return;
-    }
+    // if (!phoneRegex.test(guest.number)) {
+    //   Swal.fire({
+    //     title: "Error",
+    //     text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
+    //     icon: "error",
+    //     confirmButtonText: "OK",
+    //   });
+    //   return;
+    // }
 
     try {
       const { data, error } = await supabase
-        .from("guests")
+        .from("guests_ct")
         .insert({
           name: guest.name,
-          designation: guest.designation,
-          company_name: guest.company_name,
+          // designation: guest.designation,
+          // company_name: guest.company_name,
           email: guest.email,
-          number: guest.number,
-          ePLDT_contact: guest.pldtContact,
-          isWithICTProvider: guest.isWithICTProvider,
+          school: guest.school,
+          // number: guest.number,
+          // ePLDT_contact: guest.pldtContact,
+          // isWithICTProvider: guest.isWithICTProvider,
           reg_type: "Walk-in",
+          attended: true,
         })
         .select();
       if (error) throw error;
@@ -78,7 +81,7 @@ const WalkIn = () => {
   return (
     <div>
       <div
-        className="card text-bg-dark mx-auto mb-4"
+        className='card text-bg-dark mx-auto mb-4'
         style={{
           width: "100%",
           cursor: "pointer",
@@ -87,19 +90,19 @@ const WalkIn = () => {
       >
         <img
           src={walkInImage}
-          className="card-img-top"
-          alt="Walk-in icon"
+          className='card-img-top'
+          alt='Walk-in icon'
           style={{
             width: "100%",
             margin: "0 auto",
           }}
         />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
+        <div className='card-body'>
+          <h5 className='card-title text-center' style={{ fontWeight: 700 }}>
             Walk-In
           </h5>
-          <hr className="mx-auto" style={{ maxWidth: "16rem" }} />
-          <p className="card-text text-center mb-4">
+          <hr className='mx-auto' style={{ maxWidth: "16rem" }} />
+          <p className='card-text text-center mb-4'>
             Click here to add a new{" "}
             <span style={{ fontWeight: 700 }}>Walk-In</span> <br />
             participant for the event!
@@ -109,52 +112,52 @@ const WalkIn = () => {
 
       {showModal && (
         <div
-          className="modal fade show"
+          className='modal fade show'
           style={{ display: "block" }}
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          aria-labelledby="walkInModalLabel"
-          aria-hidden="true"
+          data-bs-backdrop='static'
+          data-bs-keyboard='false'
+          aria-labelledby='walkInModalLabel'
+          aria-hidden='true'
         >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
+          <div className='modal-dialog modal-dialog-centered'>
+            <div className='modal-content'>
+              <div className='modal-header'>
                 <h1
-                  className="modal-title fs-5"
-                  id="walkInModalLabel"
+                  className='modal-title fs-5'
+                  id='walkInModalLabel'
                   style={{ fontWeight: 700, fontSize: "1.25rem" }}
                 >
                   Register Walk-In Guest
                 </h1>
                 <button
-                  type="button"
-                  className="btn-close"
+                  type='button'
+                  className='btn-close'
                   onClick={() => setShowModal(false)}
-                  aria-label="Close"
+                  aria-label='Close'
                 ></button>
               </div>
               <form onSubmit={createGuest}>
-                <div className="modal-body">
-                  <div className="mb-3">
+                <div className='modal-body'>
+                  <div className='mb-3'>
                     <label
-                      htmlFor="name"
-                      className="form-label"
+                      htmlFor='name'
+                      className='form-label'
                       style={{ fontWeight: "600" }}
                     >
                       Full Name: <span style={{ color: "red" }}> * </span>
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      placeholder="Enter Full Name"
-                      name="name"
+                      type='text'
+                      className='form-control'
+                      id='name'
+                      placeholder='Enter Full Name'
+                      name='name'
                       onChange={handleChange}
                       value={guest.name}
                       required
                     />
                   </div>
-                  <div className="mb-3">
+                  {/* <div className="mb-3">
                     <label
                       htmlFor="guest"
                       className="form-label"
@@ -187,23 +190,42 @@ const WalkIn = () => {
                       value={guest.company_name}
                       required
                     />
-                  </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="email" className="form-label">
+                  </div> */}
+                  <div className='mb-3' style={{ fontWeight: "600" }}>
+                    <label htmlFor='email' className='form-label'>
                       Email: <span style={{ color: "red" }}> * </span>
                     </label>
                     <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      placeholder="Enter Email"
-                      name="email"
+                      type='email'
+                      className='form-control'
+                      id='email'
+                      placeholder='Enter Email'
+                      name='email'
                       onChange={handleChange}
                       value={guest.email}
                       required
                     />
                   </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
+                  <div className='mb-3'>
+                    <label
+                      htmlFor='school'
+                      className='form-label'
+                      style={{ fontWeight: "600" }}
+                    >
+                      School: <span style={{ color: "red" }}> * </span>
+                    </label>
+                    <input
+                      type='text'
+                      className='form-control'
+                      id='school'
+                      placeholder='Enter Educational Institution/Name of school'
+                      name='school'
+                      onChange={handleChange}
+                      value={guest.school}
+                      required
+                    />
+                  </div>
+                  {/* <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="number" className="form-label">
                       Number: <span style={{ color: "red" }}> * </span>
                     </label>
@@ -249,17 +271,17 @@ const WalkIn = () => {
                       </option>
                       <option value={"No"}>No</option>
                     </select>
-                  </div>
+                  </div> */}
                 </div>
 
-                <div className="modal-footer">
-                  <button type="submit" className="btn btn-primary">
+                <div className='modal-footer'>
+                  <button type='submit' className='btn btn-primary'>
                     Submit
                   </button>
                   <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    data-bs-dismiss="modal"
+                    type='button'
+                    className='btn btn-outline-danger'
+                    data-bs-dismiss='modal'
                     onClick={() => setShowModal(false)}
                   >
                     Close

@@ -26,7 +26,7 @@ const Initial = () => {
   async function fetchGuests() {
     setLoading(true);
     const { data } = await supabase
-      .from("guests")
+      .from("guests_ct")
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
@@ -74,7 +74,7 @@ const Initial = () => {
     });
 
     if (result.isConfirmed) {
-      const { error } = await supabase.from("guests").delete().eq("id", id);
+      const { error } = await supabase.from("guests_ct").delete().eq("id", id);
 
       if (error) {
         console.log("error", error);
@@ -105,38 +105,38 @@ const Initial = () => {
   return (
     <>
       <video src={background} autoPlay muted loop></video>
-      <div className="container container-md">
-        <div className="position-absolute top-0 end-0">
+      <div className='container container-md'>
+        <div className='position-absolute top-0 end-0'>
           <button
-            className="btn btn-outline-danger mt-3 me-3"
+            className='btn btn-outline-danger mt-3 me-3'
             onClick={() => handleLogout()}
           >
             Logout
           </button>
         </div>
-        <h1 className="text-center py-4 titleText">Guest List</h1>
+        <h1 className='text-center py-4 titleText'>Guest List</h1>
         <hr
-          className="border border opacity-50 mx-auto"
+          className='border border opacity-50 mx-auto'
           style={{ width: "100%" }}
         />
-        <div className="d-flex justify-content-between mb-3">
-          <text className="text-white opacity-75 guestText">
+        <div className='d-flex justify-content-between mb-3'>
+          <text className='text-white opacity-75 guestText'>
             Listed below are the current guests that have{" "}
             <span style={{ fontWeight: 700 }}>Pre-Registered</span> or are{" "}
             <span style={{ fontWeight: 700 }}>Walk-Ins!</span>
           </text>
-          <div className="d-flex justify-content-between">
-            <button className="btn btn-success me-2" onClick={exportToExcel}>
+          <div className='d-flex justify-content-between'>
+            <button className='btn btn-success me-2' onClick={exportToExcel}>
               Export to Excel{" "}
               <span>
                 <LuFileSpreadsheet />
               </span>
             </button>
             <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              type='button'
+              className='btn btn-primary'
+              data-bs-toggle='modal'
+              data-bs-target='#exampleModal'
             >
               Register a Guest{" "}
               <span>
@@ -146,50 +146,52 @@ const Initial = () => {
           </div>
         </div>
         {loading ? (
-          <div className="d-flex justify-content-center">
-            <div className="spinner-border text-light" role="status">
-              <span className="visually-hidden">Loading...</span>
+          <div className='d-flex justify-content-center'>
+            <div className='spinner-border text-light' role='status'>
+              <span className='visually-hidden'>Loading...</span>
             </div>
           </div>
         ) : (
-          <div className="table-responsive">
-            <table className="table table-hover table-striped table-dark">
+          <div className='table-responsive'>
+            <table className='table table-hover table-striped table-dark'>
               <thead>
-                <tr className="text-center">
-                  <th scope="col">#</th>
-                  <th scope="col">Guest Name</th>
-                  <th scope="col">Designation</th>
-                  <th scope="col">Company Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Number</th>
+                <tr className='text-center'>
+                  <th scope='col'>#</th>
+                  <th scope='col'>name</th>
+                  {/* <th scope="col">Designation</th>
+                  <th scope="col">Company Name</th> */}
+                  <th scope='col'>Email</th>
+                  <th scope='col'>School</th>
+                  {/* <th scope="col">Number</th>
                   <th scope="col">ePLDT Representative</th>
                   <th scope="col">With ICT Provider</th>
                   <th>Status</th>
-                  <th>Attended</th>
-                  <th scope="col" colSpan={2} className="sticky-col">
+                  <th>Attended</th> */}
+                  <th scope='col' colSpan={2} className='sticky-col'>
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {currentGuests.map((guest, index) => (
-                  <tr className="text-center align-middle" key={guest.id}>
+                  <tr className='text-center align-middle' key={guest.id}>
                     <td>{indexOfFirstGuest + index + 1}</td>
                     <td>{guest.name}</td>
-                    <td>{guest.designation}</td>
-                    <td>{guest.company_name}</td>
+                    {/* <td>{guest.designation}</td>
+                    <td>{guest.company_name}</td> */}
                     <td>{guest.email}</td>
-                    <td>{guest.number}</td>
+                    <td>{guest.school}</td>
+                    {/* <td>{guest.number}</td>
                     <td>{guest.ePLDT_contact}</td>
                     <td>{guest.isWithICTProvider}</td>
-                    <td>{guest.reg_type}</td>
+                    <td>{guest.reg_type}</td> */}
                     <td>{guest.attended ? "Has attended" : "Not yet"}</td>
-                    <td className="sticky-col">
-                      <div className="btn-group">
+                    <td className='sticky-col'>
+                      <div className='btn-group'>
                         <button
-                          className="btn btn-success text-nowrap btn-sm"
-                          data-bs-toggle="modal"
-                          data-bs-target="#editModal"
+                          className='btn btn-success text-nowrap btn-sm'
+                          data-bs-toggle='modal'
+                          data-bs-target='#editModal'
                           onClick={() => setEditingGuest(guest)}
                         >
                           Edit{" "}
@@ -198,7 +200,7 @@ const Initial = () => {
                           </span>
                         </button>
                         <button
-                          className="btn btn-danger text-nowrap btn-sm"
+                          className='btn btn-danger text-nowrap btn-sm'
                           onClick={() => deleteGuest(guest.id)}
                         >
                           Delete{" "}
@@ -212,14 +214,14 @@ const Initial = () => {
                 ))}
               </tbody>
             </table>
-            <nav aria-label="Guest pagination">
-              <ul className="pagination justify-content-center mt-1">
+            <nav aria-label='Guest pagination'>
+              <ul className='pagination justify-content-center mt-1'>
                 <li
                   className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
                 >
                   <a
-                    href="#"
-                    className="page-link"
+                    href='#'
+                    className='page-link'
                     onClick={(e) => {
                       e.preventDefault();
                       if (currentPage > 1) handlePageChange(currentPage - 1);
@@ -236,8 +238,8 @@ const Initial = () => {
                     }`}
                   >
                     <a
-                      href="#"
-                      className="page-link"
+                      href='#'
+                      className='page-link'
                       onClick={(e) => {
                         e.preventDefault();
                         handlePageChange(page + 1);
@@ -253,8 +255,8 @@ const Initial = () => {
                   }`}
                 >
                   <a
-                    href="#"
-                    className="page-link"
+                    href='#'
+                    className='page-link'
                     onClick={(e) => {
                       e.preventDefault();
                       if (currentPage < totalPages)
@@ -269,39 +271,39 @@ const Initial = () => {
           </div>
         )}
 
-<div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
+        <div
+          className='modal fade'
+          id='exampleModal'
+          tabIndex='-1'
+          aria-labelledby='exampleModalLabel'
+          aria-hidden='true'
         >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
+          <div className='modal-dialog modal-dialog-centered'>
+            <div className='modal-content'>
+              <div className='modal-header'>
                 <h1
-                  className="modal-title fs-5"
-                  id="exampleModalLabel"
+                  className='modal-title fs-5'
+                  id='exampleModalLabel'
                   style={{ fontWeight: 700 }}
                 >
                   Register Guest
                 </h1>
                 <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
+                  type='button'
+                  className='btn-close'
+                  data-bs-dismiss='modal'
+                  aria-label='Close'
                   style={{ color: "white" }}
                 ></button>
               </div>
-              <div className="modal-body">
+              <div className='modal-body'>
                 <Form />
               </div>
-              <div className="modal-footer">
+              <div className='modal-footer'>
                 <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
+                  type='button'
+                  className='btn btn-danger'
+                  data-bs-dismiss='modal'
                 >
                   Close
                 </button>
@@ -311,38 +313,38 @@ const Initial = () => {
         </div>
 
         <div
-          className="modal fade"
-          id="editModal"
-          tabIndex="-1"
-          aria-labelledby="editModalLabel"
-          aria-hidden="true"
+          className='modal fade'
+          id='editModal'
+          tabIndex='-1'
+          aria-labelledby='editModalLabel'
+          aria-hidden='true'
         >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
+          <div className='modal-dialog modal-dialog-centered'>
+            <div className='modal-content'>
+              <div className='modal-header'>
                 <h1
-                  className="modal-title fs-5"
-                  id="editModalLabel"
+                  className='modal-title fs-5'
+                  id='editModalLabel'
                   style={{ fontWeight: 700 }}
                 >
                   Edit Guest
                 </h1>
                 <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
+                  type='button'
+                  className='btn-close'
+                  data-bs-dismiss='modal'
+                  aria-label='Close'
                   onClick={() => setEditingGuest(null)}
                 ></button>
               </div>
-              <div className="modal-body">
+              <div className='modal-body'>
                 <Form guest={editingGuest} />
               </div>
-              <div className="modal-footer">
+              <div className='modal-footer'>
                 <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
+                  type='button'
+                  className='btn btn-danger'
+                  data-bs-dismiss='modal'
                   onClick={() => setEditingGuest(null)}
                 >
                   Cancel
@@ -351,7 +353,6 @@ const Initial = () => {
             </div>
           </div>
         </div>
-
       </div>
     </>
   );

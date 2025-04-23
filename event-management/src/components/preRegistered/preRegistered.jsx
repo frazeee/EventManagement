@@ -28,7 +28,7 @@ const PreRegistered = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("guests")
+        .from("guests_ct")
         .select(`*`)
         .eq("reg_type", "Pre Registered");
       setGuestList(data || []);
@@ -70,27 +70,29 @@ const PreRegistered = () => {
 
     const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
 
-    if (!phoneRegex.test(activeGuest.number)) {
-      Swal.fire({
-        title: "Error",
-        text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return;
-    }
+    // if (!phoneRegex.test(activeGuest.number)) {
+    //   Swal.fire({
+    //     title: "Error",
+    //     text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
+    //     icon: "error",
+    //     confirmButtonText: "OK",
+    //   });
+    //   return;
+    // }
 
     try {
       await supabase
-        .from("guests")
+        .from("guests_ct")
         .update({
           name: activeGuest.name,
-          designation: activeGuest.designation,
-          company_name: activeGuest.company_name,
+          // designation: activeGuest.designation,
+          // company_name: activeGuest.company_name,
           email: activeGuest.email,
-          number: activeGuest.number,
-          ePLDT_contact: activeGuest.ePLDT_contact,
-          isWithICTProvider: activeGuest.isWithICTProvider,
+          school: activeGuest.school,
+          // number: activeGuest.number,
+          // ePLDT_contact: activeGuest.ePLDT_contact,
+          // isWithICTProvider: activeGuest.isWithICTProvider,
+          attended: true,
         })
 
         .eq("id", activeGuest.id);
@@ -105,7 +107,7 @@ const PreRegistered = () => {
       });
     } finally {
       setShowModal(false);
-      setActiveGuest({ name: "", guest: "", company_name: "" });
+      setActiveGuest({ name: "", email: "", school: "" });
       Swal.fire({
         title: "Success!",
         text: "Guest registered successfully.",
@@ -118,30 +120,30 @@ const PreRegistered = () => {
   return (
     <div>
       <div
-        className="card text-bg-dark mx-auto mb-4"
+        className='card text-bg-dark mx-auto mb-4'
         style={{
           width: "100%",
           cursor: "pointer",
         }}
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-        data-bs-backdrop="static"
+        data-bs-toggle='modal'
+        data-bs-target='#staticBackdrop'
+        data-bs-backdrop='static'
       >
         <img
           src={preRegisterImage}
-          className="card-img-top img-fluid"
-          alt="Pre-Registered icon"
+          className='card-img-top img-fluid'
+          alt='Pre-Registered icon'
           style={{
             width: "100%",
             margin: "0 auto",
           }}
         />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
+        <div className='card-body'>
+          <h5 className='card-title text-center' style={{ fontWeight: 700 }}>
             Pre-Registered
           </h5>
-          <hr className="mx-auto" style={{ maxWidth: "18rem" }} />
-          <p className="card-text text-center mb-4">
+          <hr className='mx-auto' style={{ maxWidth: "18rem" }} />
+          <p className='card-text text-center mb-4'>
             Click here to see and edit the list of <br />
             <span style={{ fontWeight: 700 }}>Pre-Registered</span>{" "}
             participants!
@@ -150,90 +152,90 @@ const PreRegistered = () => {
       </div>
 
       <div
-        className="modal fade"
-        id="staticBackdrop"
-        data-bs-keyboard="false"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
+        className='modal fade'
+        id='staticBackdrop'
+        data-bs-keyboard='false'
+        aria-labelledby='staticBackdropLabel'
+        aria-hidden='true'
       >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
+        <div className='modal-dialog modal-dialog-centered'>
+          <div className='modal-content'>
+            <div className='modal-header'>
               <h1
-                className="modal-title fs-5"
-                id="staticBackdropLabel"
+                className='modal-title fs-5'
+                id='staticBackdropLabel'
                 style={{ fontWeight: 700, fontSize: "1.25rem" }}
               >
                 Search Pre-Registered Guest
               </h1>
               <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
+                type='button'
+                className='btn-close'
+                data-bs-dismiss='modal'
+                aria-label='Close'
               ></button>
             </div>
-            <div className="modal-body">
-              <div className="mb-3">
-                <label htmlFor="guestSearch" className="form-label fw-semibold">
+            <div className='modal-body'>
+              <div className='mb-3'>
+                <label htmlFor='guestSearch' className='form-label fw-semibold'>
                   Guest's Name:
                 </label>
-                <div className="input-group">
+                <div className='input-group'>
                   <input
-                    type="text"
-                    className="form-control"
+                    type='text'
+                    className='form-control'
                     placeholder="Search for Guest's Name..."
                     value={searchInput}
                     onChange={handleSearchInputChange}
-                    id="guestSearch"
+                    id='guestSearch'
                   />
-                  <span className="input-group-text" id="basic-addon2">
+                  <span className='input-group-text' id='basic-addon2'>
                     <IoMdSearch />
                   </span>
                 </div>
               </div>
               <hr />
-              <div className="list-group w-100">
-                <label htmlFor="" className="form-label fw-semibold">
+              <div className='list-group w-100'>
+                <label htmlFor='' className='form-label fw-semibold'>
                   Guest List:
                 </label>
                 {loading ? (
-                  <div className="d-flex justify-content-center">
-                    <div className="spinner-border" role="status">
-                      <span className="visually-hidden">Loading...</span>
+                  <div className='d-flex justify-content-center'>
+                    <div className='spinner-border' role='status'>
+                      <span className='visually-hidden'>Loading...</span>
                     </div>
                   </div>
                 ) : (
-                  <div className="list-group w-100">
+                  <div className='list-group w-100'>
                     {currentGuests.length > 0 ? (
                       currentGuests.map((guest) => (
                         <button
                           key={guest.id}
-                          type="button"
-                          className="list-group-item list-group-item-action mb-2 fw-semibold d-flex justify-content-between align-items-center"
-                          aria-current="true"
-                          data-bs-toggle="modal"
-                          data-bs-dismiss="modal"
+                          type='button'
+                          className='list-group-item list-group-item-action mb-2 fw-semibold d-flex justify-content-between align-items-center'
+                          aria-current='true'
+                          data-bs-toggle='modal'
+                          data-bs-dismiss='modal'
                           onClick={() => {
                             setActiveGuest(guest);
                             setShowModal(true);
                           }}
                         >
                           {guest.name}
-                          <span className="arrow-placeholder">
+                          <span className='arrow-placeholder'>
                             <FaArrowRight />
                           </span>
                         </button>
                       ))
                     ) : (
-                      <h5 className="mb-1">No Guest Found</h5>
+                      <h5 className='mb-1'>No Guest Found</h5>
                     )}
                   </div>
                 )}
               </div>
-              <div className="d-flex justify-content-between align-items-center mt-3">
+              <div className='d-flex justify-content-between align-items-center mt-3'>
                 <button
-                  className="btn btn-outline-primary"
+                  className='btn btn-outline-primary'
                   onClick={handlePreviousPage}
                   disabled={currentPage === 1}
                 >
@@ -243,7 +245,7 @@ const PreRegistered = () => {
                   Page {currentPage} of {totalPages}
                 </span>
                 <button
-                  className="btn btn-outline-primary"
+                  className='btn btn-outline-primary'
                   onClick={handleNextPage}
                   disabled={currentPage === totalPages}
                 >
@@ -251,11 +253,11 @@ const PreRegistered = () => {
                 </button>
               </div>
             </div>
-            <div className="modal-footer">
+            <div className='modal-footer'>
               <button
-                type="button"
-                className="btn btn-danger"
-                data-bs-dismiss="modal"
+                type='button'
+                className='btn btn-danger'
+                data-bs-dismiss='modal'
               >
                 Close
               </button>
@@ -266,55 +268,55 @@ const PreRegistered = () => {
 
       {showModal && (
         <div
-          className="modal fade show"
-          id="exampleModalToggle3"
+          className='modal fade show'
+          id='exampleModalToggle3'
           style={{ display: "block" }}
-          data-bs-backdrop="static"
+          data-bs-backdrop='static'
         >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
+          <div className='modal-dialog modal-dialog-centered'>
+            <div className='modal-content'>
+              <div className='modal-header'>
                 <h5
-                  className="modal-title fs-5"
+                  className='modal-title fs-5'
                   style={{ fontWeight: 700, fontSize: "1.25rem" }}
                 >
                   Confirm Attendance
                 </h5>
                 <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
+                  type='button'
+                  className='btn-close'
+                  data-bs-dismiss='modal'
+                  aria-label='Close'
                   onClick={() => setShowModal(false)}
                 ></button>
               </div>
-              <div className="modal-body">
+              <div className='modal-body'>
                 <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <label htmlFor="name" className="form-label fw-semibold">
+                  <div className='mb-3'>
+                    <label htmlFor='name' className='form-label fw-semibold'>
                       Name
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="name"
+                      type='text'
+                      className='form-control'
+                      id='name'
                       value={activeGuest?.name || ""}
                       onChange={(e) =>
                         setActiveGuest({ ...activeGuest, name: e.target.value })
                       }
                     />
                   </div>
-                  <div className="mb-3">
+                  {/* <div className='mb-3'>
                     <label
-                      htmlFor="designation"
-                      className="form-label fw-semibold"
+                      htmlFor='designation'
+                      className='form-label fw-semibold'
                     >
                       Designation
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="designation"
+                      type='text'
+                      className='form-control'
+                      id='designation'
                       value={activeGuest?.designation || ""}
                       onChange={(e) =>
                         setActiveGuest({
@@ -324,17 +326,17 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  <div className="mb-3">
+                  <div className='mb-3'>
                     <label
-                      htmlFor="company_name"
-                      className="form-label fw-semibold"
+                      htmlFor='company_name'
+                      className='form-label fw-semibold'
                     >
                       Company Name
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="company_name"
+                      type='text'
+                      className='form-control'
+                      id='company_name'
                       value={activeGuest?.company_name || ""}
                       onChange={(e) =>
                         setActiveGuest({
@@ -343,15 +345,15 @@ const PreRegistered = () => {
                         })
                       }
                     />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label fw-semibold">
+                  </div> */}
+                  <div className='mb-3'>
+                    <label htmlFor='email' className='form-label fw-semibold'>
                       Email
                     </label>
                     <input
-                      type="email"
-                      className="form-control"
-                      id="email"
+                      type='email'
+                      className='form-control'
+                      id='email'
                       value={activeGuest?.email || ""}
                       onChange={(e) =>
                         setActiveGuest({
@@ -361,14 +363,31 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="number" className="form-label fw-semibold">
+                  <div className='mb-3'>
+                    <label htmlFor='school' className='form-label fw-semibold'>
+                      School
+                    </label>
+                    <input
+                      type='school'
+                      className='form-control'
+                      id='school'
+                      value={activeGuest?.school || ""}
+                      onChange={(e) =>
+                        setActiveGuest({
+                          ...activeGuest,
+                          school: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  {/* <div className='mb-3'>
+                    <label htmlFor='number' className='form-label fw-semibold'>
                       Mobile Number
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="number"
+                      type='text'
+                      className='form-control'
+                      id='number'
                       value={activeGuest?.number || ""}
                       onChange={(e) =>
                         setActiveGuest({
@@ -378,13 +397,13 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="guest" className="form-label fw-semibold">
+                  <div className='mb-3'>
+                    <label htmlFor='guest' className='form-label fw-semibold'>
                       e/PLDT Contact
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
+                      type='text'
+                      className='form-control'
                       value={activeGuest?.ePLDT_contact || ""}
                       onChange={(e) =>
                         setActiveGuest({
@@ -394,12 +413,12 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="guest" className="form-label fw-semibold">
+                  <div className='mb-3'>
+                    <label htmlFor='guest' className='form-label fw-semibold'>
                       Working with an ICT Provider
                     </label>
                     <select
-                      className="form-control"
+                      className='form-control'
                       value={activeGuest.isWithICTProvider || ""}
                       onChange={(e) =>
                         setActiveGuest({
@@ -415,16 +434,16 @@ const PreRegistered = () => {
                       <option value={"No"}>No</option>
                     </select>
                      
-                  </div>
+                  </div> */}
 
-                  <div className="modal-footer">
-                    <button type="submit" className="btn btn-primary">
+                  <div className='modal-footer'>
+                    <button type='submit' className='btn btn-primary'>
                       Submit
                     </button>
                     <button
-                      type="button"
-                      className="btn btn-outline-danger"
-                      data-bs-dismiss="modal"
+                      type='button'
+                      className='btn btn-outline-danger'
+                      data-bs-dismiss='modal'
                       onClick={() => setShowModal(false)}
                     >
                       Close
