@@ -123,7 +123,7 @@ const Initial = () => {
     if (
       searchTerm !== "" &&
       !guest.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !guest.company_name.toLowerCase().includes(searchTerm.toLowerCase())
+      !guest.school.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
       return false;
     }
