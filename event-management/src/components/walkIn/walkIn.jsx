@@ -6,13 +6,9 @@ import walkInImage from "../../assets/walk-in.png";
 const WalkIn = () => {
   const [guest, setGuest] = useState({
     name: "",
-    // designation: "",
-    // company_name: "",
-    email: "",
-    school: "",
-    // number: "",
-    // pldtContact: "",
-    // isWithICTProvider: "Yes, With ePLDT",
+    designation: "",
+    company_name: "",
+    table_number: "",
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -42,16 +38,12 @@ const WalkIn = () => {
 
     try {
       const { data, error } = await supabase
-        .from("guests_ct")
+        .from("guests_mariwasa")
         .insert({
           name: guest.name,
-          // designation: guest.designation,
-          // company_name: guest.company_name,
-          email: guest.email,
-          school: guest.school,
-          // number: guest.number,
-          // ePLDT_contact: guest.pldtContact,
-          // isWithICTProvider: guest.isWithICTProvider,
+          designation: guest.designation,
+          company_name: guest.company_name,
+          table_number: guest.table_number,
           reg_type: "Walk-in",
           attended: true,
         })
@@ -81,7 +73,7 @@ const WalkIn = () => {
   return (
     <div>
       <div
-        className='card text-bg-dark mx-auto mb-4'
+        className="card text-bg-dark mx-auto mb-4"
         style={{
           width: "100%",
           cursor: "pointer",
@@ -90,19 +82,19 @@ const WalkIn = () => {
       >
         <img
           src={walkInImage}
-          className='card-img-top'
-          alt='Walk-in icon'
+          className="card-img-top"
+          alt="Walk-in icon"
           style={{
             width: "100%",
             margin: "0 auto",
           }}
         />
-        <div className='card-body'>
-          <h5 className='card-title text-center' style={{ fontWeight: 700 }}>
+        <div className="card-body">
+          <h5 className="card-title text-center" style={{ fontWeight: 700 }}>
             Walk-In
           </h5>
-          <hr className='mx-auto' style={{ maxWidth: "16rem" }} />
-          <p className='card-text text-center mb-4'>
+          <hr className="mx-auto" style={{ maxWidth: "16rem" }} />
+          <p className="card-text text-center mb-4">
             Click here to add a new{" "}
             <span style={{ fontWeight: 700 }}>Walk-In</span> <br />
             participant for the event!
@@ -112,58 +104,58 @@ const WalkIn = () => {
 
       {showModal && (
         <div
-          className='modal fade show'
+          className="modal fade show"
           style={{ display: "block" }}
-          data-bs-backdrop='static'
-          data-bs-keyboard='false'
-          aria-labelledby='walkInModalLabel'
-          aria-hidden='true'
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          aria-labelledby="walkInModalLabel"
+          aria-hidden="true"
         >
-          <div className='modal-dialog modal-dialog-centered'>
-            <div className='modal-content'>
-              <div className='modal-header'>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
                 <h1
-                  className='modal-title fs-5'
-                  id='walkInModalLabel'
+                  className="modal-title fs-5"
+                  id="walkInModalLabel"
                   style={{ fontWeight: 700, fontSize: "1.25rem" }}
                 >
                   Register Walk-In Guest
                 </h1>
                 <button
-                  type='button'
-                  className='btn-close'
+                  type="button"
+                  className="btn-close"
                   onClick={() => setShowModal(false)}
-                  aria-label='Close'
+                  aria-label="Close"
                 ></button>
               </div>
               <form onSubmit={createGuest}>
-                <div className='modal-body'>
-                  <div className='mb-3'>
+                <div className="modal-body">
+                  <div className="mb-3">
                     <label
-                      htmlFor='name'
-                      className='form-label'
+                      htmlFor="name"
+                      className="form-label"
                       style={{ fontWeight: "600" }}
                     >
                       Full Name: <span style={{ color: "red" }}> * </span>
                     </label>
                     <input
-                      type='text'
-                      className='form-control'
-                      id='name'
-                      placeholder='Enter Full Name'
-                      name='name'
+                      type="text"
+                      className="form-control"
+                      id="name"
+                      placeholder="Enter Full Name"
+                      name="name"
                       onChange={handleChange}
                       value={guest.name}
                       required
                     />
                   </div>
-                  {/* <div className="mb-3">
+                  <div className="mb-3">
                     <label
                       htmlFor="guest"
                       className="form-label"
                       style={{ fontWeight: "600" }}
                     >
-                      Designation
+                      Designation <span style={{ color: "red" }}> * </span>
                     </label>
                     <input
                       type="text"
@@ -190,8 +182,23 @@ const WalkIn = () => {
                       value={guest.company_name}
                       required
                     />
-                  </div> */}
-                  <div className='mb-3' style={{ fontWeight: "600" }}>
+                  </div>
+                  <div className="mb-3" style={{ fontWeight: "600" }}>
+                    <label htmlFor="number" className="form-label">
+                      Table Number: 
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="table_number"
+                      min="1"
+                      placeholder="Enter Table Number"
+                      name="table_number"
+                      onChange={handleChange}
+                      value={guest.table_number}
+                    />
+                  </div>
+                  {/* <div className='mb-3' style={{ fontWeight: "600" }}>
                     <label htmlFor='email' className='form-label'>
                       Email: <span style={{ color: "red" }}> * </span>
                     </label>
@@ -224,22 +231,8 @@ const WalkIn = () => {
                       value={guest.school}
                       required
                     />
-                  </div>
-                  {/* <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="number" className="form-label">
-                      Number: <span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="number"
-                      placeholder="Enter Number"
-                      name="number"
-                      onChange={handleChange}
-                      value={guest.number}
-                      required
-                    />
-                  </div>
+                  </div> */}
+                  {/* 
                   <div className="mb-3" style={{ fontWeight: "600" }}>
                     <label htmlFor="number" className="form-label">
                       e/PLDT Contact<span style={{ color: "red" }}> * </span>
@@ -274,14 +267,14 @@ const WalkIn = () => {
                   </div> */}
                 </div>
 
-                <div className='modal-footer'>
-                  <button type='submit' className='btn btn-primary'>
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-primary">
                     Submit
                   </button>
                   <button
-                    type='button'
-                    className='btn btn-outline-danger'
-                    data-bs-dismiss='modal'
+                    type="button"
+                    className="btn btn-outline-danger"
+                    data-bs-dismiss="modal"
                     onClick={() => setShowModal(false)}
                   >
                     Close

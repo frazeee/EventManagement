@@ -6,12 +6,10 @@ import { FaAngleDown } from "react-icons/fa6";
 const Form = ({ guest: initialGuest }) => {
   const [guest, setGuest] = useState({
     name: "",
-    guest: "",
     company_name: "",
     registration_type: "",
-    email: "",
-    number: "",
     designation: "",
+    table_number: "",
     attended: false,
   });
 
@@ -60,20 +58,20 @@ const Form = ({ guest: initialGuest }) => {
     try {
       if (initialGuest) {
         await supabase
-          .from("guests_ct")
+          .from("guests_mariwasa")
           .update({
-            name: guest.name,
-            email: guest.email,
-            school: guest.school,
-            reg_type: guest.reg_type,
-            attended: guest.attended,
+          name: guest.name,
+          company_name: guest.company_name,
+          designation: guest.designation,
+          reg_type: guest.reg_type,
+          attended: guest.attended,
           })
           .eq("id", guest.id);
       } else {
-        await supabase.from("guests_ct").insert({
+        await supabase.from("guests_mariwasa").insert({
           name: guest.name,
-          email: guest.email,
-          school: guest.school,
+          company_name: guest.company_name,
+          designation: guest.designation,
           reg_type: guest.reg_type,
           attended: guest.attended,
         });
@@ -118,33 +116,33 @@ const Form = ({ guest: initialGuest }) => {
       </div>
 
       <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="email" className="form-label">
-          Email<span style={{ color: "red" }}> * </span>
+        <label htmlFor="company_name" className="form-label">
+          Company Name <span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type="email"
+          type="text"
           className="form-control"
-          id="email"
-          placeholder="Enter Email"
-          name="email"
+          id="company_name"
+          placeholder="Enter Company Name"
+          name="company_name"
           onChange={handleChange}
-          value={guest.email}
+          value={guest.company_name}
           required
         />
       </div>
 
-      <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="school" className="form-label">
-          School<span style={{ color: "red" }}> * </span>
+      <div className='mb-3' style={{ fontWeight: "600" }}>
+        <label htmlFor='designation' className='form-label'>
+          Designation<span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type="school"
-          className="form-control"
-          id="school"
-          placeholder="Enter school"
-          name="school"
+          type='text'
+          className='form-control'
+          id='designation'
+          placeholder='Enter Designation'
+          name='designation'
           onChange={handleChange}
-          value={guest.school}
+          value={guest.designation}
           required
         />
       </div>
@@ -165,7 +163,7 @@ const Form = ({ guest: initialGuest }) => {
           <option value="" disabled>
             Select Type
           </option>
-          <option value="Pre Registered">Pre Register</option>
+          <option value="Pre-Registered">Pre Register</option>
           <option value="Walk-in">Walk-In</option>
         </select>
       </div>
@@ -186,21 +184,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
 
-      <div className='mb-3' style={{ fontWeight: "600" }}>
-        <label htmlFor='designation' className='form-label'>
-          Designation<span style={{ color: "red" }}> * </span>
-        </label>
-        <input
-          type='text'
-          className='form-control'
-          id='designation'
-          placeholder='Enter Designation'
-          name='designation'
-          onChange={handleChange}
-          value={guest.designation}
-          required
-        />
-      </div> */}
+ */}
       <div className="mb-3 form-check form-switch">
         <label className="form-check-label" htmlFor="attended">
           Has Attended?

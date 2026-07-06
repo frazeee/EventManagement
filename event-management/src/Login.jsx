@@ -54,7 +54,7 @@ function Login({ onLogin }) {
                   {/* Image Section */}
                   <div className="image-container">
                     <p className="fw-bolder">Current Event:</p>
-                    <img src={poster} className="img-fluid" alt="Poster" />
+                    {/* <img src={poster} className="img-fluid" alt="Poster" /> */}
                   </div>
                   <br />
                   <label htmlFor="username" className="form-label">

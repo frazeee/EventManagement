@@ -28,9 +28,9 @@ const PreRegistered = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("guests_ct")
+        .from("guests_mariwasa")
         .select(`*`)
-        .eq("reg_type", "Pre Registered");
+        .eq("reg_type", "Pre-Registered");
       setGuestList(data || []);
     } catch (error) {
       console.error("An unexpected error occurred:", error);
@@ -82,16 +82,12 @@ const PreRegistered = () => {
 
     try {
       await supabase
-        .from("guests_ct")
+        .from("guests_mariwasa")
         .update({
           name: activeGuest.name,
-          // designation: activeGuest.designation,
-          // company_name: activeGuest.company_name,
-          email: activeGuest.email,
-          school: activeGuest.school,
-          // number: activeGuest.number,
-          // ePLDT_contact: activeGuest.ePLDT_contact,
-          // isWithICTProvider: activeGuest.isWithICTProvider,
+          designation: activeGuest.designation,
+          company_name: activeGuest.company_name,
+          table_number: activeGuest.table_number,
           attended: true,
         })
 
@@ -306,7 +302,7 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  {/* <div className='mb-3'>
+                  <div className='mb-3'>
                     <label
                       htmlFor='designation'
                       className='form-label fw-semibold'
@@ -345,8 +341,28 @@ const PreRegistered = () => {
                         })
                       }
                     />
-                  </div> */}
-                  <div className='mb-3'>
+                  </div>
+                                    <div className='mb-3'>
+                    <label
+                      htmlFor='company_name'
+                      className='form-label fw-semibold'
+                    >
+                      Table Number
+                    </label>
+                    <input
+                      type='number'
+                      className='form-control'
+                      id='table_number'
+                      value={activeGuest?.table_number || ""}
+                      onChange={(e) =>
+                        setActiveGuest({
+                          ...activeGuest,
+                          table_number: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  {/* <div className='mb-3'>
                     <label htmlFor='email' className='form-label fw-semibold'>
                       Email
                     </label>
@@ -379,7 +395,7 @@ const PreRegistered = () => {
                         })
                       }
                     />
-                  </div>
+                  </div> */}
                   {/* <div className='mb-3'>
                     <label htmlFor='number' className='form-label fw-semibold'>
                       Mobile Number
@@ -393,22 +409,6 @@ const PreRegistered = () => {
                         setActiveGuest({
                           ...activeGuest,
                           number: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className='mb-3'>
-                    <label htmlFor='guest' className='form-label fw-semibold'>
-                      e/PLDT Contact
-                    </label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      value={activeGuest?.ePLDT_contact || ""}
-                      onChange={(e) =>
-                        setActiveGuest({
-                          ...activeGuest,
-                          ePLDT_contact: e.target.value,
                         })
                       }
                     />

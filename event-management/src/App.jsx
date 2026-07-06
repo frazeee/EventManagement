@@ -10,6 +10,22 @@ function App() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+    async function getSession() {
+      setLoading(true);
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          navigate("/registration-list");
+        } else {
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error("Error fetching session:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -17,7 +33,7 @@ function App() {
     setLoading(true);
     try {
       const { data: guests, error } = await supabase
-        .from("guests_ct")
+        .from("guests_mariwasa")
         .select("*");
       setData(guests);
     } catch (error) {
@@ -34,15 +50,16 @@ function App() {
         <div className="container d-flex flex-column justify-content-center vh-100">
           <div class="position-absolute top-0 end-0">
             <button
-              className="btn btn-outline-success mt-2 me-2"
-              onClick={() => navigate("/login")}
+              className="btn btn-outline-primary mt-2 me-2"
+              onClick={() => navigate("/bsa-admin")}
               style={{ zIndex: 2 }}
             >
-              Login
+              Guest List
+          
             </button>
           </div>
           <h1 className="text-center titleText py-2">
-            Coffee Talk: BEYOND THE CLASSROOM
+            Mariwasa 60 Years Anniversary Gala Night
           </h1>
           <hr
             className="border border opacity-50 mx-auto mb-4"

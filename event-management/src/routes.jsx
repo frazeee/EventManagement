@@ -13,9 +13,9 @@ function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<Login/>} />
 
-        <Route path="/login" element={<Login />} />
+        <Route path="/registration-list" element={<App />} />
 
         <Route path="/bsa-admin" element={<Initial />} />
 

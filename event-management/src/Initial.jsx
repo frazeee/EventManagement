@@ -29,10 +29,11 @@ const Initial = () => {
   async function fetchGuests() {
     setLoading(true);
     const { data } = await supabase
-      .from("guests_ct")
+      .from("guests_mariwasa")
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
+    console.log(data);
     setLoading(false);
   }
 
@@ -43,7 +44,7 @@ const Initial = () => {
       if (data.session) {
         navigate("/bsa-admin");
       } else {
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       console.error("Error fetching session:", error);
@@ -77,7 +78,10 @@ const Initial = () => {
     });
 
     if (result.isConfirmed) {
-      const { error } = await supabase.from("guests_ct").delete().eq("id", id);
+      const { error } = await supabase
+        .from("guests_mariwasa")
+        .delete()
+        .eq("id", id);
 
       if (error) {
         console.log("error", error);
@@ -97,8 +101,8 @@ const Initial = () => {
       attendanceState === "all"
         ? ""
         : attendanceState
-        ? "_Attended"
-        : "_NotAttended";
+          ? "_Attended"
+          : "_NotAttended";
     const conditionPrefix = activeTab !== "all" ? `${activeTab}_` : "";
     const filename = `${conditionPrefix}GuestList${conditionSuffix}.xlsx`;
     XLSX.writeFile(workbook, filename);
@@ -110,7 +114,7 @@ const Initial = () => {
   };
 
   const filteredGuests = guests.filter((guest) => {
-    if (activeTab === "Pre Registered" && guest.reg_type !== "Pre Registered") {
+    if (activeTab === "Pre Registered" && guest.reg_type !== "Pre-Registered") {
       return false;
     }
     if (activeTab === "Walk-in" && guest.reg_type !== "Walk-in") {
@@ -122,8 +126,7 @@ const Initial = () => {
 
     if (
       searchTerm !== "" &&
-      !guest.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !guest.school.toLowerCase().includes(searchTerm.toLowerCase())
+      !guest.name.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
       return false;
     }
@@ -136,7 +139,7 @@ const Initial = () => {
   const indexOfFirstGuest = indexOfLastGuest - guestsPerPage;
   const currentGuests = filteredGuests.slice(
     indexOfFirstGuest,
-    indexOfLastGuest
+    indexOfLastGuest,
   );
   const totalPages = Math.ceil(filteredGuests.length / guestsPerPage);
 
@@ -146,6 +149,15 @@ const Initial = () => {
     <>
       <video src={background} autoPlay muted loop></video>
       <div className="container container-md">
+        <div className="position-absolute top-0 start-0">
+          <button
+            className="btn btn-outline-primary mt-3 me-3"
+            onClick={() => navigate("/registration-list")}
+          >
+            Registrations
+
+          </button>
+        </div>
         <div className="position-absolute top-0 end-0">
           <button
             className="btn btn-outline-danger mt-3 me-3"
@@ -250,9 +262,9 @@ const Initial = () => {
                   <tr className="text-center">
                     <th scope="col">#</th>
                     <th scope="col">Guest Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">School</th>
-                    {/* <th scope="col">Table Assignment</th> */}
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Designation</th>
+                    <th scope="col">Table Assignment</th>
                     <div class="dropdown">
                       <button
                         class="dropdown-toggle"
@@ -306,8 +318,9 @@ const Initial = () => {
                     <tr className="text-center align-middle" key={guest.id}>
                       <td>{indexOfFirstGuest + index + 1}</td>
                       <td>{guest.name}</td>
-                      <td>{guest.email}</td>
-                      <td>{guest.school}</td>
+                      <td>{guest.company_name}</td>
+                      <td>{guest.designation}</td>
+                      <td>{guest.table_number}</td>
                       <td
                         style={{
                           color: guest.attended ? "#1d8655" : "#db3648",
