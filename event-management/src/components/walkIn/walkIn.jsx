@@ -24,18 +24,6 @@ const WalkIn = () => {
   const createGuest = async (e) => {
     e.preventDefault();
 
-    // const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
-
-    // if (!phoneRegex.test(guest.number)) {
-    //   Swal.fire({
-    //     title: "Error",
-    //     text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
-    //     icon: "error",
-    //     confirmButtonText: "OK",
-    //   });
-    //   return;
-    // }
-
     try {
       const { data, error } = await supabase
         .from("guests_mariwasa")
@@ -103,187 +91,126 @@ const WalkIn = () => {
       </div>
 
       {showModal && (
-        <div
-          className="modal fade show"
-          style={{ display: "block" }}
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          aria-labelledby="walkInModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1
-                  className="modal-title fs-5"
-                  id="walkInModalLabel"
-                  style={{ fontWeight: 700, fontSize: "1.25rem" }}
-                >
-                  Register Walk-In Guest
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowModal(false)}
-                  aria-label="Close"
-                ></button>
-              </div>
-              <form onSubmit={createGuest}>
-                <div className="modal-body">
-                  <div className="mb-3">
-                    <label
-                      htmlFor="name"
-                      className="form-label"
-                      style={{ fontWeight: "600" }}
-                    >
-                      Full Name: <span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      placeholder="Enter Full Name"
-                      name="name"
-                      onChange={handleChange}
-                      value={guest.name}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="guest"
-                      className="form-label"
-                      style={{ fontWeight: "600" }}
-                    >
-                      Designation <span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="designation"
-                      placeholder="Enter Designation"
-                      name="guest"
-                      onChange={handleChange}
-                      value={guest.guest}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="company_name" className="form-label">
-                      Company Name: <span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="company_name"
-                      placeholder="Enter Company Name"
-                      name="company_name"
-                      onChange={handleChange}
-                      value={guest.company_name}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="number" className="form-label">
-                      Table Number: 
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="table_number"
-                      min="1"
-                      placeholder="Enter Table Number"
-                      name="table_number"
-                      onChange={handleChange}
-                      value={guest.table_number}
-                    />
-                  </div>
-                  {/* <div className='mb-3' style={{ fontWeight: "600" }}>
-                    <label htmlFor='email' className='form-label'>
-                      Email: <span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type='email'
-                      className='form-control'
-                      id='email'
-                      placeholder='Enter Email'
-                      name='email'
-                      onChange={handleChange}
-                      value={guest.email}
-                      required
-                    />
-                  </div>
-                  <div className='mb-3'>
-                    <label
-                      htmlFor='school'
-                      className='form-label'
-                      style={{ fontWeight: "600" }}
-                    >
-                      School: <span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='school'
-                      placeholder='Enter Educational Institution/Name of school'
-                      name='school'
-                      onChange={handleChange}
-                      value={guest.school}
-                      required
-                    />
-                  </div> */}
-                  {/* 
-                  <div className="mb-3" style={{ fontWeight: "600" }}>
-                    <label htmlFor="number" className="form-label">
-                      e/PLDT Contact<span style={{ color: "red" }}> * </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="pldtContact"
-                      placeholder="Enter e/PLDT Contact "
-                      name="designation"
-                      onChange={handleChange}
-                      value={guest.ePLDT_contact}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="guest" className="form-label fw-semibold">
-                      Working with an ICT Provider
-                    </label>
-                    <select
-                      id="isWithICTProvider"
-                      className="form-control"
-                      placeholder="Enter Designation"
-                      onChange={handleChange}
-                    >
-                      <option value={"Yes, With ePLDT"}>Yes, With ePLDT</option>
-                      <option value={"Yes, but with other provider/s"}>
-                        Yes, but with other provider/s
-                      </option>
-                      <option value={"No"}>No</option>
-                    </select>
-                  </div> */}
-                </div>
-
-                <div className="modal-footer">
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
+        <>
+          <div
+            className="modal-backdrop fade show"
+            onClick={() => setShowModal(false)}
+          ></div>
+          <div
+            className="modal fade show"
+            style={{ display: "block" }}
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            aria-labelledby="walkInModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1
+                    className="modal-title fs-5"
+                    id="walkInModalLabel"
+                    style={{ fontWeight: 700, fontSize: "1.25rem" }}
+                  >
+                    Register Walk-In Guest
+                  </h1>
                   <button
                     type="button"
-                    className="btn btn-outline-danger"
-                    data-bs-dismiss="modal"
+                    className="btn-close"
                     onClick={() => setShowModal(false)}
-                  >
-                    Close
-                  </button>
+                    aria-label="Close"
+                  ></button>
                 </div>
-              </form>
+                <form onSubmit={createGuest}>
+                  <div className="modal-body">
+                    <div className="mb-3">
+                      <label
+                        htmlFor="name"
+                        className="form-label"
+                        style={{ fontWeight: "600" }}
+                      >
+                        Full Name: <span style={{ color: "red" }}> * </span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="name"
+                        placeholder="Enter Full Name"
+                        name="name"
+                        onChange={handleChange}
+                        value={guest.name}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="guest"
+                        className="form-label"
+                        style={{ fontWeight: "600" }}
+                      >
+                        Designation <span style={{ color: "red" }}> * </span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="designation"
+                        placeholder="Enter Designation"
+                        name="guest"
+                        onChange={handleChange}
+                        value={guest.guest}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3" style={{ fontWeight: "600" }}>
+                      <label htmlFor="company_name" className="form-label">
+                        Company Name: <span style={{ color: "red" }}> * </span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="company_name"
+                        placeholder="Enter Company Name"
+                        name="company_name"
+                        onChange={handleChange}
+                        value={guest.company_name}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3" style={{ fontWeight: "600" }}>
+                      <label htmlFor="number" className="form-label">
+                        Table Number:
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="table_number"
+                        min="1"
+                        placeholder="Enter Table Number"
+                        name="table_number"
+                        onChange={handleChange}
+                        value={guest.table_number}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="modal-footer">
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      data-bs-dismiss="modal"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
