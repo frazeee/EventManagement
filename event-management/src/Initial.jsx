@@ -4,7 +4,12 @@ import { supabase } from "../API/createClient";
 import "./initial.css";
 import Form from "./components/Form";
 import background from "./assets/background.mp4";
-import { IoMdPersonAdd, IoMdRemoveCircleOutline } from "react-icons/io";
+import {
+  IoMdPersonAdd,
+  IoMdRemoveCircleOutline,
+  IoMdList,
+  IoMdLogOut,
+} from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +38,6 @@ const Initial = () => {
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
-    console.log(data);
     setLoading(false);
   }
 
@@ -84,7 +88,6 @@ const Initial = () => {
         .eq("id", id);
 
       if (error) {
-        console.log("error", error);
         Swal.fire("Error!", "There was a problem deleting the guest.", "error");
       } else {
         Swal.fire("Deleted!", "The guest has been deleted.", "success");
@@ -110,7 +113,7 @@ const Initial = () => {
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset to first page when search changes
+    setCurrentPage(1);
   };
 
   const filteredGuests = guests.filter((guest) => {
@@ -145,17 +148,41 @@ const Initial = () => {
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
+  const getPageNumbers = (current, total, siblingCount = 1) => {
+    const totalNumbers = siblingCount * 2 + 5;
+    if (total <= totalNumbers) {
+      return Array.from({ length: total }, (_, i) => i + 1);
+    }
+
+    const leftSibling = Math.max(current - siblingCount, 1);
+    const rightSibling = Math.min(current + siblingCount, total);
+
+    const showLeftDots = leftSibling > 2;
+    const showRightDots = rightSibling < total - 1;
+
+    const pages = [1];
+
+    if (showLeftDots) pages.push("dots-left");
+    for (let i = leftSibling; i <= rightSibling; i++) {
+      if (i !== 1 && i !== total) pages.push(i);
+    }
+    if (showRightDots) pages.push("dots-right");
+
+    pages.push(total);
+
+    return pages;
+  };
+
   return (
-    <>
+    <div className="fade-in">
       <video src={background} autoPlay muted loop></video>
-      <div className="container container-md">
+      <div className="container container-md mt-4">
         <div className="position-absolute top-0 start-0">
           <button
-            className="btn btn-outline-primary mt-3 me-3"
+            className="btn btn-outline-primary mt-3 mx-3"
             onClick={() => navigate("/registration-list")}
           >
-            Registrations
-
+            Registrations <IoMdList />
           </button>
         </div>
         <div className="position-absolute top-0 end-0">
@@ -163,7 +190,7 @@ const Initial = () => {
             className="btn btn-outline-danger mt-3 me-3"
             onClick={() => handleLogout()}
           >
-            Logout
+            Logout <IoMdLogOut />
           </button>
         </div>
         <h1 className="text-center py-4 titleText">Guest List</h1>
@@ -205,110 +232,127 @@ const Initial = () => {
           </div>
         ) : (
           <>
-            <ul className="nav nav-tabs">
-              <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    activeTab === "all"
-                      ? "active bg-primary text-white fw-bold"
-                      : "text-white"
-                  }`}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setActiveTab("all")}
-                >
-                  All Guests
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    activeTab === "Pre Registered"
-                      ? "active bg-success text-white fw-bold"
-                      : "text-white"
-                  }`}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setActiveTab("Pre Registered")}
-                >
-                  Pre-Registered
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    activeTab === "Walk-in"
-                      ? "active bg-success text-white fw-bold"
-                      : "text-white"
-                  }`}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => setActiveTab("Walk-in")}
-                >
-                  Walk-In
-                </a>
-              </li>
-            </ul>
-            <div>
+            <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 toolbar-row">
+              <ul className="nav nav-tabs border-0 flex-nowrap">
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${activeTab === "all" ? "active bg-primary text-white fw-bold" : "text-white"}`}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setActiveTab("all");
+                      setCurrentPage(1);
+                    }}
+                  >
+                    All Guests
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${activeTab === "Pre Registered" ? "active bg-success text-white fw-bold" : "text-white"}`}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setActiveTab("Pre Registered");
+                      setCurrentPage(1);
+                    }}
+                  >
+                    Pre-Registered
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${activeTab === "Walk-in" ? "active bg-success text-white fw-bold" : "text-white"}`}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setActiveTab("Walk-in");
+                      setCurrentPage(1);
+                    }}
+                  >
+                    Walk-In
+                  </a>
+                </li>
+              </ul>
+
               <input
                 type="text"
-                class="form-control"
+                className="form-control search-input"
                 id="guestSearch"
                 placeholder="Search Guest details here..."
                 data-bs-theme="dark"
                 onChange={handleInputChange}
               />
             </div>
-            <div className="table-responsive">
-              <table className="table table-hover table-striped table-dark">
+
+            {/* Only the table scrolls horizontally on mobile now — pagination
+                lives outside this wrapper so it never scrolls out of view
+                when you swipe. */}
+            <div className="table-responsive guest-table-wrapper">
+              <table
+                className="table table-hover table-striped table-dark"
+                style={{ tableLayout: "fixed" }}
+              >
                 <thead>
                   <tr className="text-center">
-                    <th scope="col">#</th>
-                    <th scope="col">Guest Name</th>
-                    <th scope="col">Company Name</th>
-                    <th scope="col">Designation</th>
-                    <th scope="col">Table Assignment</th>
-                    <div class="dropdown">
-                      <button
-                        class="dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        style={{
-                          backgroundColor: "transparent",
-                          height: "55px",
-                          border: "none",
-                        }}
-                      >
-                        <th className="mx-1" scope="col">
+                    <th scope="col" style={{ width: "5%" }}>
+                      #
+                    </th>
+                    <th scope="col" style={{ width: "15%" }}>
+                      Guest Name
+                    </th>
+                    <th scope="col" style={{ width: "25%" }}>
+                      Company Name
+                    </th>
+                    <th scope="col" style={{ width: "15%" }}>
+                      Designation
+                    </th>
+                    <th scope="col" style={{ width: "10%" }}>
+                      Table Assignment
+                    </th>
+                    <th
+                      scope="col"
+                      style={{ width: "15%" }}
+                      className="attended-col"
+                    >
+                      <div className="dropdown">
+                        <button
+                          className="dropdown-toggle attended-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
                           Has Attended
-                        </th>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-dark">
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            onClick={() => setAttendanceState(true)}
-                          >
-                            Yes
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            onClick={() => setAttendanceState(false)}
-                          >
-                            No
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            class="dropdown-item"
-                            onClick={() => setAttendanceState("all")}
-                          >
-                            All
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <th scope="col" colSpan={2} className="sticky-col">
+                        </button>
+                        <ul className="dropdown-menu dropdown-menu-dark">
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              onClick={() => setAttendanceState(true)}
+                            >
+                              Yes
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              onClick={() => setAttendanceState(false)}
+                            >
+                              No
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              onClick={() => setAttendanceState("all")}
+                            >
+                              All
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </th>
+                    <th
+                      scope="col"
+                      className="sticky-col"
+                      style={{ width: "15%" }}
+                    >
                       Actions
                     </th>
                   </tr>
@@ -317,9 +361,15 @@ const Initial = () => {
                   {currentGuests.map((guest, index) => (
                     <tr className="text-center align-middle" key={guest.id}>
                       <td>{indexOfFirstGuest + index + 1}</td>
-                      <td>{guest.name}</td>
-                      <td>{guest.company_name}</td>
-                      <td>{guest.designation}</td>
+                      <td className="cell-truncate" title={guest.name}>
+                        {guest.name}
+                      </td>
+                      <td className="cell-truncate" title={guest.company_name}>
+                        {guest.company_name}
+                      </td>
+                      <td className="cell-truncate" title={guest.designation}>
+                        {guest.designation}
+                      </td>
                       <td>{guest.table_number}</td>
                       <td
                         style={{
@@ -354,68 +404,78 @@ const Initial = () => {
                       </td>
                     </tr>
                   ))}
+                  {currentGuests.length < guestsPerPage &&
+                    Array.from({
+                      length: guestsPerPage - currentGuests.length,
+                    }).map((_, i) => (
+                      <tr key={`filler-${i}`} className="filler-row">
+                        <td colSpan={7}>&nbsp;</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
-              <nav
-                aria-label="Guest pagination"
-                style={{ position: "relative", zIndex: 1 }}
-              >
-                <ul className="pagination justify-content-center mt-1">
-                  <li
-                    className={`page-item ${
-                      currentPage === 1 ? "disabled" : ""
-                    }`}
+            </div>
+
+            <nav aria-label="Guest pagination" className="pagination-wrapper">
+              <ul className="pagination justify-content-center mt-2">
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <a
+                    href="#"
+                    className="page-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage > 1) handlePageChange(currentPage - 1);
+                    }}
                   >
-                    <a
-                      href="#"
-                      className="page-link"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage > 1) handlePageChange(currentPage - 1);
-                      }}
-                    >
-                      Previous
-                    </a>
-                  </li>
-                  {[...Array(totalPages).keys()].map((page) => (
+                    Previous
+                  </a>
+                </li>
+                {getPageNumbers(currentPage, totalPages).map((page, idx) =>
+                  typeof page === "string" ? (
+                    <li key={page + idx} className="page-item disabled">
+                      <span className="page-link">…</span>
+                    </li>
+                  ) : (
                     <li
-                      key={page + 1}
-                      className={`page-item ${
-                        currentPage === page + 1 ? "active" : ""
-                      }`}
+                      key={page}
+                      className={`page-item ${currentPage === page ? "active" : ""}`}
                     >
                       <a
                         href="#"
                         className="page-link"
                         onClick={(e) => {
                           e.preventDefault();
-                          handlePageChange(page + 1);
+                          handlePageChange(page);
                         }}
                       >
-                        {page + 1}
+                        {page}
                       </a>
                     </li>
-                  ))}
-                  <li
-                    className={`page-item ${
-                      currentPage === totalPages ? "disabled" : ""
-                    }`}
+                  ),
+                )}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages || totalPages === 0
+                      ? "disabled"
+                      : ""
+                  }`}
+                >
+                  <a
+                    href="#"
+                    className="page-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage < totalPages)
+                        handlePageChange(currentPage + 1);
+                    }}
                   >
-                    <a
-                      href="#"
-                      className="page-link"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage < totalPages)
-                          handlePageChange(currentPage + 1);
-                      }}
-                    >
-                      Next
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </>
         )}
 
@@ -483,7 +543,7 @@ const Initial = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -4,27 +4,28 @@ import { supabase } from "../API/createClient";
 import PreRegistered from "./components/preRegistered/preRegistered";
 import WalkIn from "./components/walkIn/walkIn";
 import background from "./assets/background.mp4";
+import logo from "./assets/logo-gold.png";
 import { useNavigate } from "react-router-dom";
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-    async function getSession() {
-      setLoading(true);
-      try {
-        const { data } = await supabase.auth.getSession();
-        if (data.session) {
-          navigate("/registration-list");
-        } else {
-          navigate("/login");
-        }
-      } catch (error) {
-        console.error("Error fetching session:", error);
-      } finally {
-        setLoading(false);
+  async function getSession() {
+    setLoading(true);
+    try {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        navigate("/registration-list");
+      } else {
+        navigate("/login");
       }
+    } catch (error) {
+      console.error("Error fetching session:", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
   useEffect(() => {
     fetchData();
@@ -47,17 +48,23 @@ function App() {
     <>
       <div className="fade-in">
         <video src={background} autoPlay muted loop></video>
-        <div className="container d-flex flex-column justify-content-center vh-100">
-          <div class="position-absolute top-0 end-0">
+        <div className="container position-relative d-flex flex-column justify-content-center vh-100">
+          <div className="position-absolute top-0 end-0">
             <button
               className="btn btn-outline-primary mt-2 me-2"
               onClick={() => navigate("/bsa-admin")}
               style={{ zIndex: 2 }}
             >
               Guest List
-          
             </button>
           </div>
+
+          <img
+            src={logo}
+            alt="Mariwasa 60 Years"
+            className="d-block mx-auto"
+            style={{ maxWidth: "280px", marginBottom: "0.5rem" }}
+          />
           <h1 className="text-center titleText py-2">
             Mariwasa 60 Years Anniversary Gala Night
           </h1>
@@ -72,9 +79,9 @@ function App() {
             <WalkIn />
           </div>
         </div>
-        <footer class="bg-body-tertiary text-center text-lg-start">
+        <footer className="bg-body-tertiary text-center text-lg-start">
           <div
-            class="text-center p-3"
+            className="text-center p-3"
             style={{ backgroundColor: "#222222", color: "#ffffff" }}
           >
             © 2025 BrandSpeakAsia. All rights reserved

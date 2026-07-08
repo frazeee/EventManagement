@@ -1,3 +1,15 @@
+:root {
+  --navy: #14152e !important;
+  --navy-deep: #0c0d22 !important;
+  --gold: #c9a227 !important;
+  --gold-light: #e6c866 !important;
+  --gold-gradient: linear-gradient(
+    135deg,
+    #e6c866 0%,
+    #c9a227 50%,
+    #a6821b 100%
+  ) !important;
+}
 body {
   background-color: black;
 }
@@ -136,4 +148,32 @@ footer {
   .modal-title {
     font-size: 1.1rem;
   }
+}
+
+.btn-outline-primary {
+  color: var(--gold-light);
+  border-color: var(--gold-light);
+}
+.btn-outline-primary:hover {
+  background: var(--gold-gradient);
+  color: var(--navy-deep);
+}
+
+.card {
+  background-color: rgba(20, 21, 46, 0.85);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  backdrop-filter: blur(6px);
+}
+.card-header,
+.card-footer {
+  background-color: rgba(12, 13, 34, 0.6);
+  border-color: rgba(201, 162, 39, 0.3);
+}
+.gold-divider {
+  border: none;
+  height: 2px;
+  background: var(--gold-gradient);
+  opacity: 0.8;
+  width: 50%;
+  margin: 0 auto 1.5rem;
 }
