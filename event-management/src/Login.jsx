@@ -5,7 +5,7 @@ import eventPoster from "./assets/event-poster.png";
 import { supabase } from "../API/createClient";
 import { FiLogIn } from "react-icons/fi";
 import logo from "./assets/logo-gold.png";
-import "./login.css";
+import "./Login.css";
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
