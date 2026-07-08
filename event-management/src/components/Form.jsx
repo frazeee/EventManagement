@@ -60,11 +60,12 @@ const Form = ({ guest: initialGuest }) => {
         await supabase
           .from("guests_mariwasa")
           .update({
-          name: guest.name,
-          company_name: guest.company_name,
-          designation: guest.designation,
-          reg_type: guest.reg_type,
-          attended: guest.attended,
+            name: guest.name,
+            company_name: guest.company_name,
+            designation: guest.designation,
+            reg_type: guest.reg_type,
+            table_number: guest.table_number,
+            attended: guest.attended,
           })
           .eq("id", guest.id);
       } else {
@@ -73,6 +74,7 @@ const Form = ({ guest: initialGuest }) => {
           company_name: guest.company_name,
           designation: guest.designation,
           reg_type: guest.reg_type,
+          table_number: guest.table_number,
           attended: guest.attended,
         });
       }
@@ -131,19 +133,35 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
 
-      <div className='mb-3' style={{ fontWeight: "600" }}>
-        <label htmlFor='designation' className='form-label'>
+      <div className="mb-3" style={{ fontWeight: "600" }}>
+        <label htmlFor="designation" className="form-label">
           Designation<span style={{ color: "red" }}> * </span>
         </label>
         <input
-          type='text'
-          className='form-control'
-          id='designation'
-          placeholder='Enter Designation'
-          name='designation'
+          type="text"
+          className="form-control"
+          id="designation"
+          placeholder="Enter Designation"
+          name="designation"
           onChange={handleChange}
           value={guest.designation}
           required
+        />
+      </div>
+
+      <div className="mb-3" style={{ fontWeight: "600" }}>
+        <label htmlFor="number" className="form-label">
+          Table Number:
+        </label>
+        <input
+          type="number"
+          className="form-control"
+          id="table_number"
+          min="1"
+          placeholder="Enter Table Number"
+          name="table_number"
+          onChange={handleChange}
+          value={guest.table_number}
         />
       </div>
 
