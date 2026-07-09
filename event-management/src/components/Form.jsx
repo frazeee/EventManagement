@@ -181,7 +181,7 @@ const Form = ({ guest: initialGuest }) => {
           <option value="" disabled>
             Select Type
           </option>
-          <option value="Pre-Registered">Pre Register</option>
+          <option value="Pre-Registered">Pre-Registered</option>
           <option value="Walk-in">Walk-In</option>
         </select>
       </div>
