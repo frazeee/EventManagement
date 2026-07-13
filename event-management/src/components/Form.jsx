@@ -7,9 +7,10 @@ const Form = ({ guest: initialGuest }) => {
   const [guest, setGuest] = useState({
     name: "",
     company_name: "",
-    registration_type: "",
+    reg_type: "",
     designation: "",
     table_number: "",
+    token_eligible: "",
     attended: false,
   });
 
@@ -31,7 +32,7 @@ const Form = ({ guest: initialGuest }) => {
   const handleTypeChange = (type) => {
     setGuest((prevFormData) => ({
       ...prevFormData,
-      registration_type: type,
+      reg_type: type,
     }));
   };
 
@@ -65,6 +66,7 @@ const Form = ({ guest: initialGuest }) => {
             designation: guest.designation,
             reg_type: guest.reg_type,
             table_number: guest.table_number,
+            token_eligible: guest.token_eligible,
             attended: guest.attended,
           })
           .eq("id", guest.id);
@@ -75,6 +77,7 @@ const Form = ({ guest: initialGuest }) => {
           designation: guest.designation,
           reg_type: guest.reg_type,
           table_number: guest.table_number,
+          token_eligible: guest.token_eligible,
           attended: guest.attended,
         });
       }
@@ -183,6 +186,27 @@ const Form = ({ guest: initialGuest }) => {
           </option>
           <option value="Pre-Registered">Pre-Registered</option>
           <option value="Walk-in">Walk-In</option>
+        </select>
+      </div>
+
+            <div className="mb-3">
+        <label htmlFor="token_eligible" className="form-label fw-semibold">
+          Token Eligible <span style={{ color: "red" }}> * </span>
+        </label>
+
+        <select
+          className="form-select"
+          value={guest.token_eligible || ""}
+          onChange={handleChange}
+          id="token_eligible"
+          name="token_eligible"
+          required
+        >
+          <option value="" disabled>
+            Select Type
+          </option>
+          <option value="TRUE">Yes</option>
+          <option value="FALSE">No</option>
         </select>
       </div>
 
