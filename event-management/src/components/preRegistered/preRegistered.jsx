@@ -68,18 +68,6 @@ const PreRegistered = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const phoneRegex = /^(09\d{9}|\+63\d{10})$/;
-
-    // if (!phoneRegex.test(activeGuest.number)) {
-    //   Swal.fire({
-    //     title: "Error",
-    //     text: "Please enter a valid Philippine phone number (e.g., 09123456789 or +63123456789).",
-    //     icon: "error",
-    //     confirmButtonText: "OK",
-    //   });
-    //   return;
-    // }
-
     try {
       await supabase
         .from("guests_mariwasa")
@@ -88,9 +76,10 @@ const PreRegistered = () => {
           designation: activeGuest.designation,
           company_name: activeGuest.company_name,
           table_number: activeGuest.table_number,
+          token_eligible: activeGuest.token_eligible,
+          raffle_eligible: activeGuest.raffle_eligible,
           attended: true,
         })
-
         .eq("id", activeGuest.id);
       getRequestList();
     } catch (error) {
@@ -103,7 +92,7 @@ const PreRegistered = () => {
       });
     } finally {
       setShowModal(false);
-      setActiveGuest({ name: "", email: "", school: "" });
+      setActiveGuest({ name: "", guest: "", company_name: "", table_number: "", token_eligible: "", raffle_eligible: "" });
       Swal.fire({
         title: "Success!",
         text: "Guest registered successfully.",
@@ -111,6 +100,13 @@ const PreRegistered = () => {
         confirmButtonText: "OK",
       });
     }
+  };
+
+  // Helper function to turn "TRUE"/"FALSE" strings into real booleans
+  const parseBooleanString = (val) => {
+    if (val === "TRUE") return true;
+    if (val === "FALSE") return false;
+    return val;
   };
 
   return (
@@ -262,7 +258,7 @@ const PreRegistered = () => {
         </div>
       </div>
 
-      {showModal && (
+      {showModal && activeGuest && (
         <div
           className="modal fade show"
           id="exampleModalToggle3"
@@ -344,7 +340,7 @@ const PreRegistered = () => {
                   </div>
                   <div className="mb-3">
                     <label
-                      htmlFor="company_name"
+                      htmlFor="table_number"
                       className="form-label fw-semibold"
                     >
                       Table Number
@@ -362,79 +358,65 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  {/* <div className='mb-3'>
-                    <label htmlFor='email' className='form-label fw-semibold'>
-                      Email
+                  <div className="mb-3">
+                    <label
+                      htmlFor="token_eligible"
+                      className="form-label fw-semibold"
+                    >
+                      Token Eligible <span style={{ color: "red" }}> * </span>
                     </label>
-                    <input
-                      type='email'
-                      className='form-control'
-                      id='email'
-                      value={activeGuest?.email || ""}
-                      onChange={(e) =>
-                        setActiveGuest({
-                          ...activeGuest,
-                          email: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className='mb-3'>
-                    <label htmlFor='school' className='form-label fw-semibold'>
-                      School
-                    </label>
-                    <input
-                      type='school'
-                      className='form-control'
-                      id='school'
-                      value={activeGuest?.school || ""}
-                      onChange={(e) =>
-                        setActiveGuest({
-                          ...activeGuest,
-                          school: e.target.value,
-                        })
-                      }
-                    />
-                  </div> */}
-                  {/* <div className='mb-3'>
-                    <label htmlFor='number' className='form-label fw-semibold'>
-                      Mobile Number
-                    </label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      id='number'
-                      value={activeGuest?.number || ""}
-                      onChange={(e) =>
-                        setActiveGuest({
-                          ...activeGuest,
-                          number: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className='mb-3'>
-                    <label htmlFor='guest' className='form-label fw-semibold'>
-                      Working with an ICT Provider
-                    </label>
+
                     <select
-                      className='form-control'
-                      value={activeGuest.isWithICTProvider || ""}
+                      className="form-select"
+                      value={activeGuest.token_eligible === true ? "TRUE" : activeGuest.token_eligible === false ? "FALSE" : ""}
+                      id="token_eligible"
+                      name="token_eligible"
+                      required
                       onChange={(e) =>
                         setActiveGuest({
                           ...activeGuest,
-                          isWithICTProvider: e.target.value,
+                          token_eligible: parseBooleanString(e.target.value),
                         })
                       }
                     >
-                      <option value={"Yes, With ePLDT"}>Yes, With ePLDT</option>
-                      <option value={"Yes, but with other provider/s"}>
-                        Yes, but with other provider/s
+                      <option value="" disabled>
+                        Select Type
                       </option>
-                      <option value={"No"}>No</option>
+                      <option value="TRUE">Yes</option>
+                      <option value="FALSE">No</option>
                     </select>
-                     
-                  </div> */}
+                  </div>
+
+                  <div className="mb-3">
+                    <label
+                      htmlFor="raffle_eligible"
+                      className="form-label fw-semibold"
+                    >
+                      Raffle Eligible <span style={{ color: "red" }}> * </span>
+                    </label>
+
+                    <select
+                      className="form-select"
+                      
+                      value={activeGuest.raffle_eligible === true ? "TRUE" : activeGuest.raffle_eligible === false ? "FALSE" : ""}
+                      id="raffle_eligible"
+                      name="raffle_eligible"
+                      onChange={(e) =>
+                        setActiveGuest({
+                          ...activeGuest,
+                          
+                          raffle_eligible: parseBooleanString(e.target.value),
+                        })
+                      }
+                      required
+                    >
+                      <option value="" disabled>
+                        Select Type
+                      </option>
+                      <option value="TRUE">Yes</option>
+                      <option value="FALSE">No</option>
+                    </select>
+                  </div>
 
                   <div className="modal-footer">
                     <button type="submit" className="btn btn-primary">

@@ -38,6 +38,7 @@ const Initial = () => {
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
+    console.log(data);
     setLoading(false);
   }
 
@@ -298,10 +299,10 @@ const Initial = () => {
                     <th scope="col" style={{ width: "15%" }}>
                       Guest Name
                     </th>
-                     <th scope="col" style={{ width: "10%" }}>
+                    <th scope="col" style={{ width: "10%" }}>
                       Registration Type
                     </th>
-                    <th scope="col" style={{ width: "15%" }}>
+                    <th scope="col" style={{ width: "10%" }}>
                       Company Name
                     </th>
                     <th scope="col" style={{ width: "10%" }}>
@@ -310,8 +311,11 @@ const Initial = () => {
                     <th scope="col" style={{ width: "10%" }}>
                       Table Assignment
                     </th>
-                      <th scope="col" style={{ width: "10%" }}>
+                    <th scope="col" style={{ width: "10%" }}>
                       Token Eligible
+                    </th>
+                    <th scope="col" style={{ width: "10%" }}>
+                      Raffle Eligible
                     </th>
                     <th
                       scope="col"
@@ -370,7 +374,7 @@ const Initial = () => {
                       <td className="cell-truncate" title={guest.name}>
                         {guest.name}
                       </td>
-                        <td className="cell-truncate" title={guest.reg_type}>
+                      <td className="cell-truncate" title={guest.reg_type}>
                         {guest.reg_type}
                       </td>
                       <td className="cell-truncate" title={guest.company_name}>
@@ -380,12 +384,19 @@ const Initial = () => {
                         {guest.designation}
                       </td>
                       <td>{guest.table_number}</td>
-                            <td
+                      <td
                         style={{
                           color: guest.token_eligible ? "#1d8655" : "#db3648",
                         }}
                       >
-                        {guest.token_eligible ? "Yes" : "No"}
+                        {guest.token_eligible ? "Yes" : "N/A"}
+                      </td>
+                      <td
+                        style={{
+                          color: guest.raffle_eligible ? "#1d8655" : "#db3648",
+                        }}
+                      >
+                        {guest.raffle_eligible ? "Yes" : "N/A"}
                       </td>
                       <td
                         style={{
@@ -425,7 +436,7 @@ const Initial = () => {
                       length: guestsPerPage - currentGuests.length,
                     }).map((_, i) => (
                       <tr key={`filler-${i}`} className="filler-row">
-                        <td colSpan={8}>&nbsp;</td>
+                        <td colSpan={9}>&nbsp;</td>
                       </tr>
                     ))}
                 </tbody>

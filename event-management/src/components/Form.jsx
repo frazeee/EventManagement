@@ -11,6 +11,7 @@ const Form = ({ guest: initialGuest }) => {
     designation: "",
     table_number: "",
     token_eligible: "",
+    raffle_eligible: "",
     attended: false,
   });
 
@@ -21,12 +22,17 @@ const Form = ({ guest: initialGuest }) => {
   }, [initialGuest]);
 
   const handleChange = (e) => {
-    setGuest((prevFormData) => {
-      return {
-        ...prevFormData,
-        [e.target.id]: e.target.value,
-      };
-    });
+    const { id, value } = e.target;
+
+    // Convert string options back to actual booleans for state & Supabase
+    let finalValue = value;
+    if (value === "TRUE") finalValue = true;
+    if (value === "FALSE") finalValue = false;
+
+    setGuest((prevFormData) => ({
+      ...prevFormData,
+      [id]: finalValue,
+    }));
   };
 
   const handleTypeChange = (type) => {
@@ -37,7 +43,6 @@ const Form = ({ guest: initialGuest }) => {
   };
 
   const handleCheckboxChange = (e) => {
-    console.log(guest);
     setGuest((prevFormData) => ({
       ...prevFormData,
       [e.target.id]: e.target.checked,
@@ -56,8 +61,10 @@ const Form = ({ guest: initialGuest }) => {
       });
       return;
     }
+    
     try {
       if (initialGuest) {
+        // FIXED: Added token_eligible to the update payload
         await supabase
           .from("guests_mariwasa")
           .update({
@@ -67,6 +74,7 @@ const Form = ({ guest: initialGuest }) => {
             reg_type: guest.reg_type,
             table_number: guest.table_number,
             token_eligible: guest.token_eligible,
+            raffle_eligible: guest.raffle_eligible,
             attended: guest.attended,
           })
           .eq("id", guest.id);
@@ -78,6 +86,7 @@ const Form = ({ guest: initialGuest }) => {
           reg_type: guest.reg_type,
           table_number: guest.table_number,
           token_eligible: guest.token_eligible,
+          raffle_eligible: guest.raffle_eligible,
           attended: guest.attended,
         });
       }
@@ -88,7 +97,6 @@ const Form = ({ guest: initialGuest }) => {
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
-        // Reload the page to refresh the data and close the modal
         window.location.reload();
       });
     } catch (error) {
@@ -113,7 +121,6 @@ const Form = ({ guest: initialGuest }) => {
           id="name"
           name="name"
           placeholder="Enter Full Name"
-          aria-describedby="name"
           onChange={handleChange}
           value={guest.name}
           required
@@ -153,7 +160,7 @@ const Form = ({ guest: initialGuest }) => {
       </div>
 
       <div className="mb-3" style={{ fontWeight: "600" }}>
-        <label htmlFor="number" className="form-label">
+        <label htmlFor="table_number" className="form-label">
           Table Number:
         </label>
         <input
@@ -164,7 +171,7 @@ const Form = ({ guest: initialGuest }) => {
           placeholder="Enter Table Number"
           name="table_number"
           onChange={handleChange}
-          value={guest.table_number}
+          value={guest.table_number || ""}
         />
       </div>
 
@@ -172,7 +179,6 @@ const Form = ({ guest: initialGuest }) => {
         <label htmlFor="reg_type" className="form-label fw-semibold">
           Registration Type <span style={{ color: "red" }}> * </span>
         </label>
-
         <select
           className="form-select"
           value={guest.reg_type || ""}
@@ -181,52 +187,50 @@ const Form = ({ guest: initialGuest }) => {
           name="reg_type"
           required
         >
-          <option value="" disabled>
-            Select Type
-          </option>
+          <option value="" disabled>Select Type</option>
           <option value="Pre-Registered">Pre-Registered</option>
           <option value="Walk-in">Walk-In</option>
         </select>
       </div>
 
-            <div className="mb-3">
+      <div className="mb-3">
         <label htmlFor="token_eligible" className="form-label fw-semibold">
           Token Eligible <span style={{ color: "red" }}> * </span>
         </label>
-
         <select
           className="form-select"
-          value={guest.token_eligible || ""}
+          // FIXED: Safeguard evaluation so it handles empty strings safely
+          value={guest.token_eligible === true ? "TRUE" : guest.token_eligible === false ? "FALSE" : ""}
           onChange={handleChange}
           id="token_eligible"
           name="token_eligible"
           required
         >
-          <option value="" disabled>
-            Select Type
-          </option>
+          <option value="" disabled>Select Type</option>
           <option value="TRUE">Yes</option>
           <option value="FALSE">No</option>
         </select>
       </div>
 
-      {/* <div className='mb-3' style={{ fontWeight: "600" }}>
-        <label htmlFor='number' className='form-label'>
-          Number<span style={{ color: "red" }}> * </span>
+      <div className="mb-3">
+        <label htmlFor="raffle_eligible" className="form-label fw-semibold">
+          Raffle Eligible <span style={{ color: "red" }}> * </span>
         </label>
-        <input
-          type='text'
-          className='form-control'
-          id='number'
-          placeholder='Enter Number'
-          name='number'
+        <select
+          className="form-select"
+          // FIXED: Safeguard evaluation so it handles empty strings safely
+          value={guest.raffle_eligible === true ? "TRUE" : guest.raffle_eligible === false ? "FALSE" : ""}
           onChange={handleChange}
-          value={guest.number}
+          id="raffle_eligible"
+          name="raffle_eligible"
           required
-        />
+        >
+          <option value="" disabled>Select Type</option>
+          <option value="TRUE">Yes</option>
+          <option value="FALSE">No</option>
+        </select>
       </div>
 
- */}
       <div className="mb-3 form-check form-switch">
         <label className="form-check-label" htmlFor="attended">
           Has Attended?
@@ -236,7 +240,7 @@ const Form = ({ guest: initialGuest }) => {
           type="checkbox"
           id="attended"
           name="attended"
-          checked={guest.attended}
+          checked={guest.attended || false}
           onChange={handleCheckboxChange}
         />
       </div>
