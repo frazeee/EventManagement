@@ -372,6 +372,7 @@ const PreRegistered = () => {
                       id="token_eligible"
                       name="token_eligible"
                       required
+                      disabled
                       onChange={(e) =>
                         setActiveGuest({
                           ...activeGuest,
@@ -397,7 +398,7 @@ const PreRegistered = () => {
 
                     <select
                       className="form-select"
-                      
+                      disabled
                       value={activeGuest.raffle_eligible === true ? "TRUE" : activeGuest.raffle_eligible === false ? "FALSE" : ""}
                       id="raffle_eligible"
                       name="raffle_eligible"
