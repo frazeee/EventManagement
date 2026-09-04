@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import background from "./assets/background.mp4";
 import eventPoster from "./assets/event-poster.png";
+import eventPoster2 from "./assets/I3_Posterreal.jpg";
 import { supabase } from "../API/createClient";
 import { FiLogIn } from "react-icons/fi";
 import logo from "./assets/logo-gold.png";
+import logo2 from "./assets/I3_Logo.png";
 import "./Login.css";
 
 function Login({ onLogin }) {
@@ -34,21 +36,21 @@ function Login({ onLogin }) {
 
   return (
     <div className="fade-in">
-      <video src={background} autoPlay muted loop></video>
+      {/* <video src={background} autoPlay muted loop></video> */}
 
       <form onSubmit={handleLogin} className="login-form-wrapper">
         <div className="login-panel">
           <div className="login-poster-col">
             <p className="login-label mb-4">Current Event</p>
             <img
-              src={eventPoster}
+              src={eventPoster2}
               alt="Diamond Legacy - 60 Years of Crafting Excellence"
               className="event-poster"
             />
           </div>
           <div className="login-form-col">
             <div className="login-form-header">
-              <img src={logo} alt="Mariwasa 60 Years" className="login-logo" />
+              <img src={logo2} alt="Mariwasa 60 Years" className="login-logo" />
               <h3 className="login-heading">Welcome Admin!</h3>
               <hr className="login-divider" />
               <p className="login-subtext">
