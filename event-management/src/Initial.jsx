@@ -176,7 +176,7 @@ const Initial = () => {
 
   return (
     <div className="fade-in">
-      <video src={background} autoPlay muted loop></video>
+      {/* <video src={background} autoPlay muted loop></video> */}
       <div className="container container-md mt-4">
         <div className="position-absolute top-0 start-0">
           <button
@@ -278,7 +278,7 @@ const Initial = () => {
                 className="form-control search-input"
                 id="guestSearch"
                 placeholder="Search Guest details here..."
-                data-bs-theme="dark"
+                // data-bs-theme="dark"
                 onChange={handleInputChange}
               />
             </div>

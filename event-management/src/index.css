@@ -1,11 +1,11 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: #1b3a5c;
+  background-color: #e9f3f7;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -80,18 +80,18 @@
 }
 
 @font-face {
-  font-family: "Roboto"; /* Name your font family */
+  font-family: "Roboto";
   src: url("./../public/fonts/Roboto-Black.ttf");
   font-weight: 900;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #2f6fa8;
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #3fc6d6;
 }
 
 body {
@@ -99,6 +99,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   font-family: "Roboto";
+  background-color: #e9f3f7;
+  color: #1b3a5c;
 }
 
 h1 {
@@ -144,30 +146,26 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-video {
+/* video {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0; /* Ensure the video is behind the content */
+  z-index: 0;
   opacity: 0.2;
-}
+} */
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -178,4 +176,4 @@ video {
   button {
     background-color: #f9f9f9;
   }
-}
+} */

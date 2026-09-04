@@ -1,12 +1,10 @@
 import background from "./assets/not-found.png";
-import backgroundVideo from "./assets/background.mp4";
 import { useNavigate } from "react-router-dom";
 
 function NotFound() {
   const navigate = useNavigate();
   return (
-    <>
-      <video src={backgroundVideo} autoPlay muted loop></video>
+    <div className="fade-in">
       <div
         className="container d-flex flex-column justify-content-center vh-100"
         style={{
@@ -20,13 +18,13 @@ function NotFound() {
         />
         <button
           className="btn btn-primary"
-          style={{ margin: "auto", zIndex: 5 }}
+          style={{ margin: "auto", marginTop: "1.5rem", zIndex: 5 }}
           onClick={() => navigate("/")}
         >
           Return to Homepage
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

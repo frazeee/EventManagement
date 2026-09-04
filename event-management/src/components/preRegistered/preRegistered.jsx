@@ -92,7 +92,14 @@ const PreRegistered = () => {
       });
     } finally {
       setShowModal(false);
-      setActiveGuest({ name: "", guest: "", company_name: "", table_number: "", token_eligible: "", raffle_eligible: "" });
+      setActiveGuest({
+        name: "",
+        guest: "",
+        company_name: "",
+        table_number: "",
+        token_eligible: "",
+        raffle_eligible: "",
+      });
       Swal.fire({
         title: "Success!",
         text: "Guest registered successfully.",
@@ -112,7 +119,7 @@ const PreRegistered = () => {
   return (
     <div>
       <div
-        className="card text-bg-dark mx-auto mb-4"
+        className="card text-bg-light mx-auto mb-4"
         style={{
           width: "100%",
           cursor: "pointer",
@@ -368,7 +375,13 @@ const PreRegistered = () => {
 
                     <select
                       className="form-select"
-                      value={activeGuest.token_eligible === true ? "TRUE" : activeGuest.token_eligible === false ? "FALSE" : ""}
+                      value={
+                        activeGuest.token_eligible === true
+                          ? "TRUE"
+                          : activeGuest.token_eligible === false
+                            ? "FALSE"
+                            : ""
+                      }
                       id="token_eligible"
                       name="token_eligible"
                       required
@@ -399,13 +412,19 @@ const PreRegistered = () => {
                     <select
                       className="form-select"
                       disabled
-                      value={activeGuest.raffle_eligible === true ? "TRUE" : activeGuest.raffle_eligible === false ? "FALSE" : ""}
+                      value={
+                        activeGuest.raffle_eligible === true
+                          ? "TRUE"
+                          : activeGuest.raffle_eligible === false
+                            ? "FALSE"
+                            : ""
+                      }
                       id="raffle_eligible"
                       name="raffle_eligible"
                       onChange={(e) =>
                         setActiveGuest({
                           ...activeGuest,
-                          
+
                           raffle_eligible: parseBooleanString(e.target.value),
                         })
                       }
