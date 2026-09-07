@@ -38,7 +38,6 @@ const Initial = () => {
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
-    console.log(data);
     setLoading(false);
   }
 
