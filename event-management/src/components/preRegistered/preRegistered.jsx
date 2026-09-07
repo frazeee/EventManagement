@@ -28,7 +28,7 @@ const PreRegistered = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("guests_mariwasa")
+        .from("guests_i3")
         .select(`*`)
         .eq("reg_type", "Pre-Registered");
       setGuestList(data || []);
@@ -305,7 +305,7 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  <div className="mb-3">
+                  {/* <div className="mb-3">
                     <label
                       htmlFor="designation"
                       className="form-label fw-semibold"
@@ -364,79 +364,7 @@ const PreRegistered = () => {
                         })
                       }
                     />
-                  </div>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="token_eligible"
-                      className="form-label fw-semibold"
-                    >
-                      Token Eligible <span style={{ color: "red" }}> * </span>
-                    </label>
-
-                    <select
-                      className="form-select"
-                      value={
-                        activeGuest.token_eligible === true
-                          ? "TRUE"
-                          : activeGuest.token_eligible === false
-                            ? "FALSE"
-                            : ""
-                      }
-                      id="token_eligible"
-                      name="token_eligible"
-                      required
-                      disabled
-                      onChange={(e) =>
-                        setActiveGuest({
-                          ...activeGuest,
-                          token_eligible: parseBooleanString(e.target.value),
-                        })
-                      }
-                    >
-                      <option value="" disabled>
-                        Select Type
-                      </option>
-                      <option value="TRUE">Yes</option>
-                      <option value="FALSE">No</option>
-                    </select>
-                  </div>
-
-                  <div className="mb-3">
-                    <label
-                      htmlFor="raffle_eligible"
-                      className="form-label fw-semibold"
-                    >
-                      Raffle Eligible <span style={{ color: "red" }}> * </span>
-                    </label>
-
-                    <select
-                      className="form-select"
-                      disabled
-                      value={
-                        activeGuest.raffle_eligible === true
-                          ? "TRUE"
-                          : activeGuest.raffle_eligible === false
-                            ? "FALSE"
-                            : ""
-                      }
-                      id="raffle_eligible"
-                      name="raffle_eligible"
-                      onChange={(e) =>
-                        setActiveGuest({
-                          ...activeGuest,
-
-                          raffle_eligible: parseBooleanString(e.target.value),
-                        })
-                      }
-                      required
-                    >
-                      <option value="" disabled>
-                        Select Type
-                      </option>
-                      <option value="TRUE">Yes</option>
-                      <option value="FALSE">No</option>
-                    </select>
-                  </div>
+                  </div> */}
 
                   <div className="modal-footer">
                     <button type="submit" className="btn btn-primary">

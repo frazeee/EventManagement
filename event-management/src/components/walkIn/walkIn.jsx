@@ -26,12 +26,11 @@ const WalkIn = () => {
 
     try {
       const { data, error } = await supabase
-        .from("guests_mariwasa")
+        .from("guests_i3")
         .insert({
           name: guest.name,
-          designation: guest.designation,
-          company_name: guest.company_name,
-          table_number: guest.table_number,
+          // designation: guest.designation,
+          // company_name: guest.company_name,
           reg_type: "Walk-in",
           attended: true,
         })
@@ -46,7 +45,7 @@ const WalkIn = () => {
       });
 
       setShowModal(false);
-      setGuest({ name: "", guest: "", company_name: "" });
+      setGuest({ name: "", guest: "", });
     } catch (error) {
       console.error("An unexpected error occurred:", error);
       Swal.fire({
@@ -142,7 +141,7 @@ const WalkIn = () => {
                         required
                       />
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                       <label
                         htmlFor="guest"
                         className="form-label"
@@ -190,7 +189,7 @@ const WalkIn = () => {
                         onChange={handleChange}
                         value={guest.table_number}
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="modal-footer">

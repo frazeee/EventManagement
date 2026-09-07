@@ -66,27 +66,21 @@ const Form = ({ guest: initialGuest }) => {
       if (initialGuest) {
         // FIXED: Added token_eligible to the update payload
         await supabase
-          .from("guests_mariwasa")
+          .from("guests_i3")
           .update({
             name: guest.name,
-            company_name: guest.company_name,
-            designation: guest.designation,
+            // company_name: guest.company_name,
+            // designation: guest.designation,
             reg_type: guest.reg_type,
-            table_number: guest.table_number,
-            token_eligible: guest.token_eligible,
-            raffle_eligible: guest.raffle_eligible,
             attended: guest.attended,
           })
           .eq("id", guest.id);
       } else {
-        await supabase.from("guests_mariwasa").insert({
+        await supabase.from("guests_i3").insert({
           name: guest.name,
-          company_name: guest.company_name,
-          designation: guest.designation,
+          // company_name: guest.company_name,
+          // designation: guest.designation,
           reg_type: guest.reg_type,
-          table_number: guest.table_number,
-          token_eligible: guest.token_eligible,
-          raffle_eligible: guest.raffle_eligible,
           attended: guest.attended,
         });
       }
@@ -127,7 +121,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
 
-      <div className="mb-3" style={{ fontWeight: "600" }}>
+      {/* <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="company_name" className="form-label">
           Company Name <span style={{ color: "red" }}> * </span>
         </label>
@@ -173,7 +167,7 @@ const Form = ({ guest: initialGuest }) => {
           onChange={handleChange}
           value={guest.table_number || ""}
         />
-      </div>
+      </div> */}
 
       <div className="mb-3">
         <label htmlFor="reg_type" className="form-label fw-semibold">
@@ -193,7 +187,7 @@ const Form = ({ guest: initialGuest }) => {
         </select>
       </div>
 
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <label htmlFor="token_eligible" className="form-label fw-semibold">
           Token Eligible <span style={{ color: "red" }}> * </span>
         </label>
@@ -229,7 +223,7 @@ const Form = ({ guest: initialGuest }) => {
           <option value="TRUE">Yes</option>
           <option value="FALSE">No</option>
         </select>
-      </div>
+      </div> */}
 
       <div className="mb-3 form-check form-switch">
         <label className="form-check-label" htmlFor="attended">

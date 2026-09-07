@@ -34,7 +34,7 @@ const Initial = () => {
   async function fetchGuests() {
     setLoading(true);
     const { data } = await supabase
-      .from("guests_mariwasa")
+      .from("guests_i3")
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
@@ -84,7 +84,7 @@ const Initial = () => {
 
     if (result.isConfirmed) {
       const { error } = await supabase
-        .from("guests_mariwasa")
+        .from("guests_i3")
         .delete()
         .eq("id", id);
 
@@ -293,16 +293,16 @@ const Initial = () => {
               >
                 <thead>
                   <tr className="text-center">
-                    <th scope="col" style={{ width: "5%" }}>
+                    <th scope="col" style={{ width: "10%" }}>
                       #
                     </th>
-                    <th scope="col" style={{ width: "15%" }}>
+                    <th scope="col" style={{ width: "35%" }}>
                       Guest Name
                     </th>
-                    <th scope="col" style={{ width: "10%" }}>
+                    <th scope="col" style={{ width: "15%" }}>
                       Registration Type
                     </th>
-                    <th scope="col" style={{ width: "10%" }}>
+                    {/* <th scope="col" style={{ width: "10%" }}>
                       Company Name
                     </th>
                     <th scope="col" style={{ width: "10%" }}>
@@ -316,10 +316,10 @@ const Initial = () => {
                     </th>
                     <th scope="col" style={{ width: "10%" }}>
                       Raffle Eligible
-                    </th>
+                    </th> */}
                     <th
                       scope="col"
-                      style={{ width: "10%" }}
+                      style={{ width: "20%" }}
                       className="attended-col"
                     >
                       <div className="dropdown">
@@ -361,7 +361,7 @@ const Initial = () => {
                     <th
                       scope="col"
                       className="sticky-col"
-                      style={{ width: "15%" }}
+                      style={{ width: "25%" }}
                     >
                       Actions
                     </th>
@@ -377,7 +377,7 @@ const Initial = () => {
                       <td className="cell-truncate" title={guest.reg_type}>
                         {guest.reg_type}
                       </td>
-                      <td className="cell-truncate" title={guest.company_name}>
+                      {/* <td className="cell-truncate" title={guest.company_name}>
                         {guest.company_name}
                       </td>
                       <td className="cell-truncate" title={guest.designation}>
@@ -397,7 +397,7 @@ const Initial = () => {
                         }}
                       >
                         {guest.raffle_eligible ? "Yes" : "N/A"}
-                      </td>
+                      </td> */}
                       <td
                         style={{
                           color: guest.attended ? "#1d8655" : "#db3648",

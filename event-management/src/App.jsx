@@ -34,7 +34,7 @@ function App() {
     setLoading(true);
     try {
       const { data: guests, error } = await supabase
-        .from("guests_mariwasa")
+        .from("guests_i3")
         .select("*");
       setData(guests);
     } catch (error) {
