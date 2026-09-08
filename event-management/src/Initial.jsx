@@ -34,7 +34,7 @@ const Initial = () => {
   async function fetchGuests() {
     setLoading(true);
     const { data } = await supabase
-      .from("guests_i3")
+      .from("guests_delsan")
       .select("*")
       .order("id", { ascending: true });
     setGuests(data);
@@ -83,7 +83,7 @@ const Initial = () => {
 
     if (result.isConfirmed) {
       const { error } = await supabase
-        .from("guests_i3")
+        .from("guests_delsan")
         .delete()
         .eq("id", id);
 
@@ -292,16 +292,16 @@ const Initial = () => {
               >
                 <thead>
                   <tr className="text-center">
-                    <th scope="col" style={{ width: "10%" }}>
+                    <th scope="col" style={{ width: "5%" }}>
                       #
                     </th>
-                    <th scope="col" style={{ width: "35%" }}>
+                    <th scope="col" style={{ width: "20%" }}>
                       Guest Name
                     </th>
                     <th scope="col" style={{ width: "15%" }}>
                       Registration Type
                     </th>
-                    {/* <th scope="col" style={{ width: "10%" }}>
+                     <th scope="col" style={{ width: "10%" }}>
                       Company Name
                     </th>
                     <th scope="col" style={{ width: "10%" }}>
@@ -310,6 +310,7 @@ const Initial = () => {
                     <th scope="col" style={{ width: "10%" }}>
                       Table Assignment
                     </th>
+                    {/*
                     <th scope="col" style={{ width: "10%" }}>
                       Token Eligible
                     </th>
@@ -318,7 +319,7 @@ const Initial = () => {
                     </th> */}
                     <th
                       scope="col"
-                      style={{ width: "20%" }}
+                      style={{ width: "15%" }}
                       className="attended-col"
                     >
                       <div className="dropdown">
@@ -360,7 +361,7 @@ const Initial = () => {
                     <th
                       scope="col"
                       className="sticky-col"
-                      style={{ width: "25%" }}
+                      style={{ width: "20%" }}
                     >
                       Actions
                     </th>
@@ -376,13 +377,14 @@ const Initial = () => {
                       <td className="cell-truncate" title={guest.reg_type}>
                         {guest.reg_type}
                       </td>
-                      {/* <td className="cell-truncate" title={guest.company_name}>
+                       <td className="cell-truncate" title={guest.company_name}>
                         {guest.company_name}
                       </td>
                       <td className="cell-truncate" title={guest.designation}>
                         {guest.designation}
                       </td>
                       <td>{guest.table_number}</td>
+                      {/*
                       <td
                         style={{
                           color: guest.token_eligible ? "#1d8655" : "#db3648",

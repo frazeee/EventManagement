@@ -28,7 +28,7 @@ const PreRegistered = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("guests_i3")
+        .from("guests_delsan")
         .select(`*`)
         .eq("reg_type", "Pre-Registered");
       setGuestList(data || []);
@@ -70,9 +70,12 @@ const PreRegistered = () => {
 
     try {
       await supabase
-        .from("guests_i3")
+        .from("guests_delsan")
         .update({
           name: activeGuest.name,
+          updated_at: new Date().toISOString(),
+          company_name: activeGuest.company_name,
+          table_number: activeGuest.table_number,
           designation: activeGuest.designation,
           attended: true,
         })
@@ -91,10 +94,9 @@ const PreRegistered = () => {
       setActiveGuest({
         name: "",
         guest: "",
+        designation: "",
         company_name: "",
         table_number: "",
-        token_eligible: "",
-        raffle_eligible: "",
       });
       Swal.fire({
         title: "Success!",
@@ -301,7 +303,7 @@ const PreRegistered = () => {
                       }
                     />
                   </div>
-                  {/* <div className="mb-3">
+                  <div className="mb-3">
                     <label
                       htmlFor="designation"
                       className="form-label fw-semibold"
@@ -360,8 +362,7 @@ const PreRegistered = () => {
                         })
                       }
                     />
-                  </div> */}
-
+                  </div>
                   <div className="modal-footer">
                     <button type="submit" className="btn btn-primary">
                       Submit

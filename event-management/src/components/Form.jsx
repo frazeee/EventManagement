@@ -10,8 +10,6 @@ const Form = ({ guest: initialGuest }) => {
     reg_type: "",
     designation: "",
     table_number: "",
-    token_eligible: "",
-    raffle_eligible: "",
     attended: false,
   });
 
@@ -64,22 +62,25 @@ const Form = ({ guest: initialGuest }) => {
     
     try {
       if (initialGuest) {
-        // FIXED: Added token_eligible to the update payload
         await supabase
-          .from("guests_i3")
+          .from("guests_delsan")
           .update({
             name: guest.name,
-            // company_name: guest.company_name,
-            // designation: guest.designation,
+            updated_at: new Date().toISOString(),
+            company_name: guest.company_name,
+            designation: guest.designation,
+            table_number: guest.table_number,
             reg_type: guest.reg_type,
             attended: guest.attended,
           })
           .eq("id", guest.id);
       } else {
-        await supabase.from("guests_i3").insert({
+        await supabase.from("guests_delsan").insert({
           name: guest.name,
-          // company_name: guest.company_name,
-          // designation: guest.designation,
+          updated_at: new Date().toISOString(),
+          company_name: guest.company_name,
+          designation: guest.designation,
+          table_number: guest.table_number,
           reg_type: guest.reg_type,
           attended: guest.attended,
         });
@@ -121,7 +122,7 @@ const Form = ({ guest: initialGuest }) => {
         />
       </div>
 
-      {/* <div className="mb-3" style={{ fontWeight: "600" }}>
+      <div className="mb-3" style={{ fontWeight: "600" }}>
         <label htmlFor="company_name" className="form-label">
           Company Name <span style={{ color: "red" }}> * </span>
         </label>
@@ -167,7 +168,7 @@ const Form = ({ guest: initialGuest }) => {
           onChange={handleChange}
           value={guest.table_number || ""}
         />
-      </div> */}
+      </div>
 
       <div className="mb-3">
         <label htmlFor="reg_type" className="form-label fw-semibold">
@@ -187,43 +188,6 @@ const Form = ({ guest: initialGuest }) => {
         </select>
       </div>
 
-      {/* <div className="mb-3">
-        <label htmlFor="token_eligible" className="form-label fw-semibold">
-          Token Eligible <span style={{ color: "red" }}> * </span>
-        </label>
-        <select
-          className="form-select"
-          // FIXED: Safeguard evaluation so it handles empty strings safely
-          value={guest.token_eligible === true ? "TRUE" : guest.token_eligible === false ? "FALSE" : ""}
-          onChange={handleChange}
-          id="token_eligible"
-          name="token_eligible"
-          required
-        >
-          <option value="" disabled>Select Type</option>
-          <option value="TRUE">Yes</option>
-          <option value="FALSE">No</option>
-        </select>
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="raffle_eligible" className="form-label fw-semibold">
-          Raffle Eligible <span style={{ color: "red" }}> * </span>
-        </label>
-        <select
-          className="form-select"
-          // FIXED: Safeguard evaluation so it handles empty strings safely
-          value={guest.raffle_eligible === true ? "TRUE" : guest.raffle_eligible === false ? "FALSE" : ""}
-          onChange={handleChange}
-          id="raffle_eligible"
-          name="raffle_eligible"
-          required
-        >
-          <option value="" disabled>Select Type</option>
-          <option value="TRUE">Yes</option>
-          <option value="FALSE">No</option>
-        </select>
-      </div> */}
 
       <div className="mb-3 form-check form-switch">
         <label className="form-check-label" htmlFor="attended">

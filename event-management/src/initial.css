@@ -2,7 +2,7 @@
   --delsan-green-dark: #123c22;
   --delsan-green: #2f8046;
   --delsan-green-bright: #3ee67a;
-  --delsan-black: #0b120d;
+  --delsan-black: #1C2421;
   --delsan-black-alt: #10190f;
   --delsan-line: rgba(62, 230, 122, 0.28);
   --delsan-danger: #ff7a86;
@@ -207,6 +207,7 @@ video {
   transform: translateY(-1px);
 }
 
+
 .nav-tabs .nav-link {
   color: var(--delsan-text);
   border: none;
@@ -216,6 +217,7 @@ video {
   opacity: 0.6;
 }
 .nav-tabs .nav-link.active {
+  background-color: var(--delsan-green) !important;
   opacity: 1;
 }
 
