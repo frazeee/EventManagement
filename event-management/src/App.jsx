@@ -3,7 +3,7 @@ import "./App.css";
 import { supabase } from "../API/createClient";
 import PreRegistered from "./components/preRegistered/preRegistered";
 import WalkIn from "./components/walkIn/walkIn";
-import delsanLogo from "./assets/Delsan_35Years_Logo_BW_White Logo.png";
+import delsanLogo from "./assets/Delsan_35Years_Logo.png";
 import { useNavigate } from "react-router-dom";
 
 function App() {
