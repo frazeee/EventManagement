@@ -3,7 +3,7 @@ import "./App.css";
 import { supabase } from "../API/createClient";
 import PreRegistered from "./components/preRegistered/preRegistered";
 import WalkIn from "./components/walkIn/walkIn";
-import logo from "./assets/I3_Logo.png";
+import delsanLogo from "./assets/Delsan_35Years_Logo_BW_White Logo.png";
 import { useNavigate } from "react-router-dom";
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div className="fade-in">
-      <div className="container position-relative d-flex flex-column justify-content-center vh-100">
+      <div className="container position-relative d-flex flex-column justify-content-center">
         <div className="position-absolute top-0 end-0">
           <button
             className="btn btn-outline-primary mt-2 me-2"
@@ -58,13 +58,13 @@ function App() {
         </div>
 
         <img
-          src={logo}
-          alt="i3 - Initiate Innovate Integrate"
+          src={delsanLogo}
+          alt="Delsan Group of Companies - 35 Years"
           className="d-block mx-auto"
           style={{ maxWidth: "220px", marginBottom: "0.5rem" }}
         />
         <h1 className="text-center titleText py-2">
-          The Complete Patient Journey Symposium
+          Delsan 35th Gala Anniversary
         </h1>
         <hr className="gold-divider" />
         <div className="d-flex flex-column flex-md-row justify-content-evenly">
@@ -72,13 +72,12 @@ function App() {
           <WalkIn />
         </div>
       </div>
-      <footer className="bg-body-tertiary text-center text-lg-start">
+      <footer className="text-center text-lg-start">
         <div
           className="text-center p-3"
           style={{
-            backgroundColor: "transparent",
-            color: "#1b3a5c",
-            opacity: 0.65,
+            color: "#eef7f0",
+            opacity: 0.75,
             fontSize: "0.85rem",
           }}
         >

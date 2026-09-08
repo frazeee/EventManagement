@@ -1,17 +1,16 @@
 :root {
-  --i3-navy: #1b3a5c;
-  --i3-teal: #3fc6d6;
-  --i3-sky: #6fb6dc;
-  --i3-deep: #2f6fa8;
-  --i3-bg: #e9f3f7;
-  --i3-line: rgba(63, 198, 214, 0.28);
-  --i3-danger: #e35d6a;
-  --i3-row-alt: #f0f8fa;
-  --i3-row-hover: #eaf5f8;
+  --delsan-green-dark: #123c22;
+  --delsan-green: #2f8046;
+  --delsan-green-bright: #3ee67a;
+  --delsan-black: #0b120d;
+  --delsan-black-alt: #10190f;
+  --delsan-line: rgba(62, 230, 122, 0.28);
+  --delsan-danger: #ff7a86;
+  --delsan-text: #eef7f0;
 }
 
 body {
-  background-color: var(--i3-bg);
+  background-color: var(--delsan-green-dark);
 }
 
 #root {
@@ -28,61 +27,40 @@ body {
   height: 100vh;
 }
 
-/* Wave motif — same treatment as the login page, replaces the dark video */
 .fade-in {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    var(--i3-bg) 55%,
-    #eaf5f8 100%
-  );
+  overflow-x: hidden;
 }
+
+/* Delsan key-visual background */
 .fade-in::before {
   content: "";
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 58vh;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(
-      120% 100% at 20% 100%,
-      rgba(63, 198, 214, 0.3),
-      transparent 62%
-    ),
-    radial-gradient(
-      120% 100% at 80% 100%,
-      rgba(47, 111, 168, 0.36),
-      transparent 62%
-    ),
-    linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(111, 182, 220, 0.45) 45%,
-      rgba(47, 111, 168, 0.7) 100%
-    );
-  clip-path: polygon(
-    0% 40%,
-    10% 36%,
-    22% 44%,
-    35% 34%,
-    50% 42%,
-    65% 32%,
-    80% 40%,
-    92% 30%,
-    100% 36%,
-    100% 100%,
-    0% 100%
+  background-image: url("./assets/KV_Design_BG_02.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.fade-in::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 30, 18, 0.35) 0%,
+    rgba(10, 30, 18, 0.15) 45%,
+    rgba(10, 30, 18, 0.55) 100%
   );
 }
 
 video {
-  display: none; /* background video retired in favor of the wave gradient above */
+  display: none;
 }
 
 .modal-backdrop {
@@ -93,19 +71,31 @@ video {
   z-index: 1;
 }
 .modal-content {
+  background-color: var(--delsan-black);
+  color: var(--delsan-text);
   border-radius: 12px;
-  border: 1px solid var(--i3-line);
+  border: 1px solid var(--delsan-line);
 }
 .modal-header {
-  border-bottom-color: var(--i3-line);
+  border-bottom-color: var(--delsan-line);
 }
 .modal-title {
-  color: var(--i3-navy);
+  color: var(--delsan-text);
+}
+.btn-close {
+  filter: invert(1) grayscale(100%) brightness(2);
 }
 
 .container {
   position: relative;
   z-index: 1;
+  background-color: rgba(11, 18, 13, 0.88);
+  border: 1px solid var(--delsan-line);
+  border-radius: 20px;
+  padding: 2.5rem 2rem 2rem;
+  box-shadow:
+    0 16px 46px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(62, 230, 122, 0.08);
 }
 
 .table-responsive {
@@ -115,17 +105,17 @@ video {
 
 /* Retheme table-dark from within — Bootstrap 5.2+ tables read these vars directly */
 .table-dark {
-  --bs-table-color: var(--i3-navy);
-  --bs-table-bg: #ffffff;
-  --bs-table-border-color: var(--i3-line);
-  --bs-table-striped-color: var(--i3-navy);
-  --bs-table-striped-bg: var(--i3-row-alt);
-  --bs-table-active-color: var(--i3-navy);
-  --bs-table-active-bg: var(--i3-row-hover);
-  --bs-table-hover-color: var(--i3-navy);
-  --bs-table-hover-bg: var(--i3-row-hover);
-  color: var(--i3-navy);
-  border-color: var(--i3-line);
+  --bs-table-color: var(--delsan-text);
+  --bs-table-bg: var(--delsan-black-alt);
+  --bs-table-border-color: var(--delsan-line);
+  --bs-table-striped-color: var(--delsan-text);
+  --bs-table-striped-bg: rgba(62, 230, 122, 0.06);
+  --bs-table-active-color: var(--delsan-text);
+  --bs-table-active-bg: rgba(62, 230, 122, 0.12);
+  --bs-table-hover-color: var(--delsan-text);
+  --bs-table-hover-bg: rgba(62, 230, 122, 0.12);
+  color: var(--delsan-text);
+  border-color: var(--delsan-line);
 }
 
 .sticky-col,
@@ -133,8 +123,8 @@ video {
 .table td.sticky-col {
   position: sticky;
   right: 0;
-  background-color: #ffffff;
-  border-left: 1px solid var(--i3-line);
+  background-color: var(--delsan-black-alt);
+  border-left: 1px solid var(--delsan-line);
   z-index: 1;
 }
 
@@ -144,63 +134,63 @@ video {
 
 .titleText {
   font-weight: 700;
-  color: var(--i3-navy);
+  color: var(--delsan-text);
 }
 
 .guestText {
-  color: var(--i3-navy) !important;
+  color: var(--delsan-text) !important;
   opacity: 0.75;
 }
 
 /* Buttons — explicit overrides so they hold regardless of Bootstrap version internals */
 .btn-primary {
-  background-color: var(--i3-deep) !important;
-  border-color: var(--i3-deep) !important;
+  background-color: var(--delsan-green) !important;
+  border-color: var(--delsan-green) !important;
   color: #ffffff !important;
 }
 .btn-primary:hover,
 .btn-primary:focus {
-  background-color: var(--i3-teal) !important;
-  border-color: var(--i3-teal) !important;
-  box-shadow: 0 0 12px rgba(63, 198, 214, 0.45) !important;
+  background-color: var(--delsan-green-bright) !important;
+  border-color: var(--delsan-green-bright) !important;
+  box-shadow: 0 0 12px rgba(62, 230, 122, 0.45) !important;
 }
 .btn-outline-primary {
-  color: var(--i3-deep) !important;
-  border-color: var(--i3-deep) !important;
+  color: var(--delsan-green-bright) !important;
+  border-color: var(--delsan-green-bright) !important;
 }
 .btn-outline-primary:hover {
-  background-color: var(--i3-deep) !important;
-  border-color: var(--i3-deep) !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 12px rgba(63, 198, 214, 0.45);
+  background-color: var(--delsan-green-bright) !important;
+  border-color: var(--delsan-green-bright) !important;
+  color: var(--delsan-black) !important;
+  box-shadow: 0 0 12px rgba(62, 230, 122, 0.45);
 }
 .btn-success {
-  background-color: var(--i3-teal) !important;
-  border-color: var(--i3-teal) !important;
+  background-color: var(--delsan-green) !important;
+  border-color: var(--delsan-green) !important;
   color: #ffffff !important;
 }
 .btn-success:hover {
-  background-color: #35aebd !important;
-  border-color: #35aebd !important;
+  background-color: var(--delsan-green-bright) !important;
+  border-color: var(--delsan-green-bright) !important;
 }
 .btn-danger {
-  background-color: var(--i3-danger) !important;
-  border-color: var(--i3-danger) !important;
+  background-color: var(--delsan-danger) !important;
+  border-color: var(--delsan-danger) !important;
 }
 .btn-outline-danger {
-  color: var(--i3-danger) !important;
-  border-color: var(--i3-danger) !important;
+  color: var(--delsan-danger) !important;
+  border-color: var(--delsan-danger) !important;
 }
 .btn-outline-danger:hover {
-  background-color: var(--i3-danger) !important;
-  border-color: var(--i3-danger) !important;
+  background-color: var(--delsan-danger) !important;
+  border-color: var(--delsan-danger) !important;
   color: #ffffff !important;
 }
 .bg-primary {
-  background-color: var(--i3-deep) !important;
+  background-color: var(--delsan-green) !important;
 }
 .bg-success {
-  background-color: var(--i3-teal) !important;
+  background-color: var(--delsan-green-bright) !important;
 }
 
 .btn {
@@ -218,18 +208,21 @@ video {
 }
 
 .nav-tabs .nav-link {
-  color: var(--i3-navy);
+  color: var(--delsan-text);
   border: none;
 }
 .nav-tabs .nav-link.text-white {
-  color: var(--i3-navy) !important;
+  color: var(--delsan-text) !important;
   opacity: 0.6;
+}
+.nav-tabs .nav-link.active {
+  opacity: 1;
 }
 
 .attended-toggle {
   background-color: transparent !important;
   border: none;
-  color: var(--i3-navy) !important;
+  color: var(--delsan-text) !important;
   font-weight: 700;
   white-space: nowrap;
   padding: 0.375rem 0.5rem;
@@ -237,30 +230,30 @@ video {
 .attended-toggle:hover,
 .attended-toggle:focus,
 .attended-toggle:active {
-  background-color: rgba(63, 198, 214, 0.15) !important;
-  color: var(--i3-deep) !important;
+  background-color: rgba(62, 230, 122, 0.15) !important;
+  color: var(--delsan-green-bright) !important;
   box-shadow: none !important;
 }
 .attended-col {
   vertical-align: middle;
-  background-color: #ffffff;
+  background-color: var(--delsan-black-alt);
 }
 
 .dropdown-menu-dark {
-  background-color: #ffffff;
-  border-color: var(--i3-line);
+  background-color: var(--delsan-black-alt);
+  border-color: var(--delsan-line);
 }
 .dropdown-menu-dark .dropdown-item {
-  color: var(--i3-navy);
+  color: var(--delsan-text);
 }
 .dropdown-menu-dark .dropdown-item:hover,
 .dropdown-menu-dark .dropdown-item:focus {
-  background-color: var(--i3-row-hover);
-  color: var(--i3-navy);
+  background-color: rgba(62, 230, 122, 0.15);
+  color: var(--delsan-text);
 }
 
 .spinner-border.text-light {
-  color: var(--i3-teal) !important;
+  color: var(--delsan-green-bright) !important;
 }
 
 .pagination-wrapper {
@@ -275,15 +268,18 @@ video {
 }
 .pagination .page-link {
   padding: 0.375rem 0.6rem;
-  color: var(--i3-deep);
+  color: var(--delsan-green-bright);
+  background-color: var(--delsan-black-alt);
+  border-color: var(--delsan-line);
 }
 .pagination .page-item.active .page-link {
-  background-color: var(--i3-deep);
-  border-color: var(--i3-deep);
+  background-color: var(--delsan-green);
+  border-color: var(--delsan-green);
   color: #ffffff;
 }
 .pagination .page-item.disabled .page-link {
-  color: rgba(27, 58, 92, 0.35);
+  color: rgba(238, 247, 240, 0.35);
+  background-color: var(--delsan-black-alt);
 }
 
 .toolbar-row {

@@ -115,7 +115,7 @@ const PreRegistered = () => {
   return (
     <div>
       <div
-        className="card text-bg-light mx-auto mb-4"
+        className="card text-bg-dark mx-auto mb-4"
         style={{
           width: "100%",
           cursor: "pointer",
