@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import background from "./assets/background.mp4";
-import eventPoster from "./assets/event-poster.png";
-import eventPoster2 from "./assets/I3_Posterreal.jpg";
+import eventPoster from "./assets/Delsan_Event_Poster.jpg"; // TODO: swap in the actual Delsan 35th Anniversary event poster
 import { supabase } from "../API/createClient";
 import { FiLogIn } from "react-icons/fi";
-import logo from "./assets/logo-gold.png";
-import logo2 from "./assets/I3_Logo.png";
+import delsanLogo from "./assets/Delsan_35Years_Logo_BW_White Logo.png";
+// Available if you need a high-contrast variant on a dark panel elsewhere:
+// import delsanLogoWhite from "./assets/Delsan_35Years_Logo_BW_White_Logo.png";
+// import delsanLogoBlack from "./assets/Delsan_35Years_Logo_BW_Black_Logo.png";
 import "./Login.css";
 
 function Login({ onLogin }) {
@@ -35,22 +35,24 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div className="fade-in">
-      {/* <video src={background} autoPlay muted loop></video> */}
-
+    <div className="fade-in-login">
       <form onSubmit={handleLogin} className="login-form-wrapper">
         <div className="login-panel">
           <div className="login-poster-col">
             <p className="login-label mb-4">Current Event</p>
             <img
-              src={eventPoster2}
-              alt="Diamond Legacy - 60 Years of Crafting Excellence"
+              src={eventPoster}
+              alt="Delsan Group of Companies - 35th Anniversary"
               className="event-poster"
             />
           </div>
           <div className="login-form-col">
             <div className="login-form-header">
-              <img src={logo2} alt="Mariwasa 60 Years" className="login-logo" />
+              <img
+                src={delsanLogo}
+                alt="Delsan Group of Companies - 35 Years"
+                className="login-logo"
+              />
               <h3 className="login-heading">Welcome Admin!</h3>
               <hr className="login-divider" />
               <p className="login-subtext">
