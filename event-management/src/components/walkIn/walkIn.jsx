@@ -45,7 +45,7 @@ const WalkIn = () => {
       });
 
       setShowModal(false);
-      setGuest({ name: "", guest: "", });
+      setGuest({ name: "", guest: "" });
     } catch (error) {
       console.error("An unexpected error occurred:", error);
       Swal.fire({
@@ -60,7 +60,7 @@ const WalkIn = () => {
   return (
     <div>
       <div
-        className="card text-bg-light mx-auto mb-4"
+        className="card text-bg-dark mx-auto mb-4"
         style={{
           width: "100%",
           cursor: "pointer",
