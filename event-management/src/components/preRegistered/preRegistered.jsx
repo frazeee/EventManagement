@@ -70,14 +70,10 @@ const PreRegistered = () => {
 
     try {
       await supabase
-        .from("guests_mariwasa")
+        .from("guests_i3")
         .update({
           name: activeGuest.name,
           designation: activeGuest.designation,
-          company_name: activeGuest.company_name,
-          table_number: activeGuest.table_number,
-          token_eligible: activeGuest.token_eligible,
-          raffle_eligible: activeGuest.raffle_eligible,
           attended: true,
         })
         .eq("id", activeGuest.id);
